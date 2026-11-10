@@ -783,6 +783,7 @@ Transform:
   - {fileID: 5168199174121825339}
   - {fileID: 6590372262533003789}
   - {fileID: 2612309510332661404}
+  - {fileID: 6778596781033833210}
   m_Father: {fileID: 3935618805977211692}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7058784927777501616
@@ -2288,6 +2289,134 @@ MonoBehaviour:
   m_OnGroundedChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &6073054559906830102
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6778596781033833210}
+  - component: {fileID: 8294015807035441852}
+  - component: {fileID: 2180716028351959948}
+  - component: {fileID: 2327078892634624059}
+  m_Layer: 0
+  m_Name: Torch
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6778596781033833210
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6073054559906830102}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.06}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2606726116900040409}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!108 &8294015807035441852
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6073054559906830102}
+  m_Enabled: 0
+  serializedVersion: 13
+  m_Type: 0
+  m_Color: {r: 1, g: 0.95, b: 0.85, a: 1}
+  m_Intensity: 4
+  m_Range: 12
+  m_SpotAngle: 55
+  m_InnerSpotAngle: 21.8
+  m_CookieSize2D: {x: 0.5, y: 0.5}
+  m_Shadows:
+    m_Type: 2
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 4
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
+  m_ForceVisible: 0
+  m_ShapeRadius: 0.025
+  m_ShadowAngle: 0
+  m_LightUnit: 1
+  m_LuxAtDistance: 1
+  m_EnableSpotReflector: 1
+--- !u!114 &2180716028351959948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6073054559906830102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e5dd0ef64a930dc2da8b0ae54052c9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HeyHeyThere.EscapePuzzleKitFree::HeyHeyThere.EscapePuzzleKitFree.Flashlight
+  drain: 0.05
+  readKeys: 0
+  item: {fileID: 11400000, guid: ba4231aec03c7bec64708ed60e83f7bf, type: 2}
+  clickSound: {fileID: 0}
+--- !u!114 &2327078892634624059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6073054559906830102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f4d5bba194333345bbe84cdeefa4e57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LastShift.XR.XRTorch
+  toggleAction: {fileID: -6195304512582469364, guid: d9ed6c57c2af90447b62beb9e8dce445, type: 3}
 --- !u!1 &6726419114632541169
 GameObject:
   m_ObjectHideFlags: 0
