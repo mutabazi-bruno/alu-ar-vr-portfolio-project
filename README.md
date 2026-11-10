@@ -17,9 +17,9 @@ It runs in the browser on a desktop, and in a VR headset through WebXR.
 | Member | Role |
 |---|---|
 | Mutabazi Ishimwe Bruno | Repo setup, WebGL build and itch.io page, README, end card scene |
-| to add | Room layout, lighting, labels and textures, screenshots, video walkthrough |
-| to add | Items, locks, notes and objectives, battery and settings scripts, DevLog |
-| to add | XR rig and rig switcher, gaze interaction, world-space HUD, subtitles and accessibility |
+| Leslie (group leader) | Room layout, lighting, labels and textures, screenshots, video walkthrough |
+| Gama | Items, locks, notes and objectives, battery and settings scripts, DevLog |
+| Brian | XR rig and rig switcher, gaze interaction, world-space HUD, subtitles and accessibility |
 
 ## How to play
 
