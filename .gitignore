@@ -107,3 +107,11 @@ InitTestScene*.unity*
 
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
+
+# Escape Puzzle Kit Free: its licence doesn't allow sharing the kit's files,
+# so everyone imports it themselves (see README)
+/[Aa]ssets/EscapePuzzleKitFree/
+/[Aa]ssets/EscapePuzzleKitFree.meta
+
+# editor stuff
+.vscode/
