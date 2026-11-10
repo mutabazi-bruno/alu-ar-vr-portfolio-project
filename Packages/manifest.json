@@ -1,5 +1,16 @@
 {
+  "scopedRegistries": [
+    {
+      "name": "OpenUPM",
+      "url": "https://package.openupm.com",
+      "scopes": [
+        "com.de-panther"
+      ]
+    }
+  ],
   "dependencies": {
+    "com.de-panther.webxr": "0.25.0",
+    "com.de-panther.webxr-interactions": "0.25.0",
     "com.unity.ai.navigation": "2.0.12",
     "com.unity.collab-proxy": "2.12.4",
     "com.unity.ide.rider": "3.0.40",
@@ -11,6 +22,10 @@
     "com.unity.timeline": "1.8.12",
     "com.unity.ugui": "2.0.0",
     "com.unity.visualscripting": "1.9.11",
+    "com.unity.xr.hands": "1.10.0",
+    "com.unity.xr.interaction.toolkit": "3.7.0",
+    "com.unity.xr.management": "4.6.1",
+    "com.unity.xr.openxr": "1.19.0",
     "com.unity.modules.accessibility": "1.0.0",
     "com.unity.modules.adaptiveperformance": "1.0.0",
     "com.unity.modules.ai": "1.0.0",
