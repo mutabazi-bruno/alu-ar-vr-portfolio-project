@@ -154,6 +154,15 @@
                                          "processors":  "",
                                          "interactions":  "",
                                          "initialStateCheck":  true
+                                     },
+                                     {
+                                         "name":  "Torch",
+                                         "type":  "Button",
+                                         "id":  "97d22187-fec9-4953-a3b5-05f7c4981d5b",
+                                         "expectedControlType":  "Button",
+                                         "processors":  "",
+                                         "interactions":  "",
+                                         "initialStateCheck":  false
                                      }
                                  ],
                      "bindings":  [
@@ -253,6 +262,28 @@
                                           "processors":  "",
                                           "groups":  "",
                                           "action":  "UI Press Value",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      },
+                                      {
+                                          "name":  "",
+                                          "id":  "7cd270e3-073e-43a1-8b38-566f64ff1d72",
+                                          "path":  "\u003cXRController\u003e{LeftHand}/{PrimaryButton}",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "Torch",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      },
+                                      {
+                                          "name":  "",
+                                          "id":  "bb1a57fb-096a-4a56-96cf-f576179e600c",
+                                          "path":  "\u003cXRController\u003e{RightHand}/{PrimaryButton}",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "Torch",
                                           "isComposite":  false,
                                           "isPartOfComposite":  false
                                       }
