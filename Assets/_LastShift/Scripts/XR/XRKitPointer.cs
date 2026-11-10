@@ -20,6 +20,13 @@ namespace LastShift.XR
         /// <summary>What the ray rests on now, or null.</summary>
         public Interactable Focus => interactor != null ? interactor.Focus : null;
 
+        /// <summary>The collider the ray rests on (a keypad's key, a door), or null.</summary>
+        public Collider FocusPart => interactor != null ? interactor.FocusPart : null;
+
+        /// <summary>The ray the kit looks along, and how far it reaches.</summary>
+        public Ray Ray => new Ray(transform.position, transform.forward);
+        public float Reach => interactor != null ? interactor.reach : 0f;
+
         void Awake()
         {
             interactor = GetComponent<Interactor>();
