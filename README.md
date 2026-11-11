@@ -86,11 +86,26 @@ When the player opens the way out, the game moves to `EndCard.unity`, which show
 
 Play again starts a fresh run (no items, flags or saved state). On the web build, Quit shows a "you can close this tab" line, since a web page can't close its own tab.
 
+## Clothes puzzle (Room C)
+
+The player re-hangs the caretaker's clothes on the rack in the right order and puts on his cap. It works the same on desktop and in VR:
+
+- Desktop, or the VR pointer: use a piece to pick it up, then use a hook to hang it. Using a hook that already has something on it swaps the two. Use the cap to put it on.
+- VR hands: grab a piece with grip and let go with the top of the hanger at a hook, and it snaps on. Lift the cap to your head to wear it.
+
+The prefabs are in `Prefabs/Clothes/`: `ClothesRack` (four hooks and the puzzle), `Coat`, `Shirt`, `Scarf` and `Cap`. The clothes are placeholder shapes for now. To set it up in a scene:
+
+1. Drop in `ClothesRack`, the clothes and the cap. Keep the clothes away from the hooks at the start.
+2. On each hook, set `answer` to the piece that belongs there. Leave it empty for a hook that should stay empty.
+3. Every piece needs its own `pieceId`, because saves use it.
+
+When it's solved, the puzzle sets the flag `clothes_solved` (and wearing the cap sets `cap_worn`), then locks the rack. A StoryBeat with `needsFlag` set to `clothes_solved` can open the real exit. `Scenes/Sandbox/Bruno.unity` has a working setup to try it in.
+
 ## What came from the kit and what we built
 
 **From Escape Puzzle Kit Free:** the interaction, inventory, doors and locks systems, story beats and saves, the HUD, the prop and set piece models, and the sounds.
 
-**Built by us:** the room layout, the story, notes and codes, the items and their textures, the labels and signs, the battery toggle and settings menu, the end card, the rig switcher, VR interaction and the world-space HUD.
+**Built by us:** the room layout, the story, notes and codes, the items and their textures, the labels and signs, the battery toggle and settings menu, the end card, the clothes puzzle, the rig switcher, VR interaction and the world-space HUD.
 
 ## Credits
 
