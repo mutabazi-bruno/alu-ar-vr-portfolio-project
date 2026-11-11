@@ -379,7 +379,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: You made it out of Records Room B.
+  m_Text: You made it out of the archive.
 --- !u!222 &111062652
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -929,7 +929,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 212320d8e91478c4d9025b18db133857, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EndCard
-  roomScene: RecordsRoomB
   timeText: {fileID: 1214562247}
   quitNote: {fileID: 1746195472}
   playAgainButton: {fileID: 482666613}

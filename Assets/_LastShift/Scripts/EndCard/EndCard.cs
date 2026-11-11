@@ -1,12 +1,10 @@
 using HeyHeyThere.EscapePuzzleKitFree;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class EndCard : MonoBehaviour
 {
-    [Tooltip("Used when the end card is opened on its own, e.g. straight from the editor")]
-    [SerializeField] string roomScene = "RecordsRoomB";
-
     [SerializeField] Text timeText;
     [SerializeField] Text quitNote;
     [SerializeField] Button playAgainButton;
@@ -28,10 +26,9 @@ public class EndCard : MonoBehaviour
 
     void PlayAgain()
     {
-        string room = EndCardLoader.CameFrom != "" ? EndCardLoader.CameFrom : roomScene;
-
+        // always back to the first room in the build (Room B), even though the exit is in Room C.
         // Restart clears items, flags and the timer too, so it's a fresh shift
-        SaveGame.Restart(room);
+        SaveGame.Restart(SceneUtility.GetScenePathByBuildIndex(0));
     }
 
     void Quit()
