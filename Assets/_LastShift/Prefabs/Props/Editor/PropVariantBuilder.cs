@@ -3,6 +3,7 @@ using System.Linq;
 using HeyHeyThere.EscapePuzzleKitFree;
 using UnityEditor;
 using UnityEditor.Events;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -61,6 +62,70 @@ namespace LastShift.EditorTools
 
             AssetDatabase.SaveAssets();
             Debug.Log($"[PropVariantBuilder] Prop variants built in {VariantFolder}.");
+        }
+
+        // Our variant for each kit prop, by the kit prefab's name.
+        static readonly (string variant, string kit)[] Pairs =
+        {
+            ("StaffLocker", "locker_staff"), ("KeyCabinet", "key_cabinet"), ("Chest", "chest_wood"),
+            ("WallSafe", "safe_wall"), ("DoorKeypad", "keypad_prison"), ("SteelDoor", "door_steel"),
+            ("WoodenDoor", "door_wood"), ("VentCover", "vent_cover"), ("Drawers", "cabinet_drawers"),
+            ("Flashlight", "flashlight"),
+        };
+
+        // A scene built before the variants existed still holds the kit's props, with the kit's codes.
+        // This swaps each one for our variant in the open scene, keeping where it stands.
+        // Not for RecordsRoomB: Leslie's Build Room B picks the variants up there.
+        [MenuItem("Last Shift/Swap In Prop Variants (open scene)")]
+        static void SwapInOpenScene()
+        {
+            if (EditorApplication.isPlaying)
+            {
+                EditorUtility.DisplayDialog("Stop Play mode first", "Scenes can't be changed while the game is running.", "OK");
+                return;
+            }
+            var scene = EditorSceneManager.GetActiveScene();
+            if (scene.path.EndsWith("RecordsRoomB.unity"))
+            {
+                EditorUtility.DisplayDialog("Leslie's scene",
+                    "RecordsRoomB belongs to Leslie. Open your sandbox scene instead, or ask Leslie to run Last Shift > Build Room B.", "OK");
+                return;
+            }
+            Swap(scene);
+        }
+
+        // Opens Gama's sandbox and swaps the props there. Also runs from the command line (-executeMethod).
+        [MenuItem("Last Shift/Swap In Prop Variants (Gama sandbox)")]
+        public static void SwapInSandbox()
+        {
+            if (EditorApplication.isPlaying || !EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+                return;
+            Swap(EditorSceneManager.OpenScene(SandboxScene, OpenSceneMode.Single));
+        }
+
+        const string SandboxScene = "Assets/_LastShift/Scenes/Sandbox/Gama.unity";
+
+        static void Swap(UnityEngine.SceneManagement.Scene scene)
+        {
+            int swapped = 0;
+            foreach (var (variantName, kitName) in Pairs)
+            {
+                var variant = AssetDatabase.LoadAssetAtPath<GameObject>($"{VariantFolder}/{variantName}.prefab");
+                var kitPath = $"{KitFolder}/Prefabs/{kitName}.prefab";
+                if (variant == null)
+                    continue;
+                foreach (var go in scene.GetRootGameObjects().SelectMany(r => r.GetComponentsInChildren<Transform>(true)).Select(t => t.gameObject).ToList())
+                {
+                    if (!PrefabUtility.IsOutermostPrefabInstanceRoot(go) || PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(go) != kitPath)
+                        continue;
+                    PrefabUtility.ReplacePrefabAssetOfPrefabInstance(go, variant, InteractionMode.UserAction);
+                    swapped++;
+                }
+            }
+
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+            Debug.Log($"[PropVariantBuilder] Swapped {swapped} kit props for our variants in {scene.name}.");
         }
 
         // Creates the variant the first time, then applies the settings to it.
