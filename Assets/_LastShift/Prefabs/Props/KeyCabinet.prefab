@@ -1,5 +1,65 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4172427403388779791
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7227953750489504636}
+  - component: {fileID: 288477379010923183}
+  m_Layer: 0
+  m_Name: StoryBeat
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7227953750489504636
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4172427403388779791}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3048261228815557878}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &288477379010923183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4172427403388779791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ca3ff81c7afe44205356e89f9dbeeb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HeyHeyThere.EscapePuzzleKitFree::HeyHeyThere.EscapePuzzleKitFree.StoryBeat
+  when: 0
+  once: 1
+  needsFlag: 
+  setsFlag: 
+  subtitle: 
+  speaker: 
+  objective: Which hook did he mean? Check his badge.
+  sound: {fileID: 0}
+  lightsOff: []
+  wakes: []
+  damage: 0
+  hintKey: 
+  hint: 
+  onFired:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &1009542735936458894
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -74,11 +134,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 2616315040729674872, guid: d4d7886f08d86c9403ae5c08b52ab3a3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7227953750489504636}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1302768936435238507, guid: d4d7886f08d86c9403ae5c08b52ab3a3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 9159977037707787797}
+    - targetCorrespondingSourceObject: {fileID: 1302768936435238507, guid: d4d7886f08d86c9403ae5c08b52ab3a3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3839303855541556050}
   m_SourcePrefab: {fileID: 100100000, guid: d4d7886f08d86c9403ae5c08b52ab3a3, type: 3}
 --- !u!1 &2024016974789695205 stripped
 GameObject:
@@ -147,13 +213,37 @@ MonoBehaviour:
   onRefused:
     m_PersistentCalls:
       m_Calls: []
-  item: {fileID: 0}
+  item: {fileID: 11400000, guid: a7f919ed8a8f4f3ea52908ab652c60f1, type: 2}
   keepItem: 0
   missingText: It's locked.
   fitted: []
+--- !u!114 &3839303855541556050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2024016974789695205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0201268bd94ec43b3f80178e0d46eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LastShift.Props.Contents
+  container: {fileID: 8547790354194772272}
+  items:
+  - {fileID: 11400000, guid: 8cfa35e96c004f9caecd759b43ca4353, type: 2}
+  - {fileID: 11400000, guid: 94a63ff6726042119c594621b8752c1a, type: 2}
+  - {fileID: 11400000, guid: 32502f9eb4fe4e0baaa8d5e44ce08633, type: 2}
+  searchedFlag: key_cabinet_searched
+  beat: {fileID: 288477379010923183}
 --- !u!4 &2752342007685324476 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2896049564725906994, guid: d4d7886f08d86c9403ae5c08b52ab3a3, type: 3}
+  m_PrefabInstance: {fileID: 1009542735936458894}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3048261228815557878 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2616315040729674872, guid: d4d7886f08d86c9403ae5c08b52ab3a3, type: 3}
   m_PrefabInstance: {fileID: 1009542735936458894}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &8547790354194772272 stripped

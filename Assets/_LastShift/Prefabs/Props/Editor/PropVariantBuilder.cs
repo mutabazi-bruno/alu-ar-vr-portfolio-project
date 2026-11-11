@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using HeyHeyThere.EscapePuzzleKitFree;
+using LastShift.Props;
 using UnityEditor;
 using UnityEditor.Events;
 using UnityEditor.SceneManagement;
@@ -31,10 +32,17 @@ namespace LastShift.EditorTools
         const string NextRoom = "RoomC";
         const string NextRoomEntrance = "FromRoomB";
 
-        // Item ids of the keys. Leave "" until the item exists, then run the menu again.
-        const string LockerKey = "";
-        const string KeyCabinetKey = "";
+        // Item ids of the keys.
+        const string LockerKey = "key_brass";
+        const string KeyCabinetKey = "small_steel_key";
         const string ChestKey = "chest_key_hook6";
+
+        // Habimana's lines and the objective after each, from the story and script v2 running order.
+        // The subtitle text is exactly the recorded line; the intercom adds the voice later.
+        const string Speaker = "HABIMANA";
+        const string H03 = "My locker. Forty-seven years and that's all I kept. Read the note. Slowly.";
+        const string H04 = "Good. You read the boxes, not just the numbers. Most people don't.";
+        const string H06 = "Hook six. I never could remember it either. One more and you're out. Or so you'd think.";
 
         // Flags set when each lock opens. Doors and story beats wait on these.
         // Don't rename after Day 3: saves store them.
@@ -43,6 +51,14 @@ namespace LastShift.EditorTools
         const string LockerFlag = "staff_locker_unlocked";
         const string KeyCabinetFlag = "key_cabinet_unlocked";
         const string ChestFlag = "chest_unlocked";
+
+        // Set once each container has been searched (its contents given).
+        const string DrawerSearched = "top_drawer_searched";
+        const string VentSearched = "vent_searched";
+        const string LockerSearched = "staff_locker_searched";
+        const string SafeSearched = "wall_safe_searched";
+        const string KeyCabinetSearched = "key_cabinet_searched";
+        const string ChestSearched = "chest_searched";
 
         [MenuItem("Last Shift/Build Prop Variants")]
         static void Build()
@@ -58,21 +74,38 @@ namespace LastShift.EditorTools
 
             Variant("StaffLocker", "locker_staff", go =>
             {
+                var stash = go.GetComponentInChildren<Stash>(true);
                 KeyLock(go, "Staff locker", LockerKey, LockerFlag);
-                SwingOutward(go.GetComponentInChildren<Stash>(true), "locker_staff_door", 105f, 0.8f);
+                SwingOutward(stash, "locker_staff_door", 105f, 0.8f);
+                Fill(stash, LockerSearched, new[] { "staff_badge", "note_2" },
+                    Beat(go, "Solve the caretaker's riddle. Check the archive boxes.", H03));
             });
             Variant("KeyCabinet", "key_cabinet", go =>
             {
+                var stash = go.GetComponentInChildren<Stash>(true);
                 KeyLock(go, "Key cabinet", KeyCabinetKey, KeyCabinetFlag);
-                SwingOutward(go.GetComponentInChildren<Stash>(true), "key_cabinet_door", 110f, 0.7f);
+                SwingOutward(stash, "key_cabinet_door", 110f, 0.7f);
+                Fill(stash, KeyCabinetSearched, new[] { "hook_key_2", "chest_key_hook6", "hook_key_7" },
+                    Beat(go, "Which hook did he mean? Check his badge."));
             });
-            Variant("Chest", "chest_wood", go => KeyLock(go, "Chest", ChestKey, ChestFlag));
+            Variant("Chest", "chest_wood", go =>
+            {
+                KeyLock(go, "Chest", ChestKey, ChestFlag);
+                Fill(go.GetComponentInChildren<Stash>(true), ChestSearched, new[] { "note_3" },
+                    Beat(go, "Find the time he signed in.", H06));
+            });
             Variant("WallSafe", "safe_wall", WallSafe);
             Variant("DoorKeypad", "keypad_prison", DoorKeypad);
             Variant("SteelDoor", "door_steel", SteelDoor);
             Variant("WoodenDoor", "door_wood", WoodenDoor);
-            Variant("VentCover", "vent_cover", go => go.GetComponentInChildren<Door>(true).label = "Vent cover");
-            Variant("Drawers", "cabinet_drawers", _ => { });
+            Variant("VentCover", "vent_cover", go =>
+            {
+                var vent = go.GetComponentInChildren<Door>(true);
+                vent.label = "Vent cover";
+                Fill(vent, VentSearched, new[] { "battery" }, Beat(go, "Open the caretaker's locker."));
+            });
+            Variant("Drawers", "cabinet_drawers", go =>
+                Fill(TopDrawer(go), DrawerSearched, new[] { "note_1", "key_brass" }, Beat(go, "Find where the air comes in.")));
             Variant("Flashlight", "flashlight", _ => { });
 
             AssetDatabase.SaveAssets();
@@ -216,6 +249,7 @@ namespace LastShift.EditorTools
             var stash = go.GetComponentInChildren<Stash>(true);
             stash.label = "Wall safe";
             SwingOutward(stash, "safe_wall_door", 100f, 1f);
+            Fill(stash, SafeSearched, new[] { "small_steel_key" }, Beat(go, "Open the key cabinet.", H04));
         }
 
         // The kit's open clips turn the key cabinet and locker doors the wrong way (into the prop), and
@@ -246,6 +280,11 @@ namespace LastShift.EditorTools
             keypad.usePad = false;
             keypad.code = ExitCode;
             keypad.flag = ExitCodeFlag;
+
+            // No line here: the script wants silence, so the player thinks it's over.
+            var beat = Beat(go, "Get out.");
+            RemoveListenersTo(keypad.onSwitchedOn, beat);
+            UnityEventTools.AddVoidPersistentListener(keypad.onSwitchedOn, beat.Fire);
         }
 
         // Room B's way out: unlocks once the door keypad takes its code, and leads on to Room C.
@@ -269,6 +308,56 @@ namespace LastShift.EditorTools
             door.label = "Storage door";
             door.lockState = Door.Lock.Jammed;
             door.jammedText = "STORAGE. Habimana's key only.";
+        }
+
+        // ---------------------------------------------------------------- contents and beats
+
+        // What a container gives the first time it opens. Its Stash keeps no item of its own, so all
+        // of them come from Contents together, with one "Found: ..." line.
+        static void Fill(Openable container, string searchedFlag, string[] itemIds, StoryBeat beat)
+        {
+            if (container is Stash stash)
+                stash.item = null;
+            var contents = container.GetComponent<Contents>();
+            if (contents == null)
+                contents = container.gameObject.AddComponent<Contents>();
+            contents.container = container;
+            contents.searchedFlag = searchedFlag;
+            contents.items = itemIds.Select(id => FindItem(id, container.name)).Where(i => i != null).ToArray();
+            contents.beat = beat;
+        }
+
+        // The prop's story beat, on a child named StoryBeat: fired by its container, once.
+        static StoryBeat Beat(GameObject go, string objective, string line = "")
+        {
+            var child = go.transform.Find("StoryBeat");
+            if (child == null)
+            {
+                child = new GameObject("StoryBeat").transform;
+                child.SetParent(go.transform, false);
+            }
+            var beat = child.GetComponent<StoryBeat>();
+            if (beat == null)
+                beat = child.gameObject.AddComponent<StoryBeat>();
+            beat.when = StoryBeat.When.Fired;
+            beat.once = true;
+            beat.objective = objective;
+            beat.subtitle = line;
+            beat.speaker = line != "" ? Speaker : "";
+            return beat;
+        }
+
+        // The drawers have no names on their parts, so the top one is the highest.
+        static Stash TopDrawer(GameObject go) =>
+            go.GetComponentsInChildren<Stash>(true)
+                .OrderByDescending(s => s.GetComponentsInChildren<Renderer>(true).Select(r => r.bounds.center.y).DefaultIfEmpty(s.transform.position.y).Max())
+                .First();
+
+        static void RemoveListenersTo(UnityEventBase unityEvent, UnityEngine.Object target)
+        {
+            for (int i = unityEvent.GetPersistentEventCount() - 1; i >= 0; i--)
+                if (unityEvent.GetPersistentTarget(i) == target)
+                    UnityEventTools.RemovePersistentListener(unityEvent, i);
         }
 
         // ---------------------------------------------------------------- helpers
