@@ -209,6 +209,13 @@ MonoBehaviour:
   wrongSound: {fileID: 0}
   rightSound: {fileID: 0}
   openLine: 
+  pressDepth: 0.004
+  pressSeconds: 0.12
+  wrongTries: 3
+  lockSeconds: 30
+  lockSound: {fileID: 0}
+  lockLine: {fileID: 11400000, guid: 5c1b9642256dc9c47a0806fbf3bb76b0, type: 2}
+  lockText: '[alarm buzz] The keypad locks.'
 --- !u!1 &9180450238260371572
 GameObject:
   m_ObjectHideFlags: 0
