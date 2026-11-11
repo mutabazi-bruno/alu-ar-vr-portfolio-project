@@ -54,6 +54,30 @@ namespace LastShift.EditorTools
                 Shot(cam, $"front{suffix}", new Vector3(0, 1.6f, 1.2f), new Vector3(0, 1.2f, -2.5f));
                 Shot(cam, $"shelving{suffix}", new Vector3(1.4f, 1.2f, 1.2f), new Vector3(3f, 1.0f, 1.2f));
                 Shot(cam, $"bench{suffix}", new Vector3(0.2f, 1.6f, 1.0f), new Vector3(0.2f, 0.9f, 2.4f));
+
+                // Room C only: the corridor, the mirror, and the mirror side, plus a plan of all of it.
+                var extras = GameObject.Find("RoomCExtras");
+                if (extras != null)
+                {
+                    var arrival = extras.transform.Find("FromRoomB");
+                    var a = arrival != null ? arrival.position : new Vector3(0, 0, -8f);
+                    Shot(cam, $"c_corridor{suffix}", a + Vector3.up * 1.6f, new Vector3(0, 1.4f, -2.5f));
+                    Shot(cam, $"c_mirror{suffix}", new Vector3(0.6f, 1.6f, -0.8f), new Vector3(-0.6f, 1.2f, 2.6f));
+                    Shot(cam, $"c_through_mirror{suffix}", new Vector3(-0.6f, 1.6f, 1.6f), new Vector3(-0.3f, 1.2f, 7.5f));
+                    Shot(cam, $"c_mirror_side{suffix}", new Vector3(0.8f, 1.7f, 3.4f), new Vector3(-0.5f, 1.0f, 7.5f));
+                    Shot(cam, $"c_back_to_mirror{suffix}", new Vector3(0.2f, 1.6f, 7.0f), new Vector3(-0.6f, 1.2f, 2.6f));
+
+                    foreach (var r in ceilings) r.enabled = false;
+                    var extraCeilings = extras.GetComponentsInChildren<Renderer>().Where(r => r.name.Contains("Ceiling") || (r.transform.parent != null && r.transform.parent.name.Contains("Ceiling"))).ToList();
+                    foreach (var r in extraCeilings) r.enabled = false;
+                    cam.orthographic = true;
+                    cam.orthographicSize = 9.5f;
+                    cam.transform.SetPositionAndRotation(new Vector3(0, 12, -0.5f), Quaternion.Euler(90, 0, 0));
+                    Shoot(cam, $"c_plan{suffix}", 1000, 1600);
+                    foreach (var r in extraCeilings) r.enabled = true;
+                    foreach (var r in ceilings) r.enabled = true;
+                    cam.orthographic = false;
+                }
             }
             finally
             {
