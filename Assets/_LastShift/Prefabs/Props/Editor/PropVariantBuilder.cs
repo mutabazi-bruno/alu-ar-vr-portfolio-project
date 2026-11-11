@@ -262,13 +262,13 @@ namespace LastShift.EditorTools
             door.entrance = NextRoomEntrance;
         }
 
-        // The storage door is a dead end and never opens.
+        // The storage door is a dead end and never opens; its line says why.
         static void WoodenDoor(GameObject go)
         {
             var door = go.GetComponentInChildren<Door>(true);
             door.label = "Storage door";
             door.lockState = Door.Lock.Jammed;
-            door.jammedText = "It won't budge.";
+            door.jammedText = "STORAGE. Habimana's key only.";
         }
 
         // ---------------------------------------------------------------- helpers
