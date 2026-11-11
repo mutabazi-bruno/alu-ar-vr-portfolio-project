@@ -53,7 +53,15 @@ VR controls will be added here once the XR rig is in.
 5. Import the kit: Assets > Import Package > Custom Package, pick `escape-puzzle-kit-free-1.1.0.unitypackage` and import everything. It goes into `Assets/EscapePuzzleKitFree/`.
 6. Open `Assets/_LastShift/Scenes/RecordsRoomB.unity` and press Play.
 
-To make a web build: File > Build Profiles > Web > Build.
+## Web build
+
+1. File > Build Profiles, pick Web and click Build. Choose an empty folder outside the repo.
+2. Zip what's inside that folder (`index.html` has to be at the top of the zip, not inside another folder).
+3. On itch.io, upload the zip and tick "This file will be played in the browser". Set the embed size to 960 x 600 and turn on the fullscreen button.
+
+The project is set to Gzip compression with decompression fallback, which is what lets the build load on itch.io. If you change it back to Brotli the page stays stuck on a blank screen.
+
+Saves live in the browser, so they survive a page reload but not a new upload to itch.io (each upload gets a new address).
 
 ## Project layout
 
@@ -71,6 +79,12 @@ Assets/
 - Everyone uses the same kit version (1.1.0). Our prefabs point at the kit's files by their IDs, so a different version can break them.
 - Work on your own branch and open a pull request into `main`. Keep `main` in a state that opens and plays.
 - Only one person edits a scene at a time. Unity scene files don't merge well, so say in the group chat before you change `RecordsRoomB.unity`.
+
+## End card
+
+When the player opens the way out, the game moves to `EndCard.unity`, which shows their time, the credits, and Play again and Quit buttons. For this to happen, the exit door's Door component needs `endsGame` ticked. Nothing else has to go in the room scene, because `EndCardLoader` picks up the kit's escape event by itself.
+
+Play again starts a fresh run (no items, flags or saved state). On the web build, Quit shows a "you can close this tab" line, since a web page can't close its own tab.
 
 ## What came from the kit and what we built
 
