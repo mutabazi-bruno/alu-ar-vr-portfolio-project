@@ -62,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3919175883266239851, guid: 1c253e0b58ccf1a3905a76492f2a5ed2, type: 3}
       propertyPath: jammedText
-      value: It won't budge.
+      value: STORAGE. Habimana's key only.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
