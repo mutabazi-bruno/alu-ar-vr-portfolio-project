@@ -1,6 +1,5 @@
 using HeyHeyThere.EscapePuzzleKitFree;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class EndCard : MonoBehaviour
@@ -17,18 +16,21 @@ public class EndCard : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        timeText.text = Run.PlayTime > 0f ? "Escaped in " + FormatTime(Run.PlayTime) : "";
+        float time = EndCardLoader.EscapeTime > 0f ? EndCardLoader.EscapeTime : Run.PlayTime;
+        timeText.text = time > 0f ? "Escaped in " + FormatTime(time) : "";
         quitNote.gameObject.SetActive(false);
 
         playAgainButton.onClick.AddListener(PlayAgain);
         quitButton.onClick.AddListener(Quit);
     }
 
+    // straight back into Room B, not the title screen (that one goes first in the build list)
+    const string FirstRoom = "RecordsRoomB";
+
     void PlayAgain()
     {
-        // always back to the first room in the build (Room B), even though the exit is in Room C.
         // Restart clears items, flags and the timer too, so it's a fresh shift
-        SaveGame.Restart(SceneUtility.GetScenePathByBuildIndex(0));
+        SaveGame.Restart(FirstRoom);
     }
 
     void Quit()

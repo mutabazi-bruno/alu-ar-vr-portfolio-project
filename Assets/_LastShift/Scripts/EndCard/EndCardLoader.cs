@@ -9,7 +9,11 @@ public class EndCardLoader : MonoBehaviour
 {
     public const string EndCardScene = "EndCard";
 
-    const float delay = 2f;
+    // how long the dawn shows before the end card, long enough for the door and the light
+    const float dawnSeconds = 5f;
+
+    // the kit's timer keeps counting after the escape, so the end card uses this one
+    public static float EscapeTime { get; private set; }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void ListenForEscape()
@@ -23,14 +27,19 @@ public class EndCardLoader : MonoBehaviour
         if (!Application.CanStreamedLevelBeLoaded(EndCardScene))
             return;
 
+        EscapeTime = Run.PlayTime;
         new GameObject("End card loader").AddComponent<EndCardLoader>();
     }
 
     IEnumerator Start()
     {
-        // the kit sets timeScale to 0 on escape, so this has to be real time.
-        // the short wait lets the door finish opening before we cut away
-        yield return new WaitForSecondsRealtime(delay);
+        // by now the kit hud has put up its ESCAPED screen and frozen the game.
+        // hide it and unfreeze so the door opens and the dawn actually plays
+        if (Hud.Current != null)
+            Hud.Current.enabled = false;
+        Time.timeScale = 1f;
+
+        yield return new WaitForSecondsRealtime(dawnSeconds);
         SceneManager.LoadScene(EndCardScene);
     }
 }
