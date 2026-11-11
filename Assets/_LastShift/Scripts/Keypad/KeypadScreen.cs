@@ -225,7 +225,7 @@ namespace LastShift.Keypads
             rt.localScale = Vector3.one * 0.0005f / Mathf.Max(0.0001f, transform.lossyScale.x);
 
             var panel = screen.AddComponent<Image>();
-            panel.color = new Color(0.03f, 0.04f, 0.03f, 0.95f);
+            panel.color = new Color(0.03f, 0.04f, 0.03f, 1f);
             panel.raycastTarget = false;
 
             digits = NewChild<Text>(screen.transform, "Digits", new Vector2(-15f, 0f), new Vector2(190f, 64f));
