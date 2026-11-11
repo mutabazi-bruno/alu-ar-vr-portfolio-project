@@ -8,5 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_LastShift/Scenes/RecordsRoomB.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/_LastShift/Scenes/EndCard.unity
+    guid: 3f089c4ff4f53684bb73fb2f3a85a586
   m_configObjects:
+    WebXR.Settings: {fileID: 11400000, guid: e996ee9c6db6c694d90e20e9fad745b9, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 65a9d9173a3789844920fbf9ce42b139, type: 2}

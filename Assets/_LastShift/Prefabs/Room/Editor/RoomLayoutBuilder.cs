@@ -12,10 +12,12 @@ namespace LastShift.EditorTools
     // Run it from the menu: Last Shift > Build Room B.
     // It only deletes and rebuilds the "Room" object in the scene, so it is safe to run again
     // after changing a number below.
-    public static class RoomLayoutBuilder
+    public static partial class RoomLayoutBuilder
     {
         const string KitFolder = "Assets/EscapePuzzleKitFree";
-        const string ScenePath = "Assets/_LastShift/Scenes/RecordsRoomB.unity";
+        // Room B by default; Room C turns on the differences (see RoomCBuilder.cs).
+        static bool roomC;
+        static string ScenePath => roomC ? RoomCScenePath : RoomBScenePath;
         const string RoomPrefabFolder = "Assets/_LastShift/Prefabs/Room";
         const string PropVariantFolder = "Assets/_LastShift/Prefabs/Props";
         const string TextureFolder = "Assets/_LastShift/Art/Textures";
@@ -45,8 +47,11 @@ namespace LastShift.EditorTools
         // ---------------------------------------------------------------- menu
 
         [MenuItem("Last Shift/Build Room B")]
-        public static void Build()
+        public static void Build() => BuildRoom(false);
+
+        static void BuildRoom(bool c)
         {
+            roomC = c;
             if (!AssetDatabase.IsValidFolder(KitFolder))
             {
                 EditorUtility.DisplayDialog("Kit missing",
@@ -77,16 +82,20 @@ namespace LastShift.EditorTools
             MeasureWall();
 
             // Doors go in first so the walls can leave a gap (a doorway piece) for them.
-            var steelDoor = PropAsset("SteelDoor", new[] { "doorsteel", "steeldoor" });
+            var steelName = roomC ? "RoomCDoor" : "SteelDoor";
+            var steelDoor = PropAsset(steelName, new[] { "doorsteel", "steeldoor" });
             var woodenDoor = PropAsset("WoodenDoor", new[] { "doorwood", "woodendoor", "wooddoor" });
-            var steel = steelDoor ? PlaceDoor(steelDoor, "SteelDoor", Side.Front, 0f) : null;
+            var steel = steelDoor ? PlaceDoor(steelDoor, steelName, Side.Front, 0f) : null;
             var wooden = woodenDoor ? PlaceDoor(woodenDoor, "WoodenDoor", Side.Left, -1.5f) : null;
+
+            if (roomC) PlaceMirrorOpening();
 
             BuildShell();
             PlaceProps(steel, wooden, wallHeight);
             PlaceLighting(steel, wallHeight);
             AddRoomVolume();
             PlaceTestPlayer();
+            if (roomC) BuildRoomCExtras();
 
             var dirLight = GameObject.Find("Directional Light");
             if (dirLight != null) dirLight.SetActive(false);
@@ -97,7 +106,7 @@ namespace LastShift.EditorTools
 
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
-            Debug.Log("[RoomLayoutBuilder] Records Room B built and saved.");
+            Debug.Log($"[RoomLayoutBuilder] {(roomC ? "Room C" : "Records Room B")} built and saved.");
         }
 
         [MenuItem("Last Shift/List Kit Prefabs")]
@@ -448,12 +457,23 @@ namespace LastShift.EditorTools
         static void PlaceProps(GameObject steelDoor, GameObject woodenDoor, float wallHeight)
         {
             // Back wall: chest, workbench with the flashlight, vent cover low down, a crate in the corner.
-            PlaceAgainst(PropAsset("Chest", new[] { "chest" }), propsRoot, "Chest", Side.Back, -2.0f, null);
-            var bench = PlaceAgainst(RoomVariant("RoomWorkbench", FindKit(new[] { "workbench", "bench" })), dressingRoot, "Workbench", Side.Back, 0.2f, null);
-            PlaceAgainst(PropAsset("VentCover", new[] { "ventcover", "vent" }), propsRoot, "VentCover", Side.Back, 1.6f, 0.35f);
-            var crate = PlaceAgainst(RoomVariant("RoomCrate", FindKit(new[] { "crate" })), dressingRoot, "Crate", Side.Back, 2.4f, null);
-            if (crate) SetStatic(crate);
-            if (bench) { SetStatic(bench); PutFlashlightOn(bench); }
+            if (!roomC)
+            {
+                PlaceAgainst(PropAsset("Chest", new[] { "chest" }), propsRoot, "Chest", Side.Back, -2.0f, null);
+                var bench = PlaceAgainst(RoomVariant("RoomWorkbench", FindKit(new[] { "workbench", "bench" })), dressingRoot, "Workbench", Side.Back, 0.2f, null);
+                PlaceAgainst(PropAsset("VentCover", new[] { "ventcover", "vent" }), propsRoot, "VentCover", Side.Back, 1.6f, 0.35f);
+                var crate = PlaceAgainst(RoomVariant("RoomCrate", FindKit(new[] { "crate" })), dressingRoot, "Crate", Side.Back, 2.4f, null);
+                if (crate) SetStatic(crate);
+                if (bench) { SetStatic(bench); PutFlashlightOn(bench); }
+            }
+            else
+            {
+                // Room C: the mirror takes the middle of the back wall, so the bench moves over.
+                // No flashlight here: the player still carries Room B's.
+                PlaceAgainst(PropAsset("Chest", new[] { "chest" }), propsRoot, "Chest", Side.Back, -2.2f, null);
+                var bench = PlaceAgainst(RoomVariant("RoomWorkbench", FindKit(new[] { "workbench", "bench" })), dressingRoot, "Workbench", Side.Back, 1.4f, null);
+                if (bench) SetStatic(bench);
+            }
 
             // Left wall: drawers, the staff locker, and the decoy wooden door further along.
             PlaceAgainst(PropAsset("Drawers", new[] { "cabinetdrawers", "drawer" }), propsRoot, "Drawers", Side.Left, 1.3f, null);
@@ -462,7 +482,7 @@ namespace LastShift.EditorTools
             // Right wall: shelving with the six archive boxes, the wall safe and the key cabinet.
             var shelving = PlaceAgainst(RoomVariant("RoomShelving", FindKit(new[] { "shelving", "shelves", "shelf" })),
                 dressingRoot, "Shelving", Side.Right, 1.2f, null);
-            if (shelving) { SetStatic(shelving); FillShelving(shelving); }
+            if (shelving) { SetStatic(shelving); if (roomC) FillShelvingClothes(shelving); else FillShelving(shelving); }
 
             var safeAsset = PropAsset("WallSafe", new[] { "safewall", "wallsafe", "safe" });
             if (safeAsset) PlaceAgainst(safeAsset, propsRoot, "WallSafe", Side.Right, -0.3f, IsWallMounted(safeAsset) ? 1.25f : (float?)null);
@@ -478,12 +498,16 @@ namespace LastShift.EditorTools
             }
 
             // Front wall: keypad next to the steel door, sign-in sheet and calendar on the other side.
-            PlaceAgainst(PropAsset("DoorKeypad", new[] { "keypad" }), propsRoot, "DoorKeypad", Side.Front, 0.85f, 1.3f);
-            Decal("SignInSheet", "SignInSheet", Side.Front, -0.9f, 1.45f, 0.30f, 0.42f, dressingRoot);
-            Decal("CalendarNovember", "CalendarNovember", Side.Front, -1.5f, 1.5f, 0.32f, 0.32f, dressingRoot);
+            if (!roomC) PlaceAgainst(PropAsset("DoorKeypad", new[] { "keypad" }), propsRoot, "DoorKeypad", Side.Front, 0.85f, 1.3f);
+            Decal("SignInSheet", roomC ? "SignInSheetC" : "SignInSheet", Side.Front, -0.9f, 1.45f, 0.30f, 0.42f, dressingRoot);
+            Decal("CalendarNovember", roomC ? "CalendarNovember14" : "CalendarNovember", Side.Front, -1.5f, 1.5f, 0.32f, 0.32f, dressingRoot);
+
+            // The wall clock: stopped at 2:14 in Room B, and at 2:41 in Room C.
+            if (roomC) PlaceClock(Side.Front, 1.7f, 2.25f, 2, 41);
+            else PlaceClock(Side.Front, 1.7f, 2.25f, 2, 14);
 
             float doorTop = steelDoor ? GetBounds(steelDoor).max.y : 2.1f;
-            Decal("DoorSignRecordsRoomB", "DoorSignRecordsRoomB", Side.Front, 0f, Mathf.Min(doorTop + 0.2f, wallHeight - 0.2f), 0.6f, 0.3f, dressingRoot);
+            Decal(roomC ? "DoorSign" : "DoorSignRecordsRoomB", roomC ? "DoorSignRecordsRoomC" : "DoorSignRecordsRoomB", Side.Front, 0f, Mathf.Min(doorTop + 0.2f, wallHeight - 0.2f), 0.6f, 0.3f, dressingRoot);
 
             if (woodenDoor)
             {
@@ -715,6 +739,7 @@ namespace LastShift.EditorTools
 
             // Dawn outside the steel door. Starts switched off; the door keypad's success event turns
             // "DawnEnding" on (Gama wires that in his pass).
+            if (roomC) return; // Room C's dawn is behind the real exit, on the mirror side
             var dawn = Child(lightingRoot, "DawnEnding");
             var doorCentre = steelDoor ? GetBounds(steelDoor).center : new Vector3(0, 1f, -Depth / 2);
             var outside = -Inward(Side.Front);
@@ -783,7 +808,7 @@ namespace LastShift.EditorTools
 
             var player = new GameObject("TestPlayer");
             player.transform.SetParent(testRoot, false);
-            player.transform.SetPositionAndRotation(new Vector3(0, 0.05f, -1.6f), Quaternion.LookRotation(Vector3.forward));
+            player.transform.SetPositionAndRotation(roomC ? ArrivalPoint : new Vector3(0, 0.05f, -1.6f), Quaternion.LookRotation(Vector3.forward));
             var cc = player.AddComponent<CharacterController>();
             cc.height = 1.75f; cc.radius = 0.3f; cc.center = new Vector3(0, 0.875f, 0);
 
@@ -850,7 +875,7 @@ namespace LastShift.EditorTools
             var room = go.AddComponent(roomType);
             var so = new SerializedObject(room);
             var title = so.FindProperty("title");
-            if (title != null) { title.stringValue = "Records Room B"; so.ApplyModifiedPropertiesWithoutUndo(); }
+            if (title != null) { title.stringValue = roomC ? "Records Room C" : "Records Room B"; so.ApplyModifiedPropertiesWithoutUndo(); }
         }
 
         static void EnsureFolder(string path)

@@ -1,0 +1,532 @@
+{
+    "version":  1,
+    "name":  "LastShiftXRInput",
+    "maps":  [
+                 {
+                     "name":  "Head",
+                     "id":  "da782a01-8f06-4984-a3ce-946ea57f6999",
+                     "actions":  [
+                                     {
+                                         "name":  "Position",
+                                         "type":  "Value",
+                                         "id":  "78373df8-418a-498c-81d4-cee7c7555d4d",
+                                         "expectedControlType":  "Vector3",
+                                         "processors":  "",
+                                         "interactions":  "",
+                                         "initialStateCheck":  true
+                                     },
+                                     {
+                                         "name":  "Rotation",
+                                         "type":  "Value",
+                                         "id":  "c81dde4c-9e83-4d79-b3d5-9bc916ea3891",
+                                         "expectedControlType":  "Quaternion",
+                                         "processors":  "",
+                                         "interactions":  "",
+                                         "initialStateCheck":  true
+                                     },
+                                     {
+                                         "name":  "Tracking State",
+                                         "type":  "Value",
+                                         "id":  "60c2c834-a90d-4d97-accb-43acf1b5d9d9",
+                                         "expectedControlType":  "Integer",
+                                         "processors":  "",
+                                         "interactions":  "",
+                                         "initialStateCheck":  true
+                                     }
+                                 ],
+                     "bindings":  [
+                                      {
+                                          "name":  "",
+                                          "id":  "0e57b296-3f98-4d72-8dcf-ac9a2059875e",
+                                          "path":  "\u003cXRHMD\u003e/centerEyePosition",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "Position",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      },
+                                      {
+                                          "name":  "",
+                                          "id":  "40cdcb2a-d52d-462f-ba0e-399e417b4266",
+                                          "path":  "\u003cXRHMD\u003e/centerEyeRotation",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "Rotation",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      },
+                                      {
+                                          "name":  "",
+                                          "id":  "9b064a92-48c3-420f-91c0-b691b84880d7",
+                                          "path":  "\u003cXRHMD\u003e/trackingState",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "Tracking State",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      }
+                                  ]
+                 },
+                 {
+                     "name":  "Left Hand",
+                     "id":  "0aef0038-cf79-4b13-a596-ee998fbcfcee",
+                     "actions":  [
+                                     {
+                                         "name":  "Position",
+                                         "type":  "Value",
+                                         "id":  "63a7eaf6-da94-431c-8f21-8619d2f43c6b",
+                                         "expectedControlType":  "Vector3",
+                                         "processors":  "",
+                                         "interactions":  "",
+                                         "initialStateCheck":  true
+                                     },
+                                     {
+                                         "name":  "Rotation",
+                                         "type":  "Value",
+                                         "id":  "1a95c765-be47-439a-b825-8860b9ab739d",
+                                         "expectedControlType":  "Quaternion",
+                                         "processors":  "",
+                                         "interactions":  "",
+                                         "initialStateCheck":  true
+                                     },
+                                     {
+                                         "name":  "Tracking State",
+                                         "type":  "Value",
+                                         "id":  "50f8dbbc-71f4-43a1-93fa-a02a4728a150",
+                                         "expectedControlType":  "Integer",
+                                         "processors":  "",
+                                         "interactions":  "",
+                                         "initialStateCheck":  true
+                                     },
+                                     {
+                                         "name":  "Select",
+                                         "type":  "Button",
+                                         "id":  "eb0d7071-3133-4e04-9b8f-f2bf94a1236f",
+                                         "expectedControlType":  "Button",
+                                         "processors":  "",
+                                         "interactions":  "",
+                                         "initialStateCheck":  false
+                                     },
+                                     {
+                                         "name":  "Select Value",
+                                         "type":  "Value",
+                                         "id":  "c6d4f4c6-63c6-4d20-9c8e-06ea4168f735",
+                                         "expectedControlType":  "Axis",
+                                         "processors":  "",
+                                         "interactions":  "",
+                                         "initialStateCheck":  true
+                                     },
+                                     {
+                                         "name":  "Activate",
+                                         "type":  "Button",
+                                         "id":  "4a00f078-e7b2-45df-8eac-6d77c5328945",
+                                         "expectedControlType":  "Button",
+                                         "processors":  "",
+                                         "interactions":  "",
+                                         "initialStateCheck":  false
+                                     },
+                                     {
+                                         "name":  "Activate Value",
+                                         "type":  "Value",
+                                         "id":  "933c1b43-a9ef-4b4c-a52a-871136946d45",
+                                         "expectedControlType":  "Axis",
+                                         "processors":  "",
+                                         "interactions":  "",
+                                         "initialStateCheck":  true
+                                     },
+                                     {
+                                         "name":  "UI Press",
+                                         "type":  "Button",
+                                         "id":  "2d4f1fad-6d3d-4510-8ac6-d2af0e455d42",
+                                         "expectedControlType":  "Button",
+                                         "processors":  "",
+                                         "interactions":  "",
+                                         "initialStateCheck":  false
+                                     },
+                                     {
+                                         "name":  "UI Press Value",
+                                         "type":  "Value",
+                                         "id":  "97a56143-e45e-49a6-adbd-e72432392c3c",
+                                         "expectedControlType":  "Axis",
+                                         "processors":  "",
+                                         "interactions":  "",
+                                         "initialStateCheck":  true
+                                     },
+                                     {
+                                         "name":  "Torch",
+                                         "type":  "Button",
+                                         "id":  "97d22187-fec9-4953-a3b5-05f7c4981d5b",
+                                         "expectedControlType":  "Button",
+                                         "processors":  "",
+                                         "interactions":  "",
+                                         "initialStateCheck":  false
+                                     }
+                                 ],
+                     "bindings":  [
+                                      {
+                                          "name":  "",
+                                          "id":  "8f8ab75d-0190-4b49-be7a-edcdcd9aeb0b",
+                                          "path":  "\u003cXRController\u003e{LeftHand}/devicePosition",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "Position",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      },
+                                      {
+                                          "name":  "",
+                                          "id":  "caa59b78-32cf-4b2c-81b7-d268e5b35e32",
+                                          "path":  "\u003cXRController\u003e{LeftHand}/deviceRotation",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "Rotation",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      },
+                                      {
+                                          "name":  "",
+                                          "id":  "560247f2-2dc4-4a77-8f90-18c2e900961c",
+                                          "path":  "\u003cXRController\u003e{LeftHand}/trackingState",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "Tracking State",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      },
+                                      {
+                                          "name":  "",
+                                          "id":  "dee3e0a7-326a-4a81-afdb-e58f2a32ba57",
+                                          "path":  "\u003cXRController\u003e{LeftHand}/{GripButton}",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "Select",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      },
+                                      {
+                                          "name":  "",
+                                          "id":  "c79e64f6-a8e7-423b-aa29-73860b3ab6fc",
+                                          "path":  "\u003cXRController\u003e{LeftHand}/{Grip}",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "Select Value",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      },
+                                      {
+                                          "name":  "",
+                                          "id":  "538f0134-0cea-4417-9729-53e6eceec634",
+                                          "path":  "\u003cXRController\u003e{LeftHand}/{TriggerButton}",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "Activate",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      },
+                                      {
+                                          "name":  "",
+                                          "id":  "ddfdffbb-a48a-4467-9a9d-256614506242",
+                                          "path":  "\u003cXRController\u003e{LeftHand}/{Trigger}",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "Activate Value",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      },
+                                      {
+                                          "name":  "",
+                                          "id":  "f496172f-650b-4825-a040-f004d2e10193",
+                                          "path":  "\u003cXRController\u003e{LeftHand}/{TriggerButton}",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "UI Press",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      },
+                                      {
+                                          "name":  "",
+                                          "id":  "c9be1756-0b1d-452f-b1d4-8af8a8dfa743",
+                                          "path":  "\u003cXRController\u003e{LeftHand}/{Trigger}",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "UI Press Value",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      },
+                                      {
+                                          "name":  "",
+                                          "id":  "7cd270e3-073e-43a1-8b38-566f64ff1d72",
+                                          "path":  "\u003cXRController\u003e{LeftHand}/{PrimaryButton}",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "Torch",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      },
+                                      {
+                                          "name":  "",
+                                          "id":  "bb1a57fb-096a-4a56-96cf-f576179e600c",
+                                          "path":  "\u003cXRController\u003e{RightHand}/{PrimaryButton}",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "Torch",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      }
+                                  ]
+                 },
+                 {
+                     "name":  "Right Hand",
+                     "id":  "21581e9a-d04a-4577-9eea-799b27dd06be",
+                     "actions":  [
+                                     {
+                                         "name":  "Position",
+                                         "type":  "Value",
+                                         "id":  "34aabecb-7c81-4ce4-966c-b4af17067907",
+                                         "expectedControlType":  "Vector3",
+                                         "processors":  "",
+                                         "interactions":  "",
+                                         "initialStateCheck":  true
+                                     },
+                                     {
+                                         "name":  "Rotation",
+                                         "type":  "Value",
+                                         "id":  "2d9c24e9-3662-40fe-bb72-16e187922391",
+                                         "expectedControlType":  "Quaternion",
+                                         "processors":  "",
+                                         "interactions":  "",
+                                         "initialStateCheck":  true
+                                     },
+                                     {
+                                         "name":  "Tracking State",
+                                         "type":  "Value",
+                                         "id":  "71810cb7-32a9-4ce2-9f17-d3465f31c22a",
+                                         "expectedControlType":  "Integer",
+                                         "processors":  "",
+                                         "interactions":  "",
+                                         "initialStateCheck":  true
+                                     },
+                                     {
+                                         "name":  "Select",
+                                         "type":  "Button",
+                                         "id":  "55fa0c05-d801-4c10-a051-49fc508e1ca0",
+                                         "expectedControlType":  "Button",
+                                         "processors":  "",
+                                         "interactions":  "",
+                                         "initialStateCheck":  false
+                                     },
+                                     {
+                                         "name":  "Select Value",
+                                         "type":  "Value",
+                                         "id":  "0c5c9cf0-3522-4a62-8d0d-62392a78cc2d",
+                                         "expectedControlType":  "Axis",
+                                         "processors":  "",
+                                         "interactions":  "",
+                                         "initialStateCheck":  true
+                                     },
+                                     {
+                                         "name":  "Activate",
+                                         "type":  "Button",
+                                         "id":  "b381e49d-c43f-41a6-89fe-2cecb69a27ee",
+                                         "expectedControlType":  "Button",
+                                         "processors":  "",
+                                         "interactions":  "",
+                                         "initialStateCheck":  false
+                                     },
+                                     {
+                                         "name":  "Activate Value",
+                                         "type":  "Value",
+                                         "id":  "e5718261-d728-43f0-b94d-e4e87af0e7d2",
+                                         "expectedControlType":  "Axis",
+                                         "processors":  "",
+                                         "interactions":  "",
+                                         "initialStateCheck":  true
+                                     },
+                                     {
+                                         "name":  "UI Press",
+                                         "type":  "Button",
+                                         "id":  "64a8e9c1-6dcf-422f-b48a-f8ee01769677",
+                                         "expectedControlType":  "Button",
+                                         "processors":  "",
+                                         "interactions":  "",
+                                         "initialStateCheck":  false
+                                     },
+                                     {
+                                         "name":  "UI Press Value",
+                                         "type":  "Value",
+                                         "id":  "0ae83ef3-b6c1-498a-a986-1a73b2d500b4",
+                                         "expectedControlType":  "Axis",
+                                         "processors":  "",
+                                         "interactions":  "",
+                                         "initialStateCheck":  true
+                                     }
+                                 ],
+                     "bindings":  [
+                                      {
+                                          "name":  "",
+                                          "id":  "c2e20a88-79ce-4ac3-abba-fbefe326e5cb",
+                                          "path":  "\u003cXRController\u003e{RightHand}/devicePosition",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "Position",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      },
+                                      {
+                                          "name":  "",
+                                          "id":  "8915bf78-8bd5-4dde-aaaa-7061122180b0",
+                                          "path":  "\u003cXRController\u003e{RightHand}/deviceRotation",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "Rotation",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      },
+                                      {
+                                          "name":  "",
+                                          "id":  "5726dcbd-c783-4044-b50d-7ccde1d226cd",
+                                          "path":  "\u003cXRController\u003e{RightHand}/trackingState",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "Tracking State",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      },
+                                      {
+                                          "name":  "",
+                                          "id":  "ca0b5373-d628-46ca-b1c5-38e1b1b83dfd",
+                                          "path":  "\u003cXRController\u003e{RightHand}/{GripButton}",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "Select",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      },
+                                      {
+                                          "name":  "",
+                                          "id":  "6f39c193-fe08-4313-ac7d-122a05d7710f",
+                                          "path":  "\u003cXRController\u003e{RightHand}/{Grip}",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "Select Value",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      },
+                                      {
+                                          "name":  "",
+                                          "id":  "b05fb93c-8bec-4a5a-9eaf-a03507e4a846",
+                                          "path":  "\u003cXRController\u003e{RightHand}/{TriggerButton}",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "Activate",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      },
+                                      {
+                                          "name":  "",
+                                          "id":  "96b6deee-ea86-4244-93b8-2ef7265222e3",
+                                          "path":  "\u003cXRController\u003e{RightHand}/{Trigger}",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "Activate Value",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      },
+                                      {
+                                          "name":  "",
+                                          "id":  "e9fe3f59-19ca-4881-a03f-37420651e0b1",
+                                          "path":  "\u003cXRController\u003e{RightHand}/{TriggerButton}",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "UI Press",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      },
+                                      {
+                                          "name":  "",
+                                          "id":  "04c092c7-b338-4261-966c-c60645beb4b6",
+                                          "path":  "\u003cXRController\u003e{RightHand}/{Trigger}",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "UI Press Value",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      }
+                                  ]
+                 },
+                 {
+                     "name":  "Locomotion",
+                     "id":  "49b03d58-f90d-4039-9c24-c4e9ad43fcc9",
+                     "actions":  [
+                                     {
+                                         "name":  "Move",
+                                         "type":  "Value",
+                                         "id":  "add99270-e7ea-4971-82c5-4f6ab6698259",
+                                         "expectedControlType":  "Vector2",
+                                         "processors":  "",
+                                         "interactions":  "",
+                                         "initialStateCheck":  true
+                                     },
+                                     {
+                                         "name":  "Snap Turn",
+                                         "type":  "Value",
+                                         "id":  "340c6afb-5c80-40e8-ac82-ae0e02b95667",
+                                         "expectedControlType":  "Vector2",
+                                         "processors":  "",
+                                         "interactions":  "",
+                                         "initialStateCheck":  true
+                                     }
+                                 ],
+                     "bindings":  [
+                                      {
+                                          "name":  "",
+                                          "id":  "209df48e-71b1-4d00-9c8a-ba52abaf0c60",
+                                          "path":  "\u003cXRController\u003e{LeftHand}/{Primary2DAxis}",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "Move",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      },
+                                      {
+                                          "name":  "",
+                                          "id":  "7355cc15-970c-472c-b53a-e4dd7fae8cf2",
+                                          "path":  "\u003cXRController\u003e{RightHand}/{Primary2DAxis}",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "Snap Turn",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      }
+                                  ]
+                 }
+             ],
+    "controlSchemes":  [
+
+                       ]
+}
