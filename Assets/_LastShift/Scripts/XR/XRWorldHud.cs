@@ -38,6 +38,8 @@ namespace LastShift.XR
         [Range(0.75f, 2f)] public float textScale = 1f;
         [Tooltip("What the VR control for 'use' is called in prompts")]
         public string useControl = "Trigger";
+        [Tooltip("What the VR control for the torch is called in hints")]
+        public string torchControl = "X / A";
 
         float objectiveLeft, lineLeft, hintLeft;
         Text[] texts;
@@ -104,6 +106,7 @@ namespace LastShift.XR
             switch ((key ?? "").ToUpperInvariant())
             {
                 case "E": return useControl;
+                case "F": return torchControl;
                 default: return "";
             }
         }
