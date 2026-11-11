@@ -44,6 +44,13 @@ public class ClothesPuzzle : MonoBehaviour
         if (Run.HasFlag(solvedFlag))
             return;
 
+        // no answers set yet means the rack isn't set up, not that an empty rack is right
+        bool anyAnswer = false;
+        foreach (var hook in hooks)
+            anyAnswer |= hook.answer != null;
+        if (!anyAnswer)
+            return;
+
         foreach (var hook in hooks)
             if (hook.Piece != hook.answer)
                 return;
