@@ -9,6 +9,9 @@ using UnityEngine.Events;
 
 namespace LastShift.EditorTools
 {
+    // LastShift.Keypad is a namespace too, so name the kit's component outright.
+    using Keypad = HeyHeyThere.EscapePuzzleKitFree.Keypad;
+
     // Makes our variants of the kit's props in Prefabs/Props, under the names the room builder
     // looks for, and sets their locks, codes and keys from the values below.
     // Run it from the menu: Last Shift > Build Prop Variants.
@@ -49,8 +52,16 @@ namespace LastShift.EditorTools
             if (!AssetDatabase.IsValidFolder(VariantFolder))
                 AssetDatabase.CreateFolder("Assets/_LastShift/Prefabs", "Props");
 
-            Variant("StaffLocker", "locker_staff", go => KeyLock(go, "Staff locker", LockerKey, LockerFlag));
-            Variant("KeyCabinet", "key_cabinet", go => KeyLock(go, "Key cabinet", KeyCabinetKey, KeyCabinetFlag));
+            Variant("StaffLocker", "locker_staff", go =>
+            {
+                KeyLock(go, "Staff locker", LockerKey, LockerFlag);
+                SwingOutward(go.GetComponentInChildren<Stash>(true), "locker_staff_door", 105f, 0.8f);
+            });
+            Variant("KeyCabinet", "key_cabinet", go =>
+            {
+                KeyLock(go, "Key cabinet", KeyCabinetKey, KeyCabinetFlag);
+                SwingOutward(go.GetComponentInChildren<Stash>(true), "key_cabinet_door", 110f, 0.7f);
+            });
             Variant("Chest", "chest_wood", go => KeyLock(go, "Chest", ChestKey, ChestFlag));
             Variant("WallSafe", "safe_wall", WallSafe);
             Variant("DoorKeypad", "keypad_prison", DoorKeypad);
@@ -193,15 +204,42 @@ namespace LastShift.EditorTools
             // The kit's safe already enables its stash once the keypad takes the code.
             var keypad = go.GetComponentInChildren<Keypad>(true);
             keypad.label = "Wall safe";
+            keypad.usePad = false;  // its own keys are pressed, in the world and in VR
+            // The keypad's open clip holds the safe door shut and would undo the door's swing below.
+            keypad.motion.mode = HeyHeyThere.EscapePuzzleKitFree.Motion.Mode.None;
             keypad.code = SafeCode;
             keypad.flag = SafeFlag;
-            go.GetComponentInChildren<Stash>(true).label = "Wall safe";
+            var stash = go.GetComponentInChildren<Stash>(true);
+            stash.label = "Wall safe";
+            SwingOutward(stash, "safe_wall_door", 100f, 1f);
+        }
+
+        // The kit's open clips turn the key cabinet and locker doors the wrong way (into the prop), and
+        // the safe's clip doesn't move its door at all. A plain turn about the hinge replaces them.
+        // A door's pivot is its hinge; swinging out means towards the prop's front, its local +Z.
+        static void SwingOutward(Openable openable, string doorName, float degrees, float seconds)
+        {
+            var door = openable.GetComponentsInChildren<Transform>(true).FirstOrDefault(t => t.name == doorName);
+            var leaf = door != null ? door.GetComponentInChildren<Renderer>(true) : null;
+            if (leaf == null)
+            {
+                Debug.LogWarning($"[PropVariantBuilder] No {doorName} found on {openable.name}, its door keeps the kit's motion.");
+                return;
+            }
+            // Leaf to the left of the hinge (-X) swings out with a positive turn about Y, to the right with a negative one.
+            bool leafLeftOfHinge = door.InverseTransformPoint(leaf.bounds.center).x < 0f;
+            openable.motion.mode = HeyHeyThere.EscapePuzzleKitFree.Motion.Mode.Turn;
+            openable.motion.part = door;
+            openable.motion.axis = Vector3.up;
+            openable.motion.angle = leafLeftOfHinge ? degrees : -degrees;
+            openable.motion.seconds = seconds;
         }
 
         static void DoorKeypad(GameObject go)
         {
             var keypad = go.GetComponentInChildren<Keypad>(true);
             keypad.label = "Door keypad";
+            keypad.usePad = false;
             keypad.code = ExitCode;
             keypad.flag = ExitCodeFlag;
         }

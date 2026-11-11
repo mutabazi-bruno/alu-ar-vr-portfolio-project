@@ -60,9 +60,29 @@ PrefabInstance:
       propertyPath: label
       value: Wall safe
       objectReference: {fileID: 0}
+    - target: {fileID: 6487221434110381632, guid: b45b6e04eb574a994dd9eea8d6ae33d2, type: 3}
+      propertyPath: usePad
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6487221434110381632, guid: b45b6e04eb574a994dd9eea8d6ae33d2, type: 3}
+      propertyPath: motion.mode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7264969399721987419, guid: b45b6e04eb574a994dd9eea8d6ae33d2, type: 3}
       propertyPath: label
       value: Wall safe
+      objectReference: {fileID: 0}
+    - target: {fileID: 7264969399721987419, guid: b45b6e04eb574a994dd9eea8d6ae33d2, type: 3}
+      propertyPath: motion.mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7264969399721987419, guid: b45b6e04eb574a994dd9eea8d6ae33d2, type: 3}
+      propertyPath: motion.part
+      value: 
+      objectReference: {fileID: 2859968809465815766}
+    - target: {fileID: 7264969399721987419, guid: b45b6e04eb574a994dd9eea8d6ae33d2, type: 3}
+      propertyPath: motion.angle
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8835094355167890189, guid: b45b6e04eb574a994dd9eea8d6ae33d2, type: 3}
       propertyPath: m_Name
@@ -73,3 +93,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b45b6e04eb574a994dd9eea8d6ae33d2, type: 3}
+--- !u!4 &2859968809465815766 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4370309379497119905, guid: b45b6e04eb574a994dd9eea8d6ae33d2, type: 3}
+  m_PrefabInstance: {fileID: 1951979775234142839}
+  m_PrefabAsset: {fileID: 0}

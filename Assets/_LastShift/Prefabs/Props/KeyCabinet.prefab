@@ -56,6 +56,22 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8691181801644466622, guid: d4d7886f08d86c9403ae5c08b52ab3a3, type: 3}
+      propertyPath: motion.mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8691181801644466622, guid: d4d7886f08d86c9403ae5c08b52ab3a3, type: 3}
+      propertyPath: motion.part
+      value: 
+      objectReference: {fileID: 2752342007685324476}
+    - target: {fileID: 8691181801644466622, guid: d4d7886f08d86c9403ae5c08b52ab3a3, type: 3}
+      propertyPath: motion.angle
+      value: 110
+      objectReference: {fileID: 0}
+    - target: {fileID: 8691181801644466622, guid: d4d7886f08d86c9403ae5c08b52ab3a3, type: 3}
+      propertyPath: motion.seconds
+      value: 0.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -135,6 +151,11 @@ MonoBehaviour:
   keepItem: 0
   missingText: It's locked.
   fitted: []
+--- !u!4 &2752342007685324476 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2896049564725906994, guid: d4d7886f08d86c9403ae5c08b52ab3a3, type: 3}
+  m_PrefabInstance: {fileID: 1009542735936458894}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &8547790354194772272 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8691181801644466622, guid: d4d7886f08d86c9403ae5c08b52ab3a3, type: 3}

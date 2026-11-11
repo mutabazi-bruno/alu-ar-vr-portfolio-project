@@ -64,6 +64,10 @@ PrefabInstance:
       propertyPath: label
       value: Door keypad
       objectReference: {fileID: 0}
+    - target: {fileID: 8856885279570939617, guid: 977007c5aceb60c1f9b3b2512d7d2f16, type: 3}
+      propertyPath: usePad
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

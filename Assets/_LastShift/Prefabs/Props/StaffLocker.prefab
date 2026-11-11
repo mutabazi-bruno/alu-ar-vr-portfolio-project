@@ -60,6 +60,22 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6658244764287425208, guid: 9869a13f3ee1ad6476d88041ae3828c9, type: 3}
+      propertyPath: motion.mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6658244764287425208, guid: 9869a13f3ee1ad6476d88041ae3828c9, type: 3}
+      propertyPath: motion.part
+      value: 
+      objectReference: {fileID: 4286546860220406940}
+    - target: {fileID: 6658244764287425208, guid: 9869a13f3ee1ad6476d88041ae3828c9, type: 3}
+      propertyPath: motion.angle
+      value: 105
+      objectReference: {fileID: 0}
+    - target: {fileID: 6658244764287425208, guid: 9869a13f3ee1ad6476d88041ae3828c9, type: 3}
+      propertyPath: motion.seconds
+      value: 0.8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -79,6 +95,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c10e28563aa4102e1e94fa9a7dcac73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: HeyHeyThere.EscapePuzzleKitFree::HeyHeyThere.EscapePuzzleKitFree.Stash
+--- !u!4 &4286546860220406940 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8531563517423962757, guid: 9869a13f3ee1ad6476d88041ae3828c9, type: 3}
+  m_PrefabInstance: {fileID: 5556013097539081753}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6949090441451946249 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3272652971995977488, guid: 9869a13f3ee1ad6476d88041ae3828c9, type: 3}
