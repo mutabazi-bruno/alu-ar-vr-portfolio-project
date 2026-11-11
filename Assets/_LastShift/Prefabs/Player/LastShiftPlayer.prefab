@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 518259136331387923}
   - component: {fileID: 2411638911222951057}
+  - component: {fileID: 145691055871485951}
+  - component: {fileID: 4635932853904770363}
   m_Layer: 0
   m_Name: LastShiftPlayer
   m_TagString: Untagged
@@ -48,6 +50,31 @@ MonoBehaviour:
   desktopPlayer: {fileID: 0}
   xrRig: {fileID: 0}
   checkInterval: 0.25
+--- !u!114 &145691055871485951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7314347136140262355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1208a90903ec64a478adf303b3d0a80d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LastShift.Menus.PauseGuard
+--- !u!114 &4635932853904770363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7314347136140262355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d2e39c172b2d6647bc8e3954528d198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LastShift.Menus.GameFonts
+  body: {fileID: 12800000, guid: 57b571152329d7645af7aebc0cd66677, type: 3}
 --- !u!1001 &7042463433137150484
 PrefabInstance:
   m_ObjectHideFlags: 0
