@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f15ae488a662a3f4aa78a479edcee49b, type: 3}
   m_Name: H05_Lockout
   m_EditorClassIdentifier: Assembly-CSharp::LastShift.Narration.VoiceLine
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: eaab768ab8b3136418cb0846627addd5, type: 3}
   speaker: HABIMANA
   subtitle: Guessing? In my archive? Sit down for a moment. Think.
   maxPieceLength: 90
   volume: 1
+  pieceStarts:
+  - 0

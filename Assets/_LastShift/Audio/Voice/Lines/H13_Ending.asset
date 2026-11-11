@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f15ae488a662a3f4aa78a479edcee49b, type: 3}
   m_Name: H13_Ending
   m_EditorClassIdentifier: Assembly-CSharp::LastShift.Narration.VoiceLine
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: 869ed18d31e68774eb1993f6cff8c76c, type: 3}
   speaker: HABIMANA
   subtitle: Shift's over. Same time tomorrow.
   maxPieceLength: 90
   volume: 1
+  pieceStarts:
+  - 0

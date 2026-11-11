@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f15ae488a662a3f4aa78a479edcee49b, type: 3}
   m_Name: H02_Torch
   m_EditorClassIdentifier: Assembly-CSharp::LastShift.Narration.VoiceLine
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: f1568e899ab27f84590931fd2faca274, type: 3}
   speaker: HABIMANA
   subtitle: There you go. Now you see what I see. Mind the battery. I never do.
   maxPieceLength: 90
   volume: 1
+  pieceStarts:
+  - 0

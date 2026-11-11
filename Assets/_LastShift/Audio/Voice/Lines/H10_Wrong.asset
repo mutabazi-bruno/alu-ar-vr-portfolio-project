@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f15ae488a662a3f4aa78a479edcee49b, type: 3}
   m_Name: H10_Wrong
   m_EditorClassIdentifier: Assembly-CSharp::LastShift.Narration.VoiceLine
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: 69a744400f8de8a45a7ee605964c7c30, type: 3}
   speaker: HABIMANA
   subtitle: No, no. That's how you'd hang them. I said my way.
   maxPieceLength: 90
   volume: 1
+  pieceStarts:
+  - 0

@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f15ae488a662a3f4aa78a479edcee49b, type: 3}
   m_Name: H08_SignIn
   m_EditorClassIdentifier: Assembly-CSharp::LastShift.Narration.VoiceLine
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: 2e00f90bc8864914a9e1e37a520aa41e, type: 3}
   speaker: HABIMANA
   subtitle: You signed in. Two-fourteen. That makes you staff now.
   maxPieceLength: 90
   volume: 1
+  pieceStarts:
+  - 0
