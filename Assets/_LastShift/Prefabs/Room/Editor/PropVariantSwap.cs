@@ -8,7 +8,6 @@ namespace LastShift.EditorTools
 {
     // Swaps the kit stand-ins in Records Room B for Gama's prop variants (Prefabs/Props), keeping each
     // prop's name, place and anything we attached to it (hook numbers, the STORAGE sign).
-    // Only the props listed below; WallSafe and DoorKeypad wait for Brian's keypad screens.
     // Safe to run again: props already using Gama's variant are left alone.
     public static class PropVariantSwap
     {
@@ -18,6 +17,7 @@ namespace LastShift.EditorTools
         static readonly string[] Ready =
         {
             "StaffLocker", "KeyCabinet", "Chest", "Drawers", "VentCover", "Flashlight", "SteelDoor", "WoodenDoor",
+            "WallSafe", "DoorKeypad", // with Brian's keypad screens
         };
 
         [MenuItem("Last Shift/Swap In Prop Variants (Room B)")]
