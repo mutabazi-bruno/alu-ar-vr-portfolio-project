@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f15ae488a662a3f4aa78a479edcee49b, type: 3}
+  m_Name: H01_Opening
+  m_EditorClassIdentifier: Assembly-CSharp::LastShift.Narration.VoiceLine
+  clip: {fileID: 0}
+  speaker: HABIMANA
+  subtitle: Ah. Someone stayed late. I'm sorry about the door. Actually, no, I'm
+    not, I locked it. My name is Joseph Habimana. I've kept this archive for forty-seven
+    years, and tonight you're going to keep it with me. Everything you need is in
+    this room, if you look properly. There's a torch on the workbench. You'll want
+    it.
+  maxPieceLength: 90
+  volume: 1
