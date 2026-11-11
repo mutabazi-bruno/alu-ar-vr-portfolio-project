@@ -67,6 +67,46 @@ namespace LastShift.EditorTools
             Debug.Log($"[WardrobeBuilder] Saved {PrefabPath}");
         }
 
+        // Puts the wardrobe on Room C's WardrobeSpot: back to the wall, on the floor, placeholder removed.
+        // Touches nothing else in the scene.
+        [MenuItem("Last Shift/Place Wardrobe In Room C")]
+        public static void PlaceInRoomC()
+        {
+            var active = SceneManager.GetActiveScene();
+            if (!active.path.EndsWith("RoomC.unity"))
+            {
+                EditorUtility.DisplayDialog("Open Room C", "Open Scenes/RoomC.unity first, then run this again.", "OK");
+                return;
+            }
+            var spot = GameObject.Find("RoomCExtras/PuzzleSpots/WardrobeSpot");
+            var asset = AssetDatabase.LoadAssetAtPath<GameObject>(PrefabPath);
+            if (spot == null || asset == null) { Debug.LogWarning("[WardrobeBuilder] WardrobeSpot or the wardrobe prefab is missing."); return; }
+
+            foreach (Transform child in spot.transform.Cast<Transform>().ToList())
+                Object.DestroyImmediate(child.gameObject); // the blue placeholder (or an older wardrobe)
+
+            var wardrobe = (GameObject)PrefabUtility.InstantiatePrefab(asset, spot.transform);
+            wardrobe.name = "Wardrobe";
+            wardrobe.transform.localPosition = Vector3.zero;
+            wardrobe.transform.localRotation = Quaternion.identity;
+
+            // Back face 1 cm off the wall behind the spot, bottom on the floor.
+            var rs = wardrobe.GetComponentsInChildren<Renderer>();
+            var b = rs[0].bounds; foreach (var r in rs) b.Encapsulate(r.bounds);
+            var back = -spot.transform.forward;
+            float wallDistance = 0f;
+            if (Physics.Raycast(spot.transform.position + Vector3.up, back, out var hit, 2f)) wallDistance = hit.distance;
+            var depthHalf = Mathf.Abs(b.extents.x * back.x) + Mathf.Abs(b.extents.z * back.z);
+            var target = spot.transform.position + back * (wallDistance - depthHalf - 0.01f);
+            target.y = b.extents.y;
+            var centreOnFloor = new Vector3(b.center.x, b.center.y, b.center.z);
+            wardrobe.transform.position += target - centreOnFloor;
+
+            EditorSceneManager.MarkSceneDirty(active);
+            EditorSceneManager.SaveScene(active);
+            Debug.Log($"[WardrobeBuilder] Wardrobe placed on WardrobeSpot (wall {wallDistance:F2} m behind the spot) and Room C saved.");
+        }
+
         static void Render(Scene scene, GameObject wardrobe, Transform door)
         {
             var lightGo = new GameObject("Light");
