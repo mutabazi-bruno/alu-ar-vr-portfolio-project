@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a21ff3e9109a088dec871830116e04ae, type: 3}
+  m_Name: StaffBadge
+  m_EditorClassIdentifier: HeyHeyThere.EscapePuzzleKitFree::HeyHeyThere.EscapePuzzleKitFree.Item
+  id: staff_badge
+  title: Staff ID badge
+  description: Joseph Habimana's staff badge. Night caretaker, staff since 1979.
+  icon: {fileID: 21300000, guid: 869beef486944da6a108694d9f5aa641, type: 3}
+  kind: 4
+  amount: 0
+  text: 
+  keep: 0
+  model: {fileID: 3317614615535723287, guid: 4c12e6acf766c6a40936c71f8de3978d, type: 3}
