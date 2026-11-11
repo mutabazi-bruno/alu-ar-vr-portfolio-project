@@ -27,6 +27,10 @@ namespace LastShift.EditorTools
         const string SafeCode = "9437";
         const string ExitCode = "2207";  // Habimana's last sign-in time, 13 Nov
 
+        // Where Room B's steel door leads.
+        const string NextRoom = "RoomC";
+        const string NextRoomEntrance = "FromRoomB";
+
         // Item ids of the keys. Leave "" until the item exists, then run the menu again.
         const string LockerKey = "";
         const string KeyCabinetKey = "";
@@ -244,7 +248,8 @@ namespace LastShift.EditorTools
             keypad.flag = ExitCodeFlag;
         }
 
-        // The way out: unlocks once the door keypad takes its code, and opening it ends the game.
+        // Room B's way out: unlocks once the door keypad takes its code, and leads on to Room C.
+        // The game ends at Room C's exit door, not here.
         static void SteelDoor(GameObject go)
         {
             var door = go.GetComponentInChildren<Door>(true);
@@ -252,7 +257,9 @@ namespace LastShift.EditorTools
             door.lockState = Door.Lock.Locked;
             door.unlockFlag = ExitCodeFlag;
             door.lockedText = "Locked. The keypad next to it wants a code.";
-            door.endsGame = true;
+            door.endsGame = false;
+            door.leadsTo = NextRoom;
+            door.entrance = NextRoomEntrance;
         }
 
         // The storage door is a dead end and never opens.

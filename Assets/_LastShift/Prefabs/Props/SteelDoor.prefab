@@ -57,8 +57,16 @@ PrefabInstance:
       value: Steel door
       objectReference: {fileID: 0}
     - target: {fileID: 8323425728331460288, guid: c99b2f6b2f6b921e9aeb69ed349ab1d0, type: 3}
+      propertyPath: leadsTo
+      value: RoomC
+      objectReference: {fileID: 0}
+    - target: {fileID: 8323425728331460288, guid: c99b2f6b2f6b921e9aeb69ed349ab1d0, type: 3}
       propertyPath: endsGame
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8323425728331460288, guid: c99b2f6b2f6b921e9aeb69ed349ab1d0, type: 3}
+      propertyPath: entrance
+      value: FromRoomB
       objectReference: {fileID: 0}
     - target: {fileID: 8323425728331460288, guid: c99b2f6b2f6b921e9aeb69ed349ab1d0, type: 3}
       propertyPath: lockState
