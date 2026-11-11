@@ -9,9 +9,6 @@ public class EndCardLoader : MonoBehaviour
 {
     public const string EndCardScene = "EndCard";
 
-    // the room the player escaped from, so Play again goes back to the right one
-    public static string CameFrom { get; private set; } = "";
-
     const float delay = 2f;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -26,7 +23,6 @@ public class EndCardLoader : MonoBehaviour
         if (!Application.CanStreamedLevelBeLoaded(EndCardScene))
             return;
 
-        CameFrom = SceneManager.GetActiveScene().name;
         new GameObject("End card loader").AddComponent<EndCardLoader>();
     }
 
