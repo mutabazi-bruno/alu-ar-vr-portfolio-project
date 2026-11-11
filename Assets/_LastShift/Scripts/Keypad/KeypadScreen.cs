@@ -2,7 +2,7 @@ using HeyHeyThere.EscapePuzzleKitFree;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace LastShift.Keypad
+namespace LastShift.Keypads
 {
     /// <summary>
     /// A small screen and status light for a kit Keypad whose keys are pressed in the world
