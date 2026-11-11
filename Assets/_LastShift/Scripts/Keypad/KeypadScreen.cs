@@ -40,7 +40,25 @@ namespace LastShift.Keypads
         public float pressDepth = 0.004f;
         public float pressSeconds = 0.12f;
 
-        float wrongLeft;
+        [Header("Lockout")]
+        [Tooltip("Wrong codes in a row before the keypad locks")]
+        public int wrongTries = 3;
+        [Tooltip("How long it stays locked, in seconds")]
+        public float lockSeconds = 30f;
+        public AudioClip lockSound;
+        [Tooltip("Said the first time any keypad locks (Habimana's H05)")]
+        public LastShift.Narration.VoiceLine lockLine;
+        [Tooltip("Silence between the buzz ending and the line starting, in seconds")]
+        public float lockLinePause = 0.6f;
+        public string lockText = "[alarm buzz] The keypad locks.";
+
+        /// <summary>Whether keypads lock after too many wrong codes. The settings menu can turn it off.</summary>
+        public static bool LockoutOn = true;
+        const string TauntedFlag = "keypad_lockout_taunted";
+
+        float wrongLeft, lockedLeft;
+        int wrongInARow;
+        bool startEnabled;
         readonly System.Collections.Generic.Dictionary<string, Transform> keys = new System.Collections.Generic.Dictionary<string, Transform>();
         readonly System.Collections.Generic.Dictionary<Transform, Vector3> rest = new System.Collections.Generic.Dictionary<Transform, Vector3>();
         readonly System.Collections.Generic.Dictionary<Transform, float> pressedAt = new System.Collections.Generic.Dictionary<Transform, float>();
@@ -50,8 +68,15 @@ namespace LastShift.Keypads
         {
             if (keypad == null)
                 keypad = GetComponentInParent<HeyHeyThere.EscapePuzzleKitFree.Keypad>();
+            if (keypad != null)
+                startEnabled = keypad.enabled;
             FindKeys();
+            if (wrongSound == null) wrongSound = Tone("Keypad Wrong", new[] { (220f, 0.12f), (0f, 0.06f), (180f, 0.18f) }, 0.35f);
+            if (rightSound == null) rightSound = Tone("Keypad Right", new[] { (660f, 0.08f), (880f, 0.08f), (1320f, 0.16f) }, 0.3f);
+            if (lockSound == null) lockSound = Tone("Keypad Locked", new[] { (110f, 0.9f) }, 0.4f);
         }
+
+        public bool Locked => lockedLeft > 0f;
 
         void OnEnable()
         {
@@ -134,12 +159,48 @@ namespace LastShift.Keypads
             if (why != "code")
                 return;
             wrongLeft = wrongSeconds;
-            Play(wrongSound);
+            wrongInARow++;
+            if (LockoutOn && wrongTries > 0 && wrongInARow >= wrongTries)
+                Lock();
+            else
+                Play(wrongSound);
+        }
+
+        /// <summary>Stops the keys working for a while: the kit can't focus or use a disabled keypad.</summary>
+        void Lock()
+        {
+            wrongInARow = 0;
+            lockedLeft = lockSeconds;
+            keypad.enabled = false;
+            Play(lockSound);
+            if (!string.IsNullOrEmpty(lockText))
+                Run.Say(lockText);
+            if (lockLine != null && !Run.HasFlag(TauntedFlag))
+            {
+                Run.SetFlag(TauntedFlag);
+                StartCoroutine(SayLockLine());
+            }
+        }
+
+        // after the buzz has died away, so the voice doesn't talk over it
+        System.Collections.IEnumerator SayLockLine()
+        {
+            var buzz = lockSound != null ? lockSound.length : 0f;
+            yield return new WaitForSecondsRealtime(buzz + lockLinePause);
+            LastShift.Narration.Intercom.Play(lockLine);
+        }
+
+        void Unlock()
+        {
+            lockedLeft = 0f;
+            if (keypad != null && startEnabled)
+                keypad.enabled = true;
         }
 
         void OnOpened()
         {
             wrongLeft = 0f;
+            wrongInARow = 0;
             Play(rightSound);
             if (!string.IsNullOrEmpty(openLine))
                 Run.Say(openLine);
@@ -152,11 +213,20 @@ namespace LastShift.Keypads
             AnimatePresses();
             if (wrongLeft > 0f)
                 wrongLeft -= Time.deltaTime;
+            if (lockedLeft > 0f)
+            {
+                lockedLeft -= Time.deltaTime;
+                if (lockedLeft <= 0f || !LockoutOn) Unlock();
+            }
+            else if (startEnabled && !keypad.enabled && !keypad.IsOn)
+                keypad.enabled = true;  // a save made mid-lockout loads it switched off
 
             if (keypad.IsOn)
                 Show("OPEN", right);
             else if (!keypad.Powered)
                 Show("", Color.black);
+            else if (lockedLeft > 0f)
+                Show($"LOCKED {Mathf.CeilToInt(lockedLeft) / 60}:{Mathf.CeilToInt(lockedLeft) % 60:00}", wrong);
             else if (wrongLeft > 0f)
                 Show("ERROR", wrong);
             else
@@ -178,6 +248,10 @@ namespace LastShift.Keypads
             {
                 digits.text = text;
                 digits.color = color;
+                // "LOCKED 0:30" is wider than the digits; shrink it to fit
+                digits.resizeTextForBestFit = true;
+                digits.resizeTextMinSize = 16;
+                digits.resizeTextMaxSize = Mathf.Max(digits.resizeTextMaxSize, digits.fontSize);
             }
             if (statusLight != null)
                 statusLight.color = color;
@@ -187,6 +261,27 @@ namespace LastShift.Keypads
         {
             if (clip != null)
                 AudioSource.PlayClipAtPoint(clip, transform.position, 0.8f);
+        }
+
+        /// <summary>A beep made in code from (frequency, seconds) steps, 0 Hz for a gap. No sound files needed.</summary>
+        static AudioClip Tone(string name, (float hz, float seconds)[] steps, float volume)
+        {
+            const int rate = 22050;
+            var data = new System.Collections.Generic.List<float>();
+            foreach (var (hz, seconds) in steps)
+            {
+                int n = (int)(rate * seconds);
+                for (int i = 0; i < n; i++)
+                {
+                    float env = Mathf.Min(1f, i / (rate * 0.005f)) * Mathf.Min(1f, (n - i) / (rate * 0.01f));
+                    float s = hz <= 0f ? 0f : Mathf.Sign(Mathf.Sin(2f * Mathf.PI * hz * i / rate)) * 0.6f
+                                                  + Mathf.Sin(2f * Mathf.PI * hz * 2f * i / rate) * 0.2f;
+                    data.Add(s * env * volume);
+                }
+            }
+            var clip = AudioClip.Create(name, data.Count, 1, rate, false);
+            clip.SetData(data.ToArray(), 0);
+            return clip;
         }
 
         /// <summary>
