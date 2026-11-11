@@ -7,7 +7,8 @@ namespace LastShift.Settings
 {
     /// <summary>
     /// Applies <see cref="GameSettings"/> to every scene: the flashlights' drain (the desktop one and
-    /// the VR torch both use the kit's Flashlight), the master volume and the walker's mouse speed.
+    /// the VR torch both use the kit's Flashlight), the master volume, the walker's mouse speed and
+    /// the Hud's text size. Keypad lockout and subtitles are read by the systems that use them.
     /// It creates itself when the game starts, so no scene needs it placed.
     /// </summary>
     public class SettingsApplier : MonoBehaviour
@@ -15,6 +16,7 @@ namespace LastShift.Settings
         // Each component's value as built, so a setting scales it rather than replacing it.
         readonly Dictionary<Flashlight, float> builtDrain = new Dictionary<Flashlight, float>();
         readonly Dictionary<FirstPersonWalker, float> builtMouse = new Dictionary<FirstPersonWalker, float>();
+        readonly Dictionary<Hud, float> builtTextSize = new Dictionary<Hud, float>();
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void Create()
@@ -51,6 +53,7 @@ namespace LastShift.Settings
         {
             ForgetDestroyed(builtDrain);
             ForgetDestroyed(builtMouse);
+            ForgetDestroyed(builtTextSize);
 
             bool drain = GameSettings.BatteryDrain;
             foreach (var torch in FindObjectsByType<Flashlight>(FindObjectsInactive.Include, FindObjectsSortMode.None))
@@ -70,6 +73,14 @@ namespace LastShift.Settings
                 if (!builtMouse.ContainsKey(walker))
                     builtMouse[walker] = walker.mouse;
                 walker.mouse = builtMouse[walker] * GameSettings.MouseSensitivity;
+            }
+
+            // The kit's Hud sizes all its text (prompts, notes, subtitles) from textSize.
+            foreach (var hud in FindObjectsByType<Hud>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            {
+                if (!builtTextSize.ContainsKey(hud))
+                    builtTextSize[hud] = hud.textSize;
+                hud.textSize = builtTextSize[hud] * GameSettings.TextSize;
             }
         }
 
