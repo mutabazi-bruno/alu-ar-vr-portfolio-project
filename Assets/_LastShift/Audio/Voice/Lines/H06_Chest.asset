@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f15ae488a662a3f4aa78a479edcee49b, type: 3}
   m_Name: H06_Chest
   m_EditorClassIdentifier: Assembly-CSharp::LastShift.Narration.VoiceLine
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: 83543fb889363624cb3f49fd6b9b903d, type: 3}
   speaker: HABIMANA
   subtitle: Hook six. I never could remember it either. One more and you're out.
     Or so you'd think.
   maxPieceLength: 90
   volume: 1
+  pieceStarts:
+  - 0

@@ -68,27 +68,54 @@ namespace LastShift.Narration
                 var line = queue.Dequeue();
                 Started?.Invoke(line);
 
-                if (captionCrackle) Run.Say("[intercom crackles]");
-                var start = AudioSettings.dspTime + 0.05;
-                PlayEverywhere(crackle, start, crackleVolume);
-                yield return WaitRealtime(crackle != null ? crackle.length : 0.3f);
+                // the recording has to be in memory first, or it starts late and the subtitles run ahead
+                if (line.clip != null && line.clip.loadState != AudioDataLoadState.Loaded)
+                {
+                    line.clip.LoadAudioData();
+                    while (line.clip.loadState == AudioDataLoadState.Loading || line.clip.loadState == AudioDataLoadState.Unloaded)
+                        yield return null;
+                }
 
-                start = AudioSettings.dspTime + 0.05;
+                if (captionCrackle) Run.Say("[intercom crackles]");
+                var crackleStart = AudioSettings.dspTime + 0.05;
+                PlayEverywhere(crackle, crackleStart, crackleVolume);
+                var crackleEnd = crackleStart + (crackle != null ? crackle.length : 0.3f);
+
+                // everything below follows the audio clock, so the words and subtitles stay together
+                var start = crackleEnd + 0.05;
                 PlayEverywhere(line.clip, start, line.volume);
-                float t = 0f;
+                shown = "";
                 foreach (var (at, text) in line.Timed())
                 {
-                    if (at > t) yield return WaitRealtime(at - t);
-                    t = at;
-                    Run.Say(text, line.speaker);
+                    while (AudioSettings.dspTime < start + at) { KeepShown(line.speaker); yield return null; }
+                    Say(text, line.speaker);
                 }
-                var end = line.Duration;
-                if (end > t) yield return WaitRealtime(end - t);
+                while (AudioSettings.dspTime < start + line.Duration) { KeepShown(line.speaker); yield return null; }
+                shown = "";
 
                 Finished?.Invoke(line);
                 if (queue.Count > 0) yield return WaitRealtime(gap);
             }
             busy = false;
+        }
+
+        // The HUDs drop a subtitle after a couple of seconds; a piece of narration has to stay up
+        // until the next piece replaces it, so it's said again just before it would fade.
+        string shown = "";
+        float shownAt;
+        const float Refresh = 1.2f;
+
+        void Say(string text, string speaker)
+        {
+            shown = text;
+            shownAt = Time.realtimeSinceStartup;
+            Run.Say(text, speaker);
+        }
+
+        void KeepShown(string speaker)
+        {
+            if (shown != "" && Time.realtimeSinceStartup - shownAt > Refresh)
+                Say(shown, speaker);
         }
 
         // the kit pauses with timeScale, but a voice already playing should keep its subtitles in step

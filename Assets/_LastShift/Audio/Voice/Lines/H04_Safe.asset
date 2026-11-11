@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f15ae488a662a3f4aa78a479edcee49b, type: 3}
   m_Name: H04_Safe
   m_EditorClassIdentifier: Assembly-CSharp::LastShift.Narration.VoiceLine
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: 54682a6bca93c604f9bc011ae89ac044, type: 3}
   speaker: HABIMANA
   subtitle: Good. You read the boxes, not just the numbers. Most people don't.
   maxPieceLength: 90
   volume: 1
+  pieceStarts:
+  - 0

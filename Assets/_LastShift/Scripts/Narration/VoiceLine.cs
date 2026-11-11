@@ -18,6 +18,9 @@ namespace LastShift.Narration
         [Tooltip("Longest piece of subtitle shown at once, in characters")]
         public int maxPieceLength = 90;
         [Range(0f, 2f)] public float volume = 1f;
+        [Tooltip("When each subtitle piece starts in the clip, in seconds, matched to the pauses in the " +
+                 "recording. Left empty, the pieces are spread over the clip by their length")]
+        public float[] pieceStarts = new float[0];
 
         const float SecondsPerChar = 0.065f, MinPieceSeconds = 1.6f;
 
@@ -46,6 +49,13 @@ namespace LastShift.Narration
             {
                 float t = 0f;
                 foreach (var p in pieces) { timed.Add((t, p)); t += ReadingTime(p); }
+                return timed;
+            }
+
+            // timed to the recording's pauses, when they've been measured
+            if (pieceStarts != null && pieceStarts.Length == pieces.Count)
+            {
+                for (int i = 0; i < pieces.Count; i++) timed.Add((pieceStarts[i], pieces[i]));
                 return timed;
             }
 

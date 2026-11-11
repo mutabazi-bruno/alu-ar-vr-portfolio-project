@@ -12,10 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f15ae488a662a3f4aa78a479edcee49b, type: 3}
   m_Name: H07_RoomC
   m_EditorClassIdentifier: Assembly-CSharp::LastShift.Narration.VoiceLine
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: 9592253785da7a943833afdbc45983d8, type: 3}
   speaker: HABIMANA
   subtitle: Ha. You thought that was it, didn't you? You opened my door, well done.
     But that only shows you can follow my notes. Now you learn how I keep my room.
     Nobody leaves my archive before they know that.
   maxPieceLength: 90
   volume: 1
+  pieceStarts:
+  - 0.049999997
+  - 6.7
+  - 13.559999

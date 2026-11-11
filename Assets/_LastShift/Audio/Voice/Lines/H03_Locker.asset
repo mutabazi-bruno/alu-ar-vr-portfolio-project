@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f15ae488a662a3f4aa78a479edcee49b, type: 3}
   m_Name: H03_Locker
   m_EditorClassIdentifier: Assembly-CSharp::LastShift.Narration.VoiceLine
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: b8bddb5bf8cc60947b6c2c5072c28cae, type: 3}
   speaker: HABIMANA
   subtitle: My locker. Forty-seven years and that's all I kept. Read the note. Slowly.
   maxPieceLength: 90
   volume: 1
+  pieceStarts:
+  - 0

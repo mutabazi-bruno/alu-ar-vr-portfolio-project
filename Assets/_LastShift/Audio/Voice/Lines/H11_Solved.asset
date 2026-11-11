@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f15ae488a662a3f4aa78a479edcee49b, type: 3}
   m_Name: H11_Solved
   m_EditorClassIdentifier: Assembly-CSharp::LastShift.Narration.VoiceLine
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: c210b706739dea74d99f5696dc49d0e0, type: 3}
   speaker: HABIMANA
   subtitle: There. Just like every morning. One last thing. A caretaker never leaves
     without his cap.
   maxPieceLength: 90
   volume: 1
+  pieceStarts:
+  - 0
