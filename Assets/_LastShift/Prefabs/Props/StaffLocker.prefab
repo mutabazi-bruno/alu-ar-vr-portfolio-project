@@ -1,5 +1,65 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2274280303638096215
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4402868634692889266}
+  - component: {fileID: 4797886042986796155}
+  m_Layer: 0
+  m_Name: StoryBeat
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4402868634692889266
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2274280303638096215}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6209189726740067098}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4797886042986796155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2274280303638096215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ca3ff81c7afe44205356e89f9dbeeb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HeyHeyThere.EscapePuzzleKitFree::HeyHeyThere.EscapePuzzleKitFree.StoryBeat
+  when: 0
+  once: 1
+  needsFlag: 
+  setsFlag: 
+  subtitle: My locker. Forty-seven years and that's all I kept. Read the note. Slowly.
+  speaker: HABIMANA
+  objective: Solve the caretaker's riddle. Check the archive boxes.
+  sound: {fileID: 0}
+  lightsOff: []
+  wakes: []
+  damage: 0
+  hintKey: 
+  hint: 
+  onFired:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &5556013097539081753
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -78,11 +138,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1959511488064693507, guid: 9869a13f3ee1ad6476d88041ae3828c9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4402868634692889266}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3272652971995977488, guid: 9869a13f3ee1ad6476d88041ae3828c9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7855792546800050338}
+    - targetCorrespondingSourceObject: {fileID: 3272652971995977488, guid: 9869a13f3ee1ad6476d88041ae3828c9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4462600909846049967}
   m_SourcePrefab: {fileID: 100100000, guid: 9869a13f3ee1ad6476d88041ae3828c9, type: 3}
 --- !u!114 &1259945972327828641 stripped
 MonoBehaviour:
@@ -98,6 +164,11 @@ MonoBehaviour:
 --- !u!4 &4286546860220406940 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8531563517423962757, guid: 9869a13f3ee1ad6476d88041ae3828c9, type: 3}
+  m_PrefabInstance: {fileID: 5556013097539081753}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6209189726740067098 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1959511488064693507, guid: 9869a13f3ee1ad6476d88041ae3828c9, type: 3}
   m_PrefabInstance: {fileID: 5556013097539081753}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &6949090441451946249 stripped
@@ -167,7 +238,25 @@ MonoBehaviour:
   onRefused:
     m_PersistentCalls:
       m_Calls: []
-  item: {fileID: 0}
+  item: {fileID: 11400000, guid: 12a822585f28cbd4eb23028a825a5d11, type: 2}
   keepItem: 0
   missingText: It's locked.
   fitted: []
+--- !u!114 &4462600909846049967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6949090441451946249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0201268bd94ec43b3f80178e0d46eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LastShift.Props.Contents
+  container: {fileID: 1259945972327828641}
+  items:
+  - {fileID: 11400000, guid: 83ebad5b18ff4f27bf4db99e2edafc8f, type: 2}
+  - {fileID: 11400000, guid: 9c5820e293244290bef73381dfdf58ad, type: 2}
+  searchedFlag: staff_locker_searched
+  beat: {fileID: 4797886042986796155}

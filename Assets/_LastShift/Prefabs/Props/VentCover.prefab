@@ -1,5 +1,65 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5303473800629682010
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 414070199775696209}
+  - component: {fileID: 2694255510892819781}
+  m_Layer: 0
+  m_Name: StoryBeat
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &414070199775696209
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5303473800629682010}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4414611070251352591}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2694255510892819781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5303473800629682010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ca3ff81c7afe44205356e89f9dbeeb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HeyHeyThere.EscapePuzzleKitFree::HeyHeyThere.EscapePuzzleKitFree.StoryBeat
+  when: 0
+  once: 1
+  needsFlag: 
+  setsFlag: 
+  subtitle: 
+  speaker: 
+  objective: Open the caretaker's locker.
+  sound: {fileID: 0}
+  lightsOff: []
+  wakes: []
+  damage: 0
+  hintKey: 
+  hint: 
+  onFired:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &5344344248784627306
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58,6 +118,50 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8604467557361214565, guid: 8d8c8b7ea6c388db880e44e34c3d769b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 414070199775696209}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4697936655132497526, guid: 8d8c8b7ea6c388db880e44e34c3d769b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4500285148548100217}
   m_SourcePrefab: {fileID: 100100000, guid: 8d8c8b7ea6c388db880e44e34c3d769b, type: 3}
+--- !u!1 &799530462027460636 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4697936655132497526, guid: 8d8c8b7ea6c388db880e44e34c3d769b, type: 3}
+  m_PrefabInstance: {fileID: 5344344248784627306}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4500285148548100217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 799530462027460636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0201268bd94ec43b3f80178e0d46eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LastShift.Props.Contents
+  container: {fileID: 1012584388118099320}
+  items:
+  - {fileID: 11400000, guid: 2ff286579c37f4a577edf571111db668, type: 2}
+  searchedFlag: vent_searched
+  beat: {fileID: 2694255510892819781}
+--- !u!114 &1012584388118099320 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4911035642069586706, guid: 8d8c8b7ea6c388db880e44e34c3d769b, type: 3}
+  m_PrefabInstance: {fileID: 5344344248784627306}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 799530462027460636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e3798713fa7fd394c0fc6338c365475, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HeyHeyThere.EscapePuzzleKitFree::HeyHeyThere.EscapePuzzleKitFree.Door
+--- !u!4 &4414611070251352591 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8604467557361214565, guid: 8d8c8b7ea6c388db880e44e34c3d769b, type: 3}
+  m_PrefabInstance: {fileID: 5344344248784627306}
+  m_PrefabAsset: {fileID: 0}

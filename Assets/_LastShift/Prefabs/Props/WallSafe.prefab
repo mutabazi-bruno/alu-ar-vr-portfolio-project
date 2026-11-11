@@ -1,5 +1,65 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4853469057843776976
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4958135334133565441}
+  - component: {fileID: 4572676247960452257}
+  m_Layer: 0
+  m_Name: StoryBeat
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4958135334133565441
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4853469057843776976}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6327844564632750953}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4572676247960452257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4853469057843776976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ca3ff81c7afe44205356e89f9dbeeb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HeyHeyThere.EscapePuzzleKitFree::HeyHeyThere.EscapePuzzleKitFree.StoryBeat
+  when: 0
+  once: 1
+  needsFlag: 
+  setsFlag: 
+  subtitle: Good. You read the boxes, not just the numbers. Most people don't.
+  speaker: HABIMANA
+  objective: Open the key cabinet.
+  sound: {fileID: 0}
+  lightsOff: []
+  wakes: []
+  damage: 0
+  hintKey: 
+  hint: 
+  onFired:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &1951979775234142839
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -94,18 +154,57 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5532626347593152798, guid: b45b6e04eb574a994dd9eea8d6ae33d2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2709739900088712033}
-    m_AddedComponents: []
+    - targetCorrespondingSourceObject: {fileID: 5532626347593152798, guid: b45b6e04eb574a994dd9eea8d6ae33d2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4958135334133565441}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2716319121802710515, guid: b45b6e04eb574a994dd9eea8d6ae33d2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7039853204143211621}
   m_SourcePrefab: {fileID: 100100000, guid: b45b6e04eb574a994dd9eea8d6ae33d2, type: 3}
 --- !u!4 &2859968809465815766 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4370309379497119905, guid: b45b6e04eb574a994dd9eea8d6ae33d2, type: 3}
   m_PrefabInstance: {fileID: 1951979775234142839}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4513907110931939204 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2716319121802710515, guid: b45b6e04eb574a994dd9eea8d6ae33d2, type: 3}
+  m_PrefabInstance: {fileID: 1951979775234142839}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7039853204143211621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4513907110931939204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0201268bd94ec43b3f80178e0d46eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LastShift.Props.Contents
+  container: {fileID: 9206633544297807660}
+  items:
+  - {fileID: 11400000, guid: a7f919ed8a8f4f3ea52908ab652c60f1, type: 2}
+  searchedFlag: wall_safe_searched
+  beat: {fileID: 4572676247960452257}
 --- !u!4 &6327844564632750953 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5532626347593152798, guid: b45b6e04eb574a994dd9eea8d6ae33d2, type: 3}
   m_PrefabInstance: {fileID: 1951979775234142839}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &9206633544297807660 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7264969399721987419, guid: b45b6e04eb574a994dd9eea8d6ae33d2, type: 3}
+  m_PrefabInstance: {fileID: 1951979775234142839}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4513907110931939204}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c10e28563aa4102e1e94fa9a7dcac73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HeyHeyThere.EscapePuzzleKitFree::HeyHeyThere.EscapePuzzleKitFree.Stash
 --- !u!1001 &4528543838669133823
 PrefabInstance:
   m_ObjectHideFlags: 0
