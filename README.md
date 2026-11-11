@@ -2,7 +2,7 @@
 
 A short VR escape room made in Unity for our AR/VR portfolio project at ALU.
 
-You stayed late to return a box of old records and the door locked behind you. Now you're stuck overnight in Records Room B of an old campus archive, and the only way out is to follow the notes left by the night caretaker, Joseph Habimana. One room, eight puzzles, about 10 minutes to play, and no timer.
+You stayed late to return a box of old records and the door locked behind you. Now you're stuck overnight in Records Room B of an old campus archive, and the only way out is to follow the notes left by the night caretaker, Joseph Habimana. Getting out of Room B is only half of it: the door opens onto Room C, which looks the same but isn't quite right. Two rooms, and no timer.
 
 It runs in the browser on a desktop, and in a VR headset through WebXR.
 
@@ -78,7 +78,7 @@ Assets/
 - Don't edit anything inside `EscapePuzzleKitFree/`. If you need to change a kit prefab, make a prefab variant and save it in `_LastShift/Prefabs/`.
 - Everyone uses the same kit version (1.1.0). Our prefabs point at the kit's files by their IDs, so a different version can break them.
 - Work on your own branch and open a pull request into `main`. Keep `main` in a state that opens and plays.
-- Only one person edits a scene at a time. Unity scene files don't merge well, so say in the group chat before you change `RecordsRoomB.unity`.
+- Only one person edits a scene at a time. Unity scene files don't merge well, so say in the group chat before you change `RecordsRoomB.unity` or `RoomC.unity`.
 
 ## End card
 
