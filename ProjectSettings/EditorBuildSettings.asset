@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/_LastShift/Scenes/RecordsRoomB.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
+    path: Assets/_LastShift/Scenes/RoomC.unity
+    guid: d874af2bf05884e4aaf0f0dd7f776f28
+  - enabled: 1
     path: Assets/_LastShift/Scenes/EndCard.unity
     guid: 3f089c4ff4f53684bb73fb2f3a85a586
   m_configObjects:
