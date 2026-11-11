@@ -5472,7 +5472,7 @@ MonoBehaviour:
   panelColor: {r: 0.06, g: 0.07, b: 0.08, a: 0.92}
   textSize: 0.029411765
   pauseMenu: 1
-  showBars: 1
+  showBars: 0
   openSound: {fileID: 0}
   closeSound: {fileID: 0}
 --- !u!114 &1652072124
