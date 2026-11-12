@@ -8,7 +8,8 @@ public class ClothesPuzzle : MonoBehaviour
 {
     public ClothesHook[] hooks;
 
-    public bool needsCap = true;
+    [Tooltip("Off in Room C: the cap is its own step there, the exit waits for clothes_solved and cap_worn")]
+    public bool needsCap = false;
     public string capFlag = "cap_worn";
     public string solvedFlag = "clothes_solved";
 
