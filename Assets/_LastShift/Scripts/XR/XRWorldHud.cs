@@ -69,6 +69,7 @@ namespace LastShift.XR
             SetAlpha(hintGroup, 0f);
             if (prompt != null)
                 prompt.gameObject.SetActive(false);
+            HideKitHud(true);
         }
 
         void OnDisable()
@@ -76,6 +77,27 @@ namespace LastShift.XR
             Run.Said -= OnSaid;
             Run.ObjectiveChanged -= OnObjective;
             Run.Hinted -= OnHint;
+            HideKitHud(false);
+        }
+
+        // The kit's HUD is drawn flat on the monitor. In VR this HUD shows the same things in the
+        // world, so the kit's is switched off while the rig is in use (it would only clutter the
+        // monitor mirror and recordings) and back on when the desktop player returns.
+        readonly System.Collections.Generic.List<Hud> hiddenHuds = new System.Collections.Generic.List<Hud>();
+
+        void HideKitHud(bool hide)
+        {
+            if (hide)
+            {
+                foreach (var hud in FindObjectsByType<Hud>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
+                    if (hud.enabled) { hud.enabled = false; hiddenHuds.Add(hud); }
+            }
+            else
+            {
+                foreach (var hud in hiddenHuds)
+                    if (hud != null) hud.enabled = true;
+                hiddenHuds.Clear();
+            }
         }
 
         void OnSaid(string text, string speaker)

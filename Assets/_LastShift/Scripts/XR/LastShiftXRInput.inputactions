@@ -163,6 +163,15 @@
                                          "processors":  "",
                                          "interactions":  "",
                                          "initialStateCheck":  false
+                                     },
+                                     {
+                                         "name":  "Menu",
+                                         "type":  "Button",
+                                         "id":  "c4e1a7f2-5b3d-4e8a-9f61-2d7b8c0e4a13",
+                                         "expectedControlType":  "Button",
+                                         "processors":  "",
+                                         "interactions":  "",
+                                         "initialStateCheck":  false
                                      }
                                  ],
                      "bindings":  [
@@ -284,6 +293,39 @@
                                           "processors":  "",
                                           "groups":  "",
                                           "action":  "Torch",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      },
+                                      {
+                                          "name":  "",
+                                          "id":  "d2f8b9a1-6c4e-4f7a-8b35-3e9c1d0f5b24",
+                                          "path":  "<XRController>{LeftHand}/{SecondaryButton}",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "Menu",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      },
+                                      {
+                                          "name":  "",
+                                          "id":  "e3a9c0b2-7d5f-4a8b-9c46-4f0d2e1a6c35",
+                                          "path":  "<XRController>{RightHand}/{SecondaryButton}",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "Menu",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      },
+                                      {
+                                          "name":  "",
+                                          "id":  "f4b0d1c3-8e6a-4b9c-8d57-5a1e3f2b7d46",
+                                          "path":  "<XRController>{LeftHand}/{MenuButton}",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "Menu",
                                           "isComposite":  false,
                                           "isPartOfComposite":  false
                                       }
