@@ -40,7 +40,8 @@ namespace LastShift.EditorTools
         // Habimana's lines and the objective after each, from the story and script v2 running order.
         // The subtitle text is exactly the recorded line; the intercom adds the voice later.
         const string Speaker = "HABIMANA";
-        const string H03 = "My locker. Forty-seven years and that's all I kept. Read the note. Slowly.";
+        const string H02 = "There you go. Now you see what I see. Mind the battery. I never do.";
+        const string H03 ="My locker. Forty-seven years and that's all I kept. Read the note. Slowly.";
         const string H04 = "Good. You read the boxes, not just the numbers. Most people don't.";
         const string H06 = "Hook six. I never could remember it either. One more and you're out. Or so you'd think.";
 
@@ -61,7 +62,7 @@ namespace LastShift.EditorTools
         const string ChestSearched = "chest_searched";
 
         [MenuItem("Last Shift/Build Prop Variants")]
-        static void Build()
+        public static void Build()
         {
             if (!AssetDatabase.IsValidFolder(KitFolder))
             {
@@ -106,7 +107,15 @@ namespace LastShift.EditorTools
             });
             Variant("Drawers", "cabinet_drawers", go =>
                 Fill(TopDrawer(go), DrawerSearched, new[] { "note_1", "key_brass" }, Beat(go, "Find where the air comes in.")));
-            Variant("Flashlight", "flashlight", _ => { });
+            Variant("Flashlight", "flashlight", go =>
+            {
+                // Picking up the torch: H02, the next objective, and the hint for its key.
+                // The VR HUD shows the hint's key as X or A.
+                var beat = Beat(go, "Search the room.", H02);
+                beat.hintKey = "F";
+                beat.hint = "TORCH";
+                go.GetComponentInChildren<Pickup>(true).beat = beat;
+            });
 
             AssetDatabase.SaveAssets();
             Debug.Log($"[PropVariantBuilder] Prop variants built in {VariantFolder}.");
