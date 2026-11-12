@@ -122,6 +122,12 @@ namespace LastShift.EditorTools
             Variant("ExitDoor", "door_steel", ExitDoor);
 
             // Room B: the one archive box without a proper label, with his hint for the safe.
+            // Habimana's clothes: Bruno's coat, shirt and trousers (his scripts untouched) wearing the
+            // After Dark garments instead of their placeholder boxes. The scarf and cap have no match there.
+            Variant("HabimanaCoat", $"{ClothesFolder}/Coat.prefab", go => Dress(go, "shirt-0002"));
+            Variant("HabimanaShirt", $"{ClothesFolder}/Shirt.prefab", go => Dress(go, "shirt-0003"));
+            Variant("HabimanaTrousers", $"{ClothesFolder}/Trousers.prefab", go => Dress(go, "pants-0002"));
+
             Variant("OddBox", "cardboard_box", go =>
             {
                 var look = go.GetComponent<Inspectable>();
@@ -545,6 +551,62 @@ namespace LastShift.EditorTools
                 else
                     UnityEngine.Object.DestroyImmediate(root);
             }
+        }
+
+        // ---------------------------------------------------------------- Habimana's clothes
+
+        const string ClothesFolder = "Assets/_LastShift/Prefabs/Clothes";
+        // Asset Store pack, imported by each of us (like the kit), never committed.
+        const string GarmentFolder = "Assets/Genies/AfterDark";
+
+        // Hides the placeholder box and puts the garment where it was, sized to it. The root keeps
+        // Bruno's collider, grab and hanging scripts, so the piece behaves exactly as before.
+        static void Dress(GameObject go, string garment)
+        {
+            var model = AssetDatabase.LoadAssetAtPath<GameObject>($"{GarmentFolder}/{garment}-afterDark/{garment}-afterDark_model.prefab");
+            if (model == null)
+            {
+                Debug.LogWarning($"[PropVariantBuilder] {garment} not found: import the After Dark clothing pack first.");
+                return;
+            }
+            var box = go.transform.Find("Model");
+            var look = go.transform.Find("Look");
+            if (look == null)
+            {
+                look = ((GameObject)PrefabUtility.InstantiatePrefab(model, go.transform)).transform;
+                look.name = "Look";
+            }
+            // the garment's own colliders would catch the look and the hooks instead of Bruno's box
+            foreach (var c in look.GetComponentsInChildren<Collider>(true))
+                UnityEngine.Object.DestroyImmediate(c);
+            if (box == null)
+                return;
+
+            var placeholder = box.GetComponent<Renderer>();
+            var target = placeholder.bounds;
+            placeholder.enabled = false;
+            var fallback = go.GetComponent<LookFallback>();
+            if (fallback == null)
+                fallback = go.AddComponent<LookFallback>();
+            fallback.look = look;
+            fallback.placeholder = placeholder;
+
+            look.localPosition = Vector3.zero;
+            look.localRotation = Quaternion.identity;
+            look.localScale = Vector3.one;
+            var size = RendererBounds(look.gameObject).size;
+            // as tall as the placeholder, but sleeves held out no wider than a hanger and a half
+            float scale = Mathf.Min(target.size.y / size.y, target.size.x * 1.5f / size.x);
+            look.localScale = Vector3.one * scale;
+            look.position += target.center - RendererBounds(look.gameObject).center;
+        }
+
+        static Bounds RendererBounds(GameObject go)
+        {
+            var rs = go.GetComponentsInChildren<Renderer>(true);
+            var b = rs[0].bounds;
+            foreach (var r in rs) b.Encapsulate(r.bounds);
+            return b;
         }
 
         // A kit drawer's box fills the whole drawer, so the look would land on the drawer and never on
