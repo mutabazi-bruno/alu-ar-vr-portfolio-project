@@ -236,6 +236,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 32502f9eb4fe4e0baaa8d5e44ce08633, type: 2}
   searchedFlag: key_cabinet_searched
   beat: {fileID: 288477379010923183}
+  message: 
 --- !u!4 &2752342007685324476 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2896049564725906994, guid: d4d7886f08d86c9403ae5c08b52ab3a3, type: 3}

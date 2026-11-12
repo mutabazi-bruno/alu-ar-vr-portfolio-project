@@ -262,6 +262,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: dcd3a4f5be49422792462cdbe590638a, type: 2}
   searchedFlag: chest_searched
   beat: {fileID: 4909023402831881454}
+  message: 
 --- !u!4 &9209156146703388060 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3814391986377041717, guid: e0183536077db2ba709f48a74694fdb4, type: 3}

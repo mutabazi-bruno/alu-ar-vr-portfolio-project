@@ -149,6 +149,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2ff286579c37f4a577edf571111db668, type: 2}
   searchedFlag: vent_searched
   beat: {fileID: 2694255510892819781}
+  message: 
 --- !u!114 &1012584388118099320 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4911035642069586706, guid: 8d8c8b7ea6c388db880e44e34c3d769b, type: 3}
