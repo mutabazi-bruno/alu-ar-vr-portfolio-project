@@ -48,6 +48,11 @@ namespace LastShift.XR
 
         void Awake()
         {
+            accent = LastShift.Menus.Theme.Accent;
+            // the panels behind the text take the game's panel colour
+            foreach (var img in GetComponentsInChildren<Image>(true))
+                if (img.color.r < 0.2f && img.color.g < 0.2f && img.color.b < 0.2f)
+                    img.color = new Color(LastShift.Menus.Theme.Panel.r, LastShift.Menus.Theme.Panel.g, LastShift.Menus.Theme.Panel.b, img.color.a);
             texts = new[] { promptText, objectiveText, lineText, hintText };
             baseSizes = new int[texts.Length];
             for (var i = 0; i < texts.Length; i++)
@@ -158,6 +163,8 @@ namespace LastShift.XR
 
         void ApplyTextScale()
         {
+            // the player's text size setting, shared with the desktop HUD
+            textScale = Mathf.Clamp(LastShift.Settings.GameSettings.TextSize, 0.75f, 2f);
             if (Mathf.Approximately(appliedScale, textScale))
                 return;
             appliedScale = textScale;

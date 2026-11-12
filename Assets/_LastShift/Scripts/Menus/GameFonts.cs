@@ -1,22 +1,35 @@
+using HeyHeyThere.EscapePuzzleKitFree;
 using UnityEngine;
 
 namespace LastShift.Menus
 {
     /// <summary>
-    /// Gives the kit's own screens (pause menu, inventory, subtitles on a monitor, the settings
-    /// panel) the game's body font. They're drawn with Unity's built-in skin, whose font is set
-    /// here once; everything that copies the skin's styles then uses it.
+    /// Gives the kit's own screens (prompts, subtitles on a monitor, inventory, pause menu, code
+    /// pad and the settings panel drawn in the same style) the game's look instead of the kit's:
+    /// the body font, and the <see cref="Theme"/>'s colours. They're drawn with Unity's built-in
+    /// skin, whose font is set here once, and coloured from the Hud's accent and panel colour.
     /// </summary>
     public class GameFonts : MonoBehaviour
     {
         public Font body;
-        static bool set;
+        static bool fontSet;
+
+        void Start() => Recolour();
+
+        void Recolour()
+        {
+            foreach (var hud in FindObjectsByType<Hud>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            {
+                hud.accent = Theme.Accent;
+                hud.panelColor = Theme.Panel;
+            }
+        }
 
         void OnGUI()
         {
-            if (set || body == null) return;
+            if (fontSet || body == null) return;
             GUI.skin.font = body;
-            set = true;
+            fontSet = true;
         }
     }
 }

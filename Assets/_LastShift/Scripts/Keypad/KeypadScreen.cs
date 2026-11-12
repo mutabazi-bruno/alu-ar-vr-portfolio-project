@@ -55,10 +55,9 @@ namespace LastShift.Keypads
         /// <summary>Whether keypads lock after too many wrong codes. The settings menu can turn it off.</summary>
         public static bool LockoutOn
         {
-            get => PlayerPrefs.GetInt(LockoutKey, 1) == 1;
-            set { PlayerPrefs.SetInt(LockoutKey, value ? 1 : 0); PlayerPrefs.Save(); }
+            get => LastShift.Settings.GameSettings.KeypadLockout;
+            set => LastShift.Settings.GameSettings.KeypadLockout = value;
         }
-        const string LockoutKey = "LastShift.KeypadLockout";
         const string TauntedFlag = "keypad_lockout_taunted";
 
         float wrongLeft, lockedLeft;
