@@ -25,7 +25,9 @@ namespace LastShift.Menus
         public Toggle keypadLockout;
         public Slider volume;
         public Slider mouseSpeed;
-        public Text volumeValue, mouseValue;
+        public Toggle subtitles;
+        public Slider textSize;
+        public Text volumeValue, mouseValue, textSizeValue;
 
         public AudioClip click;
 
@@ -76,7 +78,14 @@ namespace LastShift.Menus
         void ReadSettings()
         {
             if (batteryDrain != null) batteryDrain.SetIsOnWithoutNotify(GameSettings.BatteryDrain);
-            if (keypadLockout != null) keypadLockout.SetIsOnWithoutNotify(Keypads.KeypadScreen.LockoutOn);
+            if (keypadLockout != null) keypadLockout.SetIsOnWithoutNotify(GameSettings.KeypadLockout);
+            if (subtitles != null) subtitles.SetIsOnWithoutNotify(GameSettings.Subtitles);
+            if (textSize != null)
+            {
+                textSize.minValue = GameSettings.MinTextSize;
+                textSize.maxValue = GameSettings.MaxTextSize;
+                textSize.SetValueWithoutNotify(GameSettings.TextSize);
+            }
             if (volume != null) volume.SetValueWithoutNotify(GameSettings.Volume);
             if (mouseSpeed != null)
             {
@@ -91,10 +100,13 @@ namespace LastShift.Menus
         {
             if (volumeValue != null) volumeValue.text = Mathf.RoundToInt(GameSettings.Volume * 100f) + "%";
             if (mouseValue != null) mouseValue.text = GameSettings.MouseSensitivity.ToString("0.0") + "x";
+            if (textSizeValue != null) textSizeValue.text = Mathf.RoundToInt(GameSettings.TextSize * 100f) + "%";
         }
 
         public void SetBatteryDrain(bool on) { GameSettings.BatteryDrain = on; Click(); }
-        public void SetKeypadLockout(bool on) { Keypads.KeypadScreen.LockoutOn = on; Click(); }
+        public void SetKeypadLockout(bool on) { GameSettings.KeypadLockout = on; Click(); }
+        public void SetSubtitles(bool on) { GameSettings.Subtitles = on; Click(); }
+        public void SetTextSize(float v) { GameSettings.TextSize = v; Labels(); }
         public void SetVolume(float v) { GameSettings.Volume = v; AudioListener.volume = v; Labels(); }
         public void SetMouseSpeed(float v) { GameSettings.MouseSensitivity = v; Labels(); }
 
@@ -102,7 +114,6 @@ namespace LastShift.Menus
         {
             Click();
             GameSettings.ResetToDefaults();
-            Keypads.KeypadScreen.LockoutOn = true;
             ReadSettings();
         }
 

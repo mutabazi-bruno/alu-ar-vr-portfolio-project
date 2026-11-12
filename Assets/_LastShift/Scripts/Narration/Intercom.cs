@@ -37,7 +37,7 @@ namespace LastShift.Narration
         {
             if (line == null) return;
             if (Current != null) Current.Enqueue(line);
-            else foreach (var (_, text) in line.Timed()) Run.Say(text, line.speaker);
+            else if (SubtitlesOn) foreach (var (_, text) in line.Timed()) Run.Say(text, line.speaker);
         }
 
         void Awake()
@@ -76,7 +76,7 @@ namespace LastShift.Narration
                         yield return null;
                 }
 
-                if (captionCrackle) Run.Say("[intercom crackles]");
+                if (captionCrackle && SubtitlesOn) Run.Say("[intercom crackles]");
                 var crackleStart = AudioSettings.dspTime + 0.05;
                 PlayEverywhere(crackle, crackleStart, crackleVolume);
                 var crackleEnd = crackleStart + (crackle != null ? crackle.length : 0.3f);
@@ -105,8 +105,12 @@ namespace LastShift.Narration
         float shownAt;
         const float Refresh = 1.2f;
 
+        // the player's subtitles setting (Settings menu); voice lines still play with it off
+        static bool SubtitlesOn => LastShift.Settings.GameSettings.Subtitles;
+
         void Say(string text, string speaker)
         {
+            if (!SubtitlesOn) { shown = ""; return; }
             shown = text;
             shownAt = Time.realtimeSinceStartup;
             Run.Say(text, speaker);
