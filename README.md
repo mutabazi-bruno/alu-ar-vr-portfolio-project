@@ -51,7 +51,7 @@ VR controls will be added here once the XR rig is in.
 3. Download **Escape Puzzle Kit Free 1.1.0** by heyheythere from itch.io (https://heyheythere.itch.io). It isn't in this repo because its licence doesn't allow sharing its files.
 4. Open the project in Unity Hub (Add > Add project from disk). If Unity offers to enter Safe Mode because the kit is missing, choose Ignore.
 5. Import the kit: Assets > Import Package > Custom Package, pick `escape-puzzle-kit-free-1.1.0.unitypackage` and import everything. It goes into `Assets/EscapePuzzleKitFree/`.
-6. Open `Assets/_LastShift/Scenes/RecordsRoomB.unity` and press Play.
+6. Open `Assets/_LastShift/Scenes/Title.unity` and press Play. To skip the menu while testing, open `RecordsRoomB.unity` instead.
 
 ## Web build
 
