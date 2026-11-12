@@ -40,7 +40,10 @@ namespace LastShift.EditorTools
         // Habimana's lines and the objective after each, from the story and script v2 running order.
         // The subtitle text is exactly the recorded line; the intercom adds the voice later.
         const string Speaker = "HABIMANA";
-        const string H02 = "There you go. Now you see what I see. Mind the battery. I never do.";
+        const string H01 = "Ah. Someone stayed late. ... I'm sorry about the door. Actually, no, I'm not, I locked it. " +
+            "My name is Joseph Habimana. I've kept this archive for forty-seven years, and tonight you're going to keep it with me. " +
+            "Everything you need is in this room, if you look properly. There's a torch on the workbench. You'll want it.";
+        const string H02 ="There you go. Now you see what I see. Mind the battery. I never do.";
         const string H03 ="My locker. Forty-seven years and that's all I kept. Read the note. Slowly.";
         const string H04 = "Good. You read the boxes, not just the numbers. Most people don't.";
         const string H06 = "Hook six. I never could remember it either. One more and you're out. Or so you'd think.";
@@ -116,6 +119,8 @@ namespace LastShift.EditorTools
                 beat.hint = "TORCH";
                 go.GetComponentInChildren<Pickup>(true).beat = beat;
             });
+
+            StoryBeats();
 
             AssetDatabase.SaveAssets();
             Debug.Log($"[PropVariantBuilder] Prop variants built in {VariantFolder}.");
@@ -354,6 +359,48 @@ namespace LastShift.EditorTools
             beat.subtitle = line;
             beat.speaker = line != "" ? Speaker : "";
             return beat;
+        }
+
+        // ---------------------------------------------------------------- story beats placed in the rooms
+
+        const string StoryFolder = VariantFolder + "/Story";
+
+        // Beats that belong to a room rather than a prop. Each is a prefab for Leslie to drop into the
+        // scene, so the beat's text stays here and nobody has to edit it inside the scene.
+        static void StoryBeats()
+        {
+            if (!AssetDatabase.IsValidFolder(StoryFolder))
+                AssetDatabase.CreateFolder(VariantFolder, "Story");
+
+            // Records Room B starts: Habimana's opening line, then the first objective.
+            RoomBeat("OpeningBeat", StoryBeat.When.OnStart, "Find a light.", H01);
+        }
+
+        static void RoomBeat(string name, StoryBeat.When when, string objective, string line, string setsFlag = "")
+        {
+            string path = $"{StoryFolder}/{name}.prefab";
+            bool exists = AssetDatabase.LoadAssetAtPath<GameObject>(path) != null;
+            var root = exists ? PrefabUtility.LoadPrefabContents(path) : new GameObject(name);
+            try
+            {
+                var beat = root.GetComponent<StoryBeat>();
+                if (beat == null)
+                    beat = root.AddComponent<StoryBeat>();
+                beat.when = when;
+                beat.once = true;
+                beat.objective = objective;
+                beat.subtitle = line;
+                beat.speaker = line != "" ? Speaker : "";
+                beat.setsFlag = setsFlag;
+                PrefabUtility.SaveAsPrefabAsset(root, path);
+            }
+            finally
+            {
+                if (exists)
+                    PrefabUtility.UnloadPrefabContents(root);
+                else
+                    UnityEngine.Object.DestroyImmediate(root);
+            }
         }
 
         // The drawers have no names on their parts, so the top one is the highest.
