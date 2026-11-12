@@ -169,7 +169,7 @@ MonoBehaviour:
   - {fileID: 6694658807234965267}
   - {fileID: 1182720350915860977}
   - {fileID: 6122174796786922691}
-  needsCap: 1
+  needsCap: 0
   capFlag: cap_worn
   solvedFlag: clothes_solved
   onSolved:
