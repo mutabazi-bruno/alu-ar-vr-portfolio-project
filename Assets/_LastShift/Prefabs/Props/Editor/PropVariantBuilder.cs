@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using HeyHeyThere.EscapePuzzleKitFree;
+using LastShift.Narration;
 using LastShift.Props;
 using UnityEditor;
 using UnityEditor.Events;
@@ -37,16 +38,17 @@ namespace LastShift.EditorTools
         const string KeyCabinetKey = "small_steel_key";
         const string ChestKey = "chest_key_hook6";
 
-        // Habimana's lines and the objective after each, from the story and script v2 running order.
-        // The subtitle text is exactly the recorded line; the intercom adds the voice later.
-        const string Speaker = "HABIMANA";
-        const string H01 = "Ah. Someone stayed late. ... I'm sorry about the door. Actually, no, I'm not, I locked it. " +
-            "My name is Joseph Habimana. I've kept this archive for forty-seven years, and tonight you're going to keep it with me. " +
-            "Everything you need is in this room, if you look properly. There's a torch on the workbench. You'll want it.";
-        const string H02 ="There you go. Now you see what I see. Mind the battery. I never do.";
-        const string H03 ="My locker. Forty-seven years and that's all I kept. Read the note. Slowly.";
-        const string H04 = "Good. You read the boxes, not just the numbers. Most people don't.";
-        const string H06 = "Hook six. I never could remember it either. One more and you're out. Or so you'd think.";
+        // Habimana's lines, from the story and script v2 running order: Brian's VoiceLine assets, which
+        // hold the recording and its timed subtitle. Each beat plays its line through an IntercomCue.
+        const string VoiceFolder = "Assets/_LastShift/Audio/Voice/Lines";
+        const string H01 = "H01_Opening", H02 = "H02_Torch", H03 = "H03_Locker", H04 = "H04_Safe", H06 = "H06_Chest";
+        const string H07 = "H07_RoomC", H08 = "H08_SignIn", H09 = "H09_Mirror", H11 = "H11_Solved", H12 = "H12_Cap", H13 = "H13_Ending";
+
+        // Room C's flags: Bruno's clothes puzzle sets the first two, the exit beat sets exit_unlocked.
+        const string RoomCEnteredFlag = "roomc_entered";
+        const string ClothesSolvedFlag = "clothes_solved";
+        const string CapWornFlag = "cap_worn";
+        const string ExitUnlockedFlag = "exit_unlocked";
 
         // Flags set when each lock opens. Doors and story beats wait on these.
         // Don't rename after Day 3: saves store them.
@@ -110,13 +112,29 @@ namespace LastShift.EditorTools
             });
             Variant("Drawers", "cabinet_drawers", go =>
                 Fill(TopDrawer(go), DrawerSearched, new[] { "note_1", "key_brass" }, Beat(go, "Find where the air comes in.")));
+            Variant("ExitDoor", "door_steel", ExitDoor);
+
+            // Room C: the wardrobe holds the cap and opens once the clothes are hung right.
+            Variant("WardrobeLocked", "Assets/_LastShift/Prefabs/Room/Wardrobe.prefab", go =>
+            {
+                var stash = go.GetComponentInChildren<Stash>(true);
+                stash.label = "Wardrobe";
+                stash.item = null;
+                ShutUntil(stash, ClothesSolvedFlag, "Wardrobe", "Locked. Not until his clothes are where they belong.");
+            });
+
+            // Room C's dressing: the same props as Room B, kept shut so the wardrobe and the rack stand out.
+            Variant("RoomCLocker", "locker_staff", go => ShutForGood(go, "Staff locker"));
+            Variant("RoomCKeyCabinet", "key_cabinet", go => ShutForGood(go, "Key cabinet"));
+            Variant("RoomCChest", "chest_wood", go => ShutForGood(go, "Chest"));
+            Variant("RoomCDrawers", "cabinet_drawers", go => ShutForGood(go, "Drawer"));
+            Variant("RoomCSafe", "safe_wall", go => ShutForGood(go, "Wall safe"));
             Variant("Flashlight", "flashlight", go =>
             {
                 // Picking up the torch: H02, the next objective, and the hint for its key.
                 // The VR HUD shows the hint's key as X or A.
-                var beat = Beat(go, "Search the room.", H02);
-                beat.hintKey = "F";
-                beat.hint = "TORCH";
+                var beat = Beat(go, "Search the room.");
+                Voice(beat, H02, "F", "TORCH");
                 go.GetComponentInChildren<Pickup>(true).beat = beat;
             });
 
@@ -196,7 +214,9 @@ namespace LastShift.EditorTools
             string path = $"{VariantFolder}/{name}.prefab";
             if (AssetDatabase.LoadAssetAtPath<GameObject>(path) == null)
             {
-                var kit = AssetDatabase.LoadAssetAtPath<GameObject>($"{KitFolder}/Prefabs/{kitName}.prefab");
+                // A kit prefab's name, or the full path of one of ours (Leslie's wardrobe).
+                var source = kitName.Contains("/") ? kitName : $"{KitFolder}/Prefabs/{kitName}.prefab";
+                var kit = AssetDatabase.LoadAssetAtPath<GameObject>(source);
                 if (kit == null)
                 {
                     Debug.LogWarning($"[PropVariantBuilder] Kit prefab {kitName} not found, skipped {name}.");
@@ -315,6 +335,23 @@ namespace LastShift.EditorTools
             door.entrance = NextRoomEntrance;
         }
 
+        // Room C's way out, the real end of the game: it unlocks once the exit beat sets exit_unlocked
+        // (clothes hung and cap on), and opening it plays Habimana's last line before the end screen.
+        static void ExitDoor(GameObject go)
+        {
+            var door = go.GetComponentInChildren<Door>(true);
+            door.label = "Exit";
+            door.lockState = Door.Lock.Locked;
+            door.unlockFlag = ExitUnlockedFlag;
+            door.lockedText = "Locked. Something here still isn't right.";
+            door.endsGame = true;
+            door.leadsTo = "";
+
+            var beat = Beat(go, "", H13);
+            RemoveListenersTo(door.onOpened, beat);
+            UnityEventTools.AddVoidPersistentListener(door.onOpened, beat.Fire);
+        }
+
         // The storage door is a dead end and never opens; its line says why.
         static void WoodenDoor(GameObject go)
         {
@@ -322,6 +359,31 @@ namespace LastShift.EditorTools
             door.label = "Storage door";
             door.lockState = Door.Lock.Jammed;
             door.jammedText = "STORAGE. Habimana's key only.";
+        }
+
+        // A container held shut by a FlagLock until the flag is set.
+        static void ShutUntil(Behaviour container, string flag, string label, string lockedText)
+        {
+            container.enabled = false;
+            var flagLock = container.GetComponent<FlagLock>();
+            if (flagLock == null)
+                flagLock = container.gameObject.AddComponent<FlagLock>();
+            flagLock.flag = flag;
+            flagLock.container = container;
+            flagLock.label = label;
+            flagLock.lockedText = lockedText;
+        }
+
+        // Every container and keypad on the prop stays shut and says so.
+        static void ShutForGood(GameObject go, string label)
+        {
+            foreach (var keypad in go.GetComponentsInChildren<Keypad>(true))
+                keypad.enabled = false;
+            foreach (var stash in go.GetComponentsInChildren<Stash>(true))
+            {
+                stash.item = null;
+                ShutUntil(stash, "", label, "It won't open.");
+            }
         }
 
         // ---------------------------------------------------------------- contents and beats
@@ -356,9 +418,37 @@ namespace LastShift.EditorTools
             beat.when = StoryBeat.When.Fired;
             beat.once = true;
             beat.objective = objective;
-            beat.subtitle = line;
-            beat.speaker = line != "" ? Speaker : "";
+            Voice(beat, line);
             return beat;
+        }
+
+        // The beat plays its voice line through the intercom, which shows the subtitle in time with the
+        // recording, so the beat keeps no subtitle or hint of its own (they'd show twice or too early).
+        // A hint goes on the cue instead, shown once the line has been said.
+        static void Voice(StoryBeat beat, string voiceLine, string hintKey = "", string hint = "")
+        {
+            beat.subtitle = "";
+            beat.speaker = "";
+            beat.hintKey = "";
+            beat.hint = "";
+            if (voiceLine == "")
+                return;
+            var line = AssetDatabase.LoadAssetAtPath<VoiceLine>($"{VoiceFolder}/{voiceLine}.asset");
+            if (line == null)
+            {
+                Debug.LogWarning($"[PropVariantBuilder] No voice line {voiceLine} in {VoiceFolder}.");
+                return;
+            }
+            var cue = beat.GetComponent<IntercomCue>();
+            if (cue == null)
+                cue = beat.gameObject.AddComponent<IntercomCue>();
+            cue.line = line;
+            cue.when = IntercomCue.When.WhenCalled;
+            cue.once = true;
+            cue.hintKey = hintKey;
+            cue.hint = hint;
+            RemoveListenersTo(beat.onFired, cue);
+            UnityEventTools.AddVoidPersistentListener(beat.onFired, cue.Play);
         }
 
         // ---------------------------------------------------------------- story beats placed in the rooms
@@ -374,9 +464,20 @@ namespace LastShift.EditorTools
 
             // Records Room B starts: Habimana's opening line, then the first objective.
             RoomBeat("OpeningBeat", StoryBeat.When.OnStart, "Find a light.", H01);
+
+            // Room C. The two OnEnter beats are trigger boxes: place and size them where the player walks.
+            RoomBeat("RoomCEntranceBeat", StoryBeat.When.OnEnter, "Learn how he keeps his room.", H07, RoomCEnteredFlag);
+            RoomBeat("MirrorBeat", StoryBeat.When.OnEnter, "Hang his clothes the way he does.", H09);
+            // Fired by Room C's sign-in sheet (an Inspectable's beat); the objective stays as it was.
+            RoomBeat("RoomCSignInBeat", StoryBeat.When.Fired, "", H08);
+            // Clothes hung right, then the cap on (either order): the exit unlocks and the dawn shows.
+            RoomBeat("ClothesSolvedBeat", StoryBeat.When.Fired, "Put on his cap.", H11, gate: new[] { ClothesSolvedFlag });
+            RoomBeat("ExitUnlockBeat", StoryBeat.When.Fired, "Go home.", H12, ExitUnlockedFlag,
+                gate: new[] { ClothesSolvedFlag, CapWornFlag });
         }
 
-        static void RoomBeat(string name, StoryBeat.When when, string objective, string line, string setsFlag = "")
+        static void RoomBeat(string name, StoryBeat.When when, string objective, string line, string setsFlag = "",
+            string[] gate = null)
         {
             string path = $"{StoryFolder}/{name}.prefab";
             bool exists = AssetDatabase.LoadAssetAtPath<GameObject>(path) != null;
@@ -389,9 +490,26 @@ namespace LastShift.EditorTools
                 beat.when = when;
                 beat.once = true;
                 beat.objective = objective;
-                beat.subtitle = line;
-                beat.speaker = line != "" ? Speaker : "";
                 beat.setsFlag = setsFlag;
+                Voice(beat, line);
+
+                if (when == StoryBeat.When.OnEnter && root.GetComponent<BoxCollider>() == null)
+                {
+                    // A doorway-sized box to start with; resize it in the scene.
+                    var box = root.AddComponent<BoxCollider>();
+                    box.isTrigger = true;
+                    box.size = new Vector3(2f, 2.5f, 0.6f);
+                    box.center = new Vector3(0f, 1.25f, 0f);
+                }
+
+                if (gate != null)
+                {
+                    var flagGate = root.GetComponent<FlagGate>();
+                    if (flagGate == null)
+                        flagGate = root.AddComponent<FlagGate>();
+                    flagGate.flags = gate;
+                    flagGate.beat = beat;
+                }
                 PrefabUtility.SaveAsPrefabAsset(root, path);
             }
             finally

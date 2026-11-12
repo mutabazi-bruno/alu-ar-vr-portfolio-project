@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 749440441917147332}
   - component: {fileID: 6743787143009651131}
+  - component: {fileID: 6579849048693188603}
   m_Layer: 0
   m_Name: StoryBeat
   m_TagString: Untagged
@@ -48,18 +49,50 @@ MonoBehaviour:
   once: 1
   needsFlag: 
   setsFlag: 
-  subtitle: There you go. Now you see what I see. Mind the battery. I never do.
-  speaker: HABIMANA
+  subtitle: 
+  speaker: 
   objective: Search the room.
   sound: {fileID: 0}
   lightsOff: []
   wakes: []
   damage: 0
-  hintKey: F
-  hint: TORCH
+  hintKey: 
+  hint: 
   onFired:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6579849048693188603}
+        m_TargetAssemblyTypeName: LastShift.Narration.IntercomCue, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &6579849048693188603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8352719575268314071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c5cfbc7e4436fa4cace8429367ef8ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LastShift.Narration.IntercomCue
+  line: {fileID: 11400000, guid: ab81c4a9e4aab6b438eafec92a7ff02a, type: 2}
+  when: 3
+  flag: 
+  item: {fileID: 0}
+  delay: 0
+  once: 1
+  hintKey: F
+  hint: TORCH
 --- !u!1001 &8947069473081867513
 PrefabInstance:
   m_ObjectHideFlags: 0
