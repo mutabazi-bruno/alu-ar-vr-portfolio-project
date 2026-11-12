@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2036078147463566378}
   - component: {fileID: 4909023402831881454}
+  - component: {fileID: 7411614690569948436}
   m_Layer: 0
   m_Name: StoryBeat
   m_TagString: Untagged
@@ -48,9 +49,8 @@ MonoBehaviour:
   once: 1
   needsFlag: 
   setsFlag: 
-  subtitle: Hook six. I never could remember it either. One more and you're out.
-    Or so you'd think.
-  speaker: HABIMANA
+  subtitle: 
+  speaker: 
   objective: Find the time he signed in.
   sound: {fileID: 0}
   lightsOff: []
@@ -60,7 +60,39 @@ MonoBehaviour:
   hint: 
   onFired:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7411614690569948436}
+        m_TargetAssemblyTypeName: LastShift.Narration.IntercomCue, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &7411614690569948436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9089420045066140390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c5cfbc7e4436fa4cace8429367ef8ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LastShift.Narration.IntercomCue
+  line: {fileID: 11400000, guid: 3d49414a6e64f7a43835687b2d7c2f7d, type: 2}
+  when: 3
+  flag: 
+  item: {fileID: 0}
+  delay: 0
+  once: 1
+  hintKey: 
+  hint: 
 --- !u!1001 &5413907244633156265
 PrefabInstance:
   m_ObjectHideFlags: 0

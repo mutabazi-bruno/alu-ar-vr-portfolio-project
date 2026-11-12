@@ -1,0 +1,188 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7553518574923645537
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5853541490786620643, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6180959620767571651, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6206465557455602741, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6206465557455602741, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6206465557455602741, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6206465557455602741, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6206465557455602741, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6206465557455602741, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6206465557455602741, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6206465557455602741, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6206465557455602741, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6206465557455602741, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6804932665384793089, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6952029857316369958, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}
+      propertyPath: m_Name
+      value: RoomCDrawers
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4357257108043408616, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1664979846498611531}
+    - targetCorrespondingSourceObject: {fileID: 1773913527254834168, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6127934729608989932}
+    - targetCorrespondingSourceObject: {fileID: 1335915384095433498, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1430162178696179317}
+  m_SourcePrefab: {fileID: 100100000, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}
+--- !u!114 &3944175993062028896 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6804932665384793089, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}
+  m_PrefabInstance: {fileID: 7553518574923645537}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6101088174381639305}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c10e28563aa4102e1e94fa9a7dcac73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HeyHeyThere.EscapePuzzleKitFree::HeyHeyThere.EscapePuzzleKitFree.Stash
+--- !u!114 &4172736681381418626 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5853541490786620643, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}
+  m_PrefabInstance: {fileID: 7553518574923645537}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8092205383162747289}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c10e28563aa4102e1e94fa9a7dcac73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HeyHeyThere.EscapePuzzleKitFree::HeyHeyThere.EscapePuzzleKitFree.Stash
+--- !u!114 &4401234103765163170 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6180959620767571651, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}
+  m_PrefabInstance: {fileID: 7553518574923645537}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8816186498830262651}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c10e28563aa4102e1e94fa9a7dcac73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HeyHeyThere.EscapePuzzleKitFree::HeyHeyThere.EscapePuzzleKitFree.Stash
+--- !u!1 &6101088174381639305 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4357257108043408616, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}
+  m_PrefabInstance: {fileID: 7553518574923645537}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1664979846498611531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6101088174381639305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc1606105660f494e8195e36f457e0f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LastShift.Props.FlagLock
+  label: Drawer
+  focusIcon: 0
+  onInteracted:
+    m_PersistentCalls:
+      m_Calls: []
+  flag: 
+  container: {fileID: 3944175993062028896}
+  lockedText: It won't open.
+--- !u!1 &8092205383162747289 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1773913527254834168, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}
+  m_PrefabInstance: {fileID: 7553518574923645537}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6127934729608989932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8092205383162747289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc1606105660f494e8195e36f457e0f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LastShift.Props.FlagLock
+  label: Drawer
+  focusIcon: 0
+  onInteracted:
+    m_PersistentCalls:
+      m_Calls: []
+  flag: 
+  container: {fileID: 4172736681381418626}
+  lockedText: It won't open.
+--- !u!1 &8816186498830262651 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1335915384095433498, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}
+  m_PrefabInstance: {fileID: 7553518574923645537}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1430162178696179317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8816186498830262651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc1606105660f494e8195e36f457e0f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LastShift.Props.FlagLock
+  label: Drawer
+  focusIcon: 0
+  onInteracted:
+    m_PersistentCalls:
+      m_Calls: []
+  flag: 
+  container: {fileID: 4401234103765163170}
+  lockedText: It won't open.

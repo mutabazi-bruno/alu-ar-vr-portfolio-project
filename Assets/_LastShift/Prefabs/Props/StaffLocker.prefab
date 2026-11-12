@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4402868634692889266}
   - component: {fileID: 4797886042986796155}
+  - component: {fileID: 3924142131322066318}
   m_Layer: 0
   m_Name: StoryBeat
   m_TagString: Untagged
@@ -48,8 +49,8 @@ MonoBehaviour:
   once: 1
   needsFlag: 
   setsFlag: 
-  subtitle: My locker. Forty-seven years and that's all I kept. Read the note. Slowly.
-  speaker: HABIMANA
+  subtitle: 
+  speaker: 
   objective: Solve the caretaker's riddle. Check the archive boxes.
   sound: {fileID: 0}
   lightsOff: []
@@ -59,7 +60,39 @@ MonoBehaviour:
   hint: 
   onFired:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3924142131322066318}
+        m_TargetAssemblyTypeName: LastShift.Narration.IntercomCue, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &3924142131322066318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2274280303638096215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c5cfbc7e4436fa4cace8429367ef8ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LastShift.Narration.IntercomCue
+  line: {fileID: 11400000, guid: 2ecd2a3d1a7ae164f808f1b7019e8185, type: 2}
+  when: 3
+  flag: 
+  item: {fileID: 0}
+  delay: 0
+  once: 1
+  hintKey: 
+  hint: 
 --- !u!1001 &5556013097539081753
 PrefabInstance:
   m_ObjectHideFlags: 0
