@@ -34,7 +34,7 @@ namespace LastShift.EditorTools
         const string NextRoomEntrance = "FromRoomB";
 
         // Item ids of the keys.
-        const string LockerKey = "key_brass";
+        const string LockerKey = "brass_key";  // ours: its tag carries the safe hint
         const string KeyCabinetKey = "small_steel_key";
         const string ChestKey = "chest_key_hook6";
 
@@ -111,8 +111,33 @@ namespace LastShift.EditorTools
                 Fill(vent, VentSearched, new[] { "battery" }, Beat(go, "Open the caretaker's locker."));
             });
             Variant("Drawers", "cabinet_drawers", go =>
-                Fill(TopDrawer(go), DrawerSearched, new[] { "note_1", "key_brass" }, Beat(go, "Find where the air comes in.")));
+            {
+                // The brass key and Note 1 lie in the top drawer, to be taken one at a time.
+                var top = TopDrawer(go);
+                FrontOnlyCollider(top);
+                LyingPickup(top, "BrassKey", "key_brass", "brass_key", -0.08f);
+                LyingPickup(top, "Note1", "note", "note_1", 0.08f);
+                Fill(top, DrawerSearched, new string[0], Beat(go, "Find where the air comes in."));
+            });
             Variant("ExitDoor", "door_steel", ExitDoor);
+
+            // Room B: the one archive box without a proper label, with his hint for the safe.
+            // Habimana's clothes: Bruno's coat, shirt and trousers (his scripts untouched) wearing the
+            // After Dark garments instead of their placeholder boxes. The scarf and cap have no match there.
+            Variant("HabimanaCoat", $"{ClothesFolder}/Coat.prefab", go => Dress(go, "shirt-0002"));
+            Variant("HabimanaShirt", $"{ClothesFolder}/Shirt.prefab", go => Dress(go, "shirt-0003"));
+            Variant("HabimanaTrousers", $"{ClothesFolder}/Trousers.prefab", go => Dress(go, "pants-0002"));
+
+            Variant("OddBox", "cardboard_box", go =>
+            {
+                var look = go.GetComponent<Inspectable>();
+                if (look == null)
+                    look = go.AddComponent<Inspectable>();
+                look.label = "Unlabelled box";
+                look.hold = false;
+                look.text = "No label on this one, only his handwriting: \"The safe remembers my years. " +
+                    "Read the years on the boxes and take the last digit of each.\"";
+            });
 
             // Room C: the wardrobe holds the cap and opens once the clothes are hung right.
             Variant("WardrobeLocked", "Assets/_LastShift/Prefabs/Room/Wardrobe.prefab", go =>
@@ -135,7 +160,9 @@ namespace LastShift.EditorTools
                 // The VR HUD shows the hint's key as X or A.
                 var beat = Beat(go, "Search the room.");
                 Voice(beat, H02, "F", "TORCH");
-                go.GetComponentInChildren<Pickup>(true).beat = beat;
+                var pickup = go.GetComponentInChildren<Pickup>(true);
+                pickup.beat = beat;
+                pickup.examine = true;  // held up as it's taken, like everything else the player finds
             });
 
             StoryBeats();
@@ -283,7 +310,11 @@ namespace LastShift.EditorTools
             var stash = go.GetComponentInChildren<Stash>(true);
             stash.label = "Wall safe";
             SwingOutward(stash, "safe_wall_door", 100f, 1f);
-            Fill(stash, SafeSearched, new[] { "small_steel_key" }, Beat(go, "Open the key cabinet.", H04));
+            keypad.wrongText = "Wrong code. The years on the boxes, maybe?";
+            // The shift card shows his last sign-in, 22:07: the door code, so the card is the way out.
+            Fill(stash, SafeSearched, new[] { "shift_card", "small_steel_key" },
+                Beat(go, "His card is your way out. Study it well.", H04),
+                "Inside: Habimana's shift card and a small steel key. The card is your way out. Study it well.");
         }
 
         // The kit's open clips turn the key cabinet and locker doors the wrong way (into the prop), and
@@ -390,7 +421,7 @@ namespace LastShift.EditorTools
 
         // What a container gives the first time it opens. Its Stash keeps no item of its own, so all
         // of them come from Contents together, with one "Found: ..." line.
-        static void Fill(Openable container, string searchedFlag, string[] itemIds, StoryBeat beat)
+        static void Fill(Openable container, string searchedFlag, string[] itemIds, StoryBeat beat, string message = "")
         {
             if (container is Stash stash)
                 stash.item = null;
@@ -401,6 +432,7 @@ namespace LastShift.EditorTools
             contents.searchedFlag = searchedFlag;
             contents.items = itemIds.Select(id => FindItem(id, container.name)).Where(i => i != null).ToArray();
             contents.beat = beat;
+            contents.message = message;
         }
 
         // The prop's story beat, on a child named StoryBeat: fired by its container, once.
@@ -519,6 +551,104 @@ namespace LastShift.EditorTools
                 else
                     UnityEngine.Object.DestroyImmediate(root);
             }
+        }
+
+        // ---------------------------------------------------------------- Habimana's clothes
+
+        const string ClothesFolder = "Assets/_LastShift/Prefabs/Clothes";
+        // Asset Store pack, imported by each of us (like the kit), never committed.
+        const string GarmentFolder = "Assets/Genies/AfterDark";
+
+        // Hides the placeholder box and puts the garment where it was, sized to it. The root keeps
+        // Bruno's collider, grab and hanging scripts, so the piece behaves exactly as before.
+        static void Dress(GameObject go, string garment)
+        {
+            var model = AssetDatabase.LoadAssetAtPath<GameObject>($"{GarmentFolder}/{garment}-afterDark/{garment}-afterDark_model.prefab");
+            if (model == null)
+            {
+                Debug.LogWarning($"[PropVariantBuilder] {garment} not found: import the After Dark clothing pack first.");
+                return;
+            }
+            var box = go.transform.Find("Model");
+            var look = go.transform.Find("Look");
+            if (look == null)
+            {
+                look = ((GameObject)PrefabUtility.InstantiatePrefab(model, go.transform)).transform;
+                look.name = "Look";
+            }
+            // the garment's own colliders would catch the look and the hooks instead of Bruno's box
+            foreach (var c in look.GetComponentsInChildren<Collider>(true))
+                UnityEngine.Object.DestroyImmediate(c);
+            if (box == null)
+                return;
+
+            var placeholder = box.GetComponent<Renderer>();
+            var target = placeholder.bounds;
+            placeholder.enabled = false;
+            var fallback = go.GetComponent<LookFallback>();
+            if (fallback == null)
+                fallback = go.AddComponent<LookFallback>();
+            fallback.look = look;
+            fallback.placeholder = placeholder;
+
+            look.localPosition = Vector3.zero;
+            look.localRotation = Quaternion.identity;
+            look.localScale = Vector3.one;
+            var size = RendererBounds(look.gameObject).size;
+            // as tall as the placeholder, but sleeves held out no wider than a hanger and a half
+            float scale = Mathf.Min(target.size.y / size.y, target.size.x * 1.5f / size.x);
+            look.localScale = Vector3.one * scale;
+            look.position += target.center - RendererBounds(look.gameObject).center;
+        }
+
+        static Bounds RendererBounds(GameObject go)
+        {
+            var rs = go.GetComponentsInChildren<Renderer>(true);
+            var b = rs[0].bounds;
+            foreach (var r in rs) b.Encapsulate(r.bounds);
+            return b;
+        }
+
+        // A kit drawer's box fills the whole drawer, so the look would land on the drawer and never on
+        // what lies inside. Kept to the front panel, the drawer still opens and closes from the front.
+        static void FrontOnlyCollider(Stash drawer)
+        {
+            var box = drawer.GetComponent<BoxCollider>();
+            if (box == null)
+                return;
+            const float thickness = 0.04f;
+            var front = box.center.z + box.size.z / 2f;  // the drawer's front is its local +Z
+            box.size = new Vector3(box.size.x, box.size.y, thickness);
+            box.center = new Vector3(box.center.x, box.center.y, front - thickness / 2f);
+        }
+
+        // A kit prop lying in a drawer as a pickup of one of our items, moving with the drawer.
+        // Taken with E, it's held up to look at (its tag, its text), like any kit pickup.
+        static void LyingPickup(Stash drawer, string name, string kitPrefab, string itemId, float sideways)
+        {
+            var existing = drawer.transform.Find(name);
+            var go = existing != null ? existing.gameObject
+                : (GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>($"{KitFolder}/Prefabs/{kitPrefab}.prefab"), drawer.transform);
+            go.name = name;
+
+            // Our Pickup only: the kit note is an Inspectable, the kit key a pickup of the kit's item.
+            foreach (var other in go.GetComponents<Interactable>().Where(i => !(i is Pickup)))
+                UnityEngine.Object.DestroyImmediate(other);
+            var pickup = go.GetComponent<Pickup>();
+            if (pickup == null)
+                pickup = go.AddComponent<Pickup>();
+            pickup.item = FindItem(itemId, name);
+            pickup.examine = true;
+            pickup.label = pickup.item != null ? pickup.item.title : name;
+
+            // On the drawer's floor, side by side, at its middle front to back.
+            var inside = drawer.GetComponent<BoxCollider>();
+            var renderers = drawer.GetComponentsInChildren<Renderer>(true).Where(r => !r.transform.IsChildOf(go.transform)).ToArray();
+            var b = renderers[0].bounds;
+            foreach (var r in renderers) b.Encapsulate(r.bounds);
+            var floor = drawer.transform.InverseTransformPoint(new Vector3(b.center.x, b.min.y, b.center.z));
+            var middleZ = inside != null ? inside.center.z - 0.25f : floor.z;
+            go.transform.localPosition = new Vector3(floor.x + sideways, floor.y + 0.03f, middleZ);
         }
 
         // The drawers have no names on their parts, so the top one is the highest.

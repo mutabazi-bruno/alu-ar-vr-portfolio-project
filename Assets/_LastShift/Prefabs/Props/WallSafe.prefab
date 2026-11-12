@@ -51,7 +51,7 @@ MonoBehaviour:
   setsFlag: 
   subtitle: 
   speaker: 
-  objective: Open the key cabinet.
+  objective: His card is your way out. Study it well.
   sound: {fileID: 0}
   lightsOff: []
   wakes: []
@@ -158,6 +158,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6487221434110381632, guid: b45b6e04eb574a994dd9eea8d6ae33d2, type: 3}
+      propertyPath: wrongText
+      value: Wrong code. The years on the boxes, maybe?
+      objectReference: {fileID: 0}
+    - target: {fileID: 6487221434110381632, guid: b45b6e04eb574a994dd9eea8d6ae33d2, type: 3}
       propertyPath: motion.mode
       value: 0
       objectReference: {fileID: 0}
@@ -219,9 +223,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LastShift.Props.Contents
   container: {fileID: 9206633544297807660}
   items:
+  - {fileID: 11400000, guid: 3c58e5609f0d4afd8df3a4eabb9a89c6, type: 2}
   - {fileID: 11400000, guid: a7f919ed8a8f4f3ea52908ab652c60f1, type: 2}
   searchedFlag: wall_safe_searched
   beat: {fileID: 4572676247960452257}
+  message: 'Inside: Habimana''s shift card and a small steel key. The card is your
+    way out. Study it well.'
 --- !u!4 &6327844564632750953 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5532626347593152798, guid: b45b6e04eb574a994dd9eea8d6ae33d2, type: 3}

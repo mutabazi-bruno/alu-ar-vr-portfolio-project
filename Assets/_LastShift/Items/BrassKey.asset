@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a21ff3e9109a088dec871830116e04ae, type: 3}
+  m_Name: BrassKey
+  m_EditorClassIdentifier: HeyHeyThere.EscapePuzzleKitFree::HeyHeyThere.EscapePuzzleKitFree.Item
+  id: brass_key
+  title: "Brass key"
+  description: "A small brass key with a paper tag on its ring, in his handwriting: \"The safe remembers my years. Read the years on the archive boxes and take the last digit of each.\""
+  icon: {fileID: 21300000, guid: c94d7fc2fe62ee7aae9f86eca779e5dd, type: 3}
+  kind: 0
+  amount: 0
+  text: ""
+  keep: 0
+  model: {fileID: 2493885429965751135, guid: 2b3aed3234271c5e802786cdef40e5aa, type: 3}

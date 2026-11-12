@@ -271,7 +271,7 @@ MonoBehaviour:
   onRefused:
     m_PersistentCalls:
       m_Calls: []
-  item: {fileID: 11400000, guid: 12a822585f28cbd4eb23028a825a5d11, type: 2}
+  item: {fileID: 11400000, guid: cdcb00cdeaba45aaa379c3c28f19c66c, type: 2}
   keepItem: 0
   missingText: It's locked.
   fitted: []
@@ -293,3 +293,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9c5820e293244290bef73381dfdf58ad, type: 2}
   searchedFlag: staff_locker_searched
   beat: {fileID: 4797886042986796155}
+  message: 

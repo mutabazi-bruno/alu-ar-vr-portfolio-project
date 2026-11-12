@@ -105,6 +105,10 @@ PrefabInstance:
       propertyPath: beat
       value: 
       objectReference: {fileID: 6743787143009651131}
+    - target: {fileID: 3222341370016456711, guid: d9759e694526aac0159ccca8f13912b6, type: 3}
+      propertyPath: examine
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5362939662120709031, guid: d9759e694526aac0159ccca8f13912b6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

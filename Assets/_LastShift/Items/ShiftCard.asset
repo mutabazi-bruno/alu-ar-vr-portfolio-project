@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a21ff3e9109a088dec871830116e04ae, type: 3}
+  m_Name: ShiftCard
+  m_EditorClassIdentifier: HeyHeyThere.EscapePuzzleKitFree::HeyHeyThere.EscapePuzzleKitFree.Item
+  id: shift_card
+  title: "Habimana's shift card"
+  description: "His second card, from the safe. Study it well: it's your way out."
+  icon: {fileID: 21300000, guid: 869beef486944da6a108694d9f5aa641, type: 3}
+  kind: 3
+  amount: 0
+  text: "OLD CAMPUS ARCHIVE\nNIGHT SHIFT CARD\n\nJoseph Habimana\nNight caretaker \u00b7 ID 0417\n\n13 NOV\nSIGNED IN: 22:07\nSIGNED OUT:\n\nThe signed-out line is blank."
+  keep: 0
+  model: {fileID: 542072996525601727, guid: 66fb9b6cbbe53c2ea33a75739ba24934, type: 3}
