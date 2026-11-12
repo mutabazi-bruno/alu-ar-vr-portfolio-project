@@ -172,6 +172,24 @@
                                          "processors":  "",
                                          "interactions":  "",
                                          "initialStateCheck":  false
+                                     },
+                                     {
+                                         "name":  "Aim Position",
+                                         "type":  "Value",
+                                         "id":  "61f372e2-ff02-4fd7-b9da-8bbf3130f4f7",
+                                         "expectedControlType":  "Vector3",
+                                         "processors":  "",
+                                         "interactions":  "",
+                                         "initialStateCheck":  true
+                                     },
+                                     {
+                                         "name":  "Aim Rotation",
+                                         "type":  "Value",
+                                         "id":  "63c7a08f-3a36-45a1-9b6d-23fa66feb3fb",
+                                         "expectedControlType":  "Quaternion",
+                                         "processors":  "",
+                                         "interactions":  "",
+                                         "initialStateCheck":  true
                                      }
                                  ],
                      "bindings":  [
@@ -299,7 +317,7 @@
                                       {
                                           "name":  "",
                                           "id":  "d2f8b9a1-6c4e-4f7a-8b35-3e9c1d0f5b24",
-                                          "path":  "<XRController>{LeftHand}/{SecondaryButton}",
+                                          "path":  "\u003cXRController\u003e{LeftHand}/{SecondaryButton}",
                                           "interactions":  "",
                                           "processors":  "",
                                           "groups":  "",
@@ -310,7 +328,7 @@
                                       {
                                           "name":  "",
                                           "id":  "e3a9c0b2-7d5f-4a8b-9c46-4f0d2e1a6c35",
-                                          "path":  "<XRController>{RightHand}/{SecondaryButton}",
+                                          "path":  "\u003cXRController\u003e{RightHand}/{SecondaryButton}",
                                           "interactions":  "",
                                           "processors":  "",
                                           "groups":  "",
@@ -321,11 +339,33 @@
                                       {
                                           "name":  "",
                                           "id":  "f4b0d1c3-8e6a-4b9c-8d57-5a1e3f2b7d46",
-                                          "path":  "<XRController>{LeftHand}/{MenuButton}",
+                                          "path":  "\u003cXRController\u003e{LeftHand}/{MenuButton}",
                                           "interactions":  "",
                                           "processors":  "",
                                           "groups":  "",
                                           "action":  "Menu",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      },
+                                      {
+                                          "name":  "",
+                                          "id":  "d13bd31f-30ec-4490-be44-d0cb479d0983",
+                                          "path":  "\u003cXRController\u003e{LeftHand}/pointerPosition",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "Aim Position",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      },
+                                      {
+                                          "name":  "",
+                                          "id":  "daa7cfd4-508a-4936-bbe3-258b62413b50",
+                                          "path":  "\u003cXRController\u003e{LeftHand}/pointerRotation",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "Aim Rotation",
                                           "isComposite":  false,
                                           "isPartOfComposite":  false
                                       }
@@ -412,6 +452,24 @@
                                          "type":  "Value",
                                          "id":  "0ae83ef3-b6c1-498a-a986-1a73b2d500b4",
                                          "expectedControlType":  "Axis",
+                                         "processors":  "",
+                                         "interactions":  "",
+                                         "initialStateCheck":  true
+                                     },
+                                     {
+                                         "name":  "Aim Position",
+                                         "type":  "Value",
+                                         "id":  "a63bd724-a375-4773-9aa1-91582472f2db",
+                                         "expectedControlType":  "Vector3",
+                                         "processors":  "",
+                                         "interactions":  "",
+                                         "initialStateCheck":  true
+                                     },
+                                     {
+                                         "name":  "Aim Rotation",
+                                         "type":  "Value",
+                                         "id":  "3b6d5d3e-0fbc-4bb7-b85e-70cf1287e810",
+                                         "expectedControlType":  "Quaternion",
                                          "processors":  "",
                                          "interactions":  "",
                                          "initialStateCheck":  true
@@ -514,6 +572,28 @@
                                           "processors":  "",
                                           "groups":  "",
                                           "action":  "UI Press Value",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      },
+                                      {
+                                          "name":  "",
+                                          "id":  "bb094ba9-0795-4878-96e5-70d262bccf7f",
+                                          "path":  "\u003cXRController\u003e{RightHand}/pointerPosition",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "Aim Position",
+                                          "isComposite":  false,
+                                          "isPartOfComposite":  false
+                                      },
+                                      {
+                                          "name":  "",
+                                          "id":  "eab32aa6-5847-42c3-907c-416745fe969d",
+                                          "path":  "\u003cXRController\u003e{RightHand}/pointerRotation",
+                                          "interactions":  "",
+                                          "processors":  "",
+                                          "groups":  "",
+                                          "action":  "Aim Rotation",
                                           "isComposite":  false,
                                           "isPartOfComposite":  false
                                       }

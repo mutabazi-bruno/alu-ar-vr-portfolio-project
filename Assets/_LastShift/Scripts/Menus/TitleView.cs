@@ -36,6 +36,21 @@ namespace LastShift.Menus
                 menu.worldCamera = headset ? null : desktopCamera.GetComponent<Camera>();
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = !headset;
+            Debug.Log(headset ? "Title: headset on, using the XR rig" : "Title: no headset, using the desktop camera");
+            if (headset && xrRig != null) StartCoroutine(Recentre());
+        }
+
+        // the headset's floor origin can be anywhere in the play area: once tracking has settled,
+        // stand the player where the desktop camera stands, facing the menu
+        System.Collections.IEnumerator Recentre()
+        {
+            for (int i = 0; i < 10; i++) yield return null;
+            var body = xrRig.GetComponent<LastShift.XR.XRRigBody>();
+            if (body == null) yield break;
+            var spot = desktopCamera != null ? desktopCamera.transform.position : Vector3.zero;
+            spot.y = 0f;
+            var yaw = desktopCamera != null ? desktopCamera.transform.eulerAngles.y : 0f;
+            body.Place(spot, yaw, 0f);
         }
     }
 }

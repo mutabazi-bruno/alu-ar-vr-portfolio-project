@@ -127,6 +127,9 @@ namespace LastShift.XR
         {
 #if UNITY_WEBGL && !UNITY_EDITOR
             return WebXRManager.Instance != null && WebXRManager.Instance.XRState == WebXRState.VR;
+#elif UNITY_ANDROID && !UNITY_EDITOR
+            // a Quest build: the app only ever runs inside the headset
+            return true;
 #else
             SubsystemManager.GetSubsystems(displays);
             foreach (var d in displays)
