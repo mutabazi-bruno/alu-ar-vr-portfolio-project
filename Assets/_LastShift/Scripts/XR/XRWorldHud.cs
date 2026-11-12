@@ -140,6 +140,9 @@ namespace LastShift.XR
 
         void Update()
         {
+            // a kit HUD that switched itself back on (a scene load, a save loaded) is hidden again
+            if (Time.frameCount % 15 == 0) HideKitHud(true);
+
             // The kit's flat code pad and inventory can't be seen in a headset, and while open
             // they freeze the pointer. In VR the keypad's own keys are used instead.
             if (Hud.Current != null && Hud.Current.IsOpen && !Run.HasEscaped)
