@@ -23,6 +23,18 @@ namespace LastShift.XR
             torch.readKeys = false;
         }
 
+        // A Quest controller's grip pose is tilted up from where the player points, so a torch on
+        // the grip shone above what the ray was on. It rides on its hand's ray instead (the object
+        // that follows the aim pose), a few centimetres forward, so the beam goes where the ray goes.
+        void Start()
+        {
+            var aim = transform.parent != null ? transform.parent.GetComponentInChildren<XRAimPose>(true) : null;
+            if (aim == null) return;
+            transform.SetParent(aim.transform, false);
+            transform.localPosition = new Vector3(0f, 0f, 0.06f);
+            transform.localRotation = Quaternion.identity;
+        }
+
         void Update()
         {
             if (toggleAction == null || toggleAction.action == null || Interactor.Paused)
