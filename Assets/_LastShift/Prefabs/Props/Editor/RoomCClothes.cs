@@ -69,27 +69,53 @@ namespace LastShift.EditorTools
                 report.AppendLine($"{name} ({System.IO.Path.GetFileNameWithoutExtension(prefab)}) at {go.transform.position}");
             }
 
-            // Note 4: last on, first hung. Hook 1 coat, 2 scarf, 3 trousers, 4 shirt.
-            var puzzle = all.Select(g => g.GetComponent<ClothesPuzzle>()).FirstOrDefault(p => p != null);
-            var answers = new[] { "Coat", "Scarf", "Trousers", "Shirt" };
-            if (puzzle != null)
-            {
-                for (int i = 0; i < puzzle.hooks.Length; i++)
-                {
-                    var hook = puzzle.hooks[i];
-                    hook.answer = i < answers.Length ? pieces[answers[i]].GetComponent<ClothesPiece>() : null;
-                    if (PrefabUtility.IsPartOfPrefabInstance(hook)) PrefabUtility.RecordPrefabInstancePropertyModifications(hook);
-                    EditorUtility.SetDirty(hook);
-                    report.AppendLine($"hook {i + 1} answer = {(hook.answer != null ? hook.answer.name : "none")}");
-                }
-                report.AppendLine($"needsCap = {puzzle.needsCap}");
-            }
-            else
-                report.AppendLine("No ClothesPuzzle found: hook answers not set");
+            SetAnswers(all, name => pieces[name].GetComponent<ClothesPiece>(), report);
 
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
             Debug.Log("[RoomCClothes]\n" + report);
+        }
+
+        // Sets only the rack's answers, leaving the clothes where they are.
+        [MenuItem("Last Shift/Set Clothes Hook Answers (Room C)")]
+        public static void Answers()
+        {
+            if (EditorApplication.isPlaying || !EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+                return;
+            var scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+            var report = new StringBuilder();
+            var all = scene.GetRootGameObjects().SelectMany(r => r.GetComponentsInChildren<Transform>(true)).Select(t => t.gameObject).ToList();
+            var pieces = all.Select(g => g.GetComponent<ClothesPiece>()).Where(p => p != null).ToList();
+            SetAnswers(all, name => pieces.FirstOrDefault(p => p.name == name), report);
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+            Debug.Log("[RoomCClothes]\n" + report);
+        }
+
+        // Note 4: last on, first hung, so hook one has the coat, then the scarf, the trousers, the shirt.
+        // The player counts the hooks left to right as they face the rack, which isn't the order the
+        // rack lists them in once it's turned to face the room, so the answers go by where each hook is.
+        static void SetAnswers(System.Collections.Generic.List<GameObject> all, System.Func<string, ClothesPiece> piece, StringBuilder report)
+        {
+            var puzzle = all.Select(g => g.GetComponent<ClothesPuzzle>()).FirstOrDefault(p => p != null);
+            if (puzzle == null)
+            {
+                report.AppendLine("No ClothesPuzzle found: hook answers not set");
+                return;
+            }
+            var answers = new[] { "Coat", "Scarf", "Trousers", "Shirt" };
+            // the player looks at the rack's front, so their right is the rack's left
+            var playerRight = Vector3.Cross(Vector3.up, -puzzle.transform.forward);
+            var leftToRight = puzzle.hooks.Where(h => h != null).OrderBy(h => Vector3.Dot(h.transform.position, playerRight)).ToArray();
+            for (int i = 0; i < leftToRight.Length; i++)
+            {
+                var hook = leftToRight[i];
+                hook.answer = i < answers.Length ? piece(answers[i]) : null;
+                if (PrefabUtility.IsPartOfPrefabInstance(hook)) PrefabUtility.RecordPrefabInstancePropertyModifications(hook);
+                EditorUtility.SetDirty(hook);
+                report.AppendLine($"{i + 1} from the left ({hook.name}) answer = {(hook.answer != null ? hook.answer.name : "none")}");
+            }
+            report.AppendLine($"needsCap = {puzzle.needsCap}");
         }
 
         static Bounds Bounds(GameObject go)

@@ -89,6 +89,7 @@ MonoBehaviour:
   flags:
   - clothes_solved
   - cap_worn
+  items: []
   beat: {fileID: 2218000827695884124}
   show: []
 --- !u!114 &6698251610550850071
