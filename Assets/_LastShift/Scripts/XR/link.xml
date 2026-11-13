@@ -1,0 +1,4 @@
+<linker>
+  <!-- the rig switcher finds the WebXR manager by name, so the web build keeps the WebXR package whole -->
+  <assembly fullname="WebXR" preserve="all"/>
+</linker>

@@ -41,6 +41,46 @@ namespace LastShift.Menus
 #endif
             Show(mainPanel);
             ReadSettings();
+            if (LastShift.Save.AutoSave.HasSave) AddContinue();
+        }
+
+        // With progress saved, a CONTINUE button goes on top, made from PLAY, and the buttons are
+        // spaced over the same height as before so nothing else on the panel moves.
+        void AddContinue()
+        {
+            if (mainPanel == null) return;
+            var play = mainPanel.transform.Find("Button PLAY") as RectTransform;
+            if (play == null) return;
+            var copy = Instantiate(play.gameObject, play.parent);
+            copy.name = "Button CONTINUE";
+            copy.transform.SetSiblingIndex(play.GetSiblingIndex());
+            var button = copy.GetComponent<Button>();
+            button.onClick = new Button.ButtonClickedEvent();   // not PLAY's
+            button.onClick.AddListener(Continue);
+            var label = copy.GetComponentInChildren<Text>(true);
+            if (label != null) label.text = "CONTINUE";
+
+            var buttons = new System.Collections.Generic.List<RectTransform>();
+            foreach (Transform t in mainPanel.transform)
+                if (t.gameObject.activeSelf && t.GetComponent<Button>() != null && t != copy.transform)
+                    buttons.Add((RectTransform)t);
+            buttons.Sort((a, b) => b.anchoredPosition.y.CompareTo(a.anchoredPosition.y));
+            if (buttons.Count == 0) return;
+            float top = buttons[0].anchoredPosition.y, bottom = buttons[buttons.Count - 1].anchoredPosition.y;
+            buttons.Insert(0, (RectTransform)copy.transform);
+            var step = (top - bottom) / Mathf.Max(1, buttons.Count - 1);
+            var height = Mathf.Min(play.sizeDelta.y, step - 10f);
+            for (var i = 0; i < buttons.Count; i++)
+            {
+                buttons[i].anchoredPosition = new Vector2(buttons[i].anchoredPosition.x, top - i * step);
+                buttons[i].sizeDelta = new Vector2(buttons[i].sizeDelta.x, height);
+            }
+        }
+
+        public void Continue()
+        {
+            Click();
+            LastShift.Save.AutoSave.Continue();
         }
 
         void Show(GameObject panel)

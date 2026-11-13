@@ -6,9 +6,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
 using UnityEngine.XR;
-#if UNITY_WEBGL && !UNITY_EDITOR
-using WebXR;
-#endif
 
 namespace LastShift.XR
 {
@@ -126,7 +123,7 @@ namespace LastShift.XR
         public static bool HeadsetActive()
         {
 #if UNITY_WEBGL && !UNITY_EDITOR
-            return WebXRManager.Instance != null && WebXRManager.Instance.XRState == WebXRState.VR;
+            return WebXRInVR();
 #elif UNITY_ANDROID && !UNITY_EDITOR
             // a Quest build: the app only ever runs inside the headset
             return true;
@@ -141,6 +138,30 @@ namespace LastShift.XR
                     return true;
             return false;
 #endif
+        }
+
+        // The WebXR package's code can't be named from the game's scripts (its assembly isn't
+        // referenced automatically), so its manager is found by name and asked for its state.
+        static System.Reflection.PropertyInfo webxrInstance, webxrState;
+        static bool webxrLooked;
+
+        static bool WebXRInVR()
+        {
+            if (!webxrLooked)
+            {
+                webxrLooked = true;
+                var type = Type.GetType("WebXR.WebXRManager, WebXR");
+                if (type != null)
+                {
+                    webxrInstance = type.GetProperty("Instance", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+                    webxrState = type.GetProperty("XRState", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+                }
+            }
+            if (webxrInstance == null || webxrState == null) return false;
+            var manager = webxrInstance.GetValue(null);
+            if (manager == null) return false;
+            var state = webxrState.GetValue(manager);
+            return state != null && state.ToString() == "VR";
         }
     }
 }

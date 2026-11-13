@@ -59,6 +59,8 @@ namespace LastShift.XR
         void Awake()
         {
             if (canvas != null) canvas.gameObject.SetActive(false);
+            // over the room and over the HUD, so walls never cut through the menu
+            UIOnTop.Apply(canvas, 200);
             if (itemTemplate != null) itemTemplate.gameObject.SetActive(false);
             foreach (var kv in Run.Items) known.Add(kv.Key);
         }
@@ -204,10 +206,45 @@ namespace LastShift.XR
                 b.onClick.AddListener(() => Select(id));
                 itemButtons.Add(b);
             }
+            FitList();
             if (items.Count > 0 && (detailTitle == null || string.IsNullOrEmpty(detailTitle.text)))
                 Select(items[0].Key);
             else if (items.Count == 0)
                 ShowText("", "", null);
+        }
+
+        // Later in the game the list grows past the bottom of the panel: the buttons get shorter,
+        // and their labels smaller, so every item still fits on the page.
+        void FitList()
+        {
+            if (itemButtons.Count == 0 || itemsPage == null) return;
+            var page = (RectTransform)itemsPage.transform;
+            var list = (RectTransform)itemList;
+            var corners = new Vector3[4];
+            list.GetWorldCorners(corners);
+            var top = page.InverseTransformPoint(corners[1]).y;
+            var room = top - page.rect.yMin - 16f;
+            var layout = itemList.GetComponent<HorizontalOrVerticalLayoutGroup>();
+            var gap = layout != null ? layout.spacing : 4f;
+            var full = ((RectTransform)itemTemplate.transform).rect.height;
+            var n = itemButtons.Count;
+            var each = Mathf.Min(full, (room - gap * (n - 1)) / n);
+            if (each >= full - 0.5f) return;
+            for (var i = 0; i < n; i++)
+            {
+                var rt = (RectTransform)itemButtons[i].transform;
+                var le = rt.GetComponent<LayoutElement>();
+                if (le == null) le = rt.gameObject.AddComponent<LayoutElement>();
+                le.minHeight = le.preferredHeight = each;
+                rt.sizeDelta = new Vector2(rt.sizeDelta.x, each);
+                if (layout == null) rt.anchoredPosition = new Vector2(rt.anchoredPosition.x, -i * (each + gap));
+                foreach (var t in rt.GetComponentsInChildren<Text>(true))
+                {
+                    t.resizeTextForBestFit = true;
+                    t.resizeTextMinSize = 6;
+                    t.resizeTextMaxSize = Mathf.Max(t.resizeTextMaxSize, t.fontSize);
+                }
+            }
         }
 
         public void Select(string id)
