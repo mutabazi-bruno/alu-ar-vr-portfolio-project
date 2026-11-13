@@ -11,7 +11,7 @@ namespace LastShift.Props
     public class ClothesRackHint : MonoBehaviour
     {
         const string SolvedFlag = "clothes_solved";
-        const string WrongText = "That's not how he hangs them. Read his note again: hook one is on the left.";
+        const string WrongText = "That's not how Habimana hangs them. Read his note by the mirror again: hook one is on the left.";
 
         bool changed;
 

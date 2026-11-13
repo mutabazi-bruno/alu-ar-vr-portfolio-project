@@ -50,7 +50,7 @@ MonoBehaviour:
   setsFlag: 
   subtitle: 
   speaker: 
-  objective: Which hook did he mean? Check his badge.
+  objective: Which hook did Habimana mean? Check his badge.
   sound: {fileID: 0}
   lightsOff: []
   wakes: []

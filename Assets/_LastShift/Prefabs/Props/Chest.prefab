@@ -51,7 +51,7 @@ MonoBehaviour:
   setsFlag: 
   subtitle: 
   speaker: 
-  objective: Find the time he signed in.
+  objective: Find the time Habimana signed in.
   sound: {fileID: 0}
   lightsOff: []
   wakes: []

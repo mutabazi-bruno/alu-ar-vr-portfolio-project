@@ -52,7 +52,7 @@ MonoBehaviour:
   setsFlag: roomc_entered
   subtitle: 
   speaker: 
-  objective: Learn how he keeps his room.
+  objective: Learn how Habimana keeps his room.
   sound: {fileID: 0}
   lightsOff: []
   wakes: []
