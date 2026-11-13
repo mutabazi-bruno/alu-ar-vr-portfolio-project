@@ -46,6 +46,8 @@
         companyName: "{{{ COMPANY_NAME }}}",
         productName: "{{{ PRODUCT_NAME }}}",
         productVersion: "{{{ PRODUCT_VERSION }}}",
+        // draw at the page's size, not 1.5-2x on scaled laptop screens; much smoother, headsets aren't affected
+        devicePixelRatio: 1,
       };
 
       var container = document.querySelector("#unity-container");

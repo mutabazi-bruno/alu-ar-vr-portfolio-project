@@ -76,6 +76,8 @@ The project is set to Gzip compression with decompression fallback, which is wha
 
 For VR in the browser, two settings have to stay on: WebXR Export ticked on the WebGL tab of XR Plug-in Management, and the WebXRFullView2020 page template (in `Assets/WebGLTemplates/`) picked in Player Settings, because that page has the Enter VR button. Without either one the game still loads, but a headset can't get into VR.
 
+For the build you publish, set Code Optimization to Runtime Speed in Build Profiles > Web. "Shorter Build Time" builds faster but the game runs noticeably slower in the browser. The music loads each track only when it's needed and is mono, because a browser decodes every clip in full, and the first voice line has to wait for that.
+
 Saves live in the browser, so they survive a page reload but not a new upload to itch.io (each upload gets a new address).
 
 ## Project layout
