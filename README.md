@@ -101,6 +101,12 @@ The prefabs are in `Prefabs/Clothes/`: `ClothesRack` (four hooks and the puzzle)
 
 When every piece is on the right hook, the puzzle sets the flag `clothes_solved` and locks the rack. Wearing the cap is a separate step that sets `cap_worn`, and the exit in Room C waits for both. The cap can't be taken until `clothes_solved` is set (its `lockedUntil` field), so nobody can grab it through the side of the locked wardrobe. If you want the rack itself to wait for the cap, tick `needsCap` on the rack and clear `lockedUntil` on the cap. `Scenes/Sandbox/Bruno.unity` has a working setup to try it in.
 
+## Music
+
+The title plays a slow music box tune. Both rooms have a low drone with no tune, so it never covers Habimana's voice, and in Room C the drone is a little lower and the same music box tune plays from the caretaker's record player. When the exit opens the drone fades into birdsong, which carries on through the end card. All the music dips while Habimana is talking.
+
+`MusicPlayer` creates itself and picks the tracks by scene name, so nothing has to be placed in a scene. Scenes outside the game, like the sandboxes, stay silent. The tracks and their volumes are in `Audio/Music/Resources/MusicSet.asset`. `RecordPlayer.wav` is the menu tune made to sound like an old record (muffled, mono, with crackle), done as a file because web builds skip Unity's audio filters.
+
 ## What came from the kit and what we built
 
 **From Escape Puzzle Kit Free:** the interaction, inventory, doors and locks systems, story beats and saves, the HUD, the prop and set piece models, and the sounds.
@@ -110,3 +116,7 @@ When every piece is on the right hook, the puzzle sets the flag `clothes_solved`
 ## Credits
 
 - Escape Puzzle Kit Free and PSX Horror SFX by heyheythere (https://heyheythere.itch.io), used under the kit's licence.
+- "If a Music Box Could Speak" by tyufyakin (https://pixabay.com/music/solo-piano-if-a-music-box-could-speak-455948/), the title tune and the record player.
+- "Ambient Horror" by leberch (https://pixabay.com/music/ambient-ambient-horror-518292/), the drone in both rooms.
+- "Birds chirping at dawn" by dbsound (https://pixabay.com/sound-effects/nature-birds-chirping-at-dawn-246036/), the dawn.
+- The three Pixabay tracks are used under the Pixabay Content License.
