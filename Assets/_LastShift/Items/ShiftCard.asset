@@ -18,6 +18,6 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 869beef486944da6a108694d9f5aa641, type: 3}
   kind: 3
   amount: 0
-  text: "OLD CAMPUS ARCHIVE\nNIGHT SHIFT CARD\n\nJoseph Habimana\nNight caretaker \u00b7 ID 0417\n\n13 NOV\nSIGNED IN: 22:07\nSIGNED OUT:\n\nThe signed-out line is blank."
+  text: "J. Habimana \u00b7 13 NOV\nSIGNED IN: 22:07\nSIGNED OUT: (blank)"
   keep: 0
   model: {fileID: 542072996525601727, guid: 66fb9b6cbbe53c2ea33a75739ba24934, type: 3}
