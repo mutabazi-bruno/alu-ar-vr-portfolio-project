@@ -3,10 +3,10 @@ using UnityEngine;
 namespace LastShift.Props
 {
     /// <summary>
-    /// A clothes piece wears a garment from an Asset Store pack that each of us imports ourselves.
-    /// With the garment there the placeholder box stays hidden, even after the clothes puzzle shows
-    /// every renderer again (hanging a piece back up). Where the pack is missing the garment has
-    /// nothing to draw, so the placeholder shows instead of the piece being invisible.
+    /// A clothes piece wears a garment model in place of its placeholder box. With the garment there
+    /// the box stays hidden, even after the clothes puzzle shows every renderer again (hanging a
+    /// piece back up). If the garment has nothing to draw, the box shows instead of the piece being
+    /// invisible.
     /// </summary>
     public class LookFallback : MonoBehaviour
     {

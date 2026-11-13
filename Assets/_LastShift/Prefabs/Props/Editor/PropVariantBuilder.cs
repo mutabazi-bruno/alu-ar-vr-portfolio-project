@@ -125,11 +125,12 @@ namespace LastShift.EditorTools
             });
             Variant("ExitDoor", "door_steel", ExitDoor);
 
-            // Habimana's clothes: Bruno's coat, shirt and trousers (his scripts untouched) wearing the
-            // After Dark garments instead of their placeholder boxes. The scarf and cap have no match there.
-            Variant("HabimanaCoat", $"{ClothesFolder}/Coat.prefab", go => Dress(go, "shirt-0002"));
-            Variant("HabimanaShirt", $"{ClothesFolder}/Shirt.prefab", go => Dress(go, "shirt-0003"));
-            Variant("HabimanaTrousers", $"{ClothesFolder}/Trousers.prefab", go => Dress(go, "pants-0002"));
+            // Habimana's clothes: Bruno's coat, shirt, trousers and scarf (his scripts untouched) wearing
+            // our garment models instead of their placeholder boxes, in the colours their labels give.
+            Variant("HabimanaCoat", $"{ClothesFolder}/Coat.prefab", go => Dress(go, "Coat", new Color(0.36f, 0.37f, 0.38f)));
+            Variant("HabimanaShirt", $"{ClothesFolder}/Shirt.prefab", go => Dress(go, "Shirt", Color.white, "Shirt_diffuse", "Shirt_normal"));
+            Variant("HabimanaTrousers", $"{ClothesFolder}/Trousers.prefab", go => Dress(go, "Trousers", new Color(0.33f, 0.22f, 0.13f)));
+            Variant("HabimanaScarf", $"{ClothesFolder}/Scarf.prefab", go => Dress(go, "Scarf", new Color(0.55f, 0.07f, 0.07f)));
 
             // Room B: the one archive box without a proper label, with his hint for the safe.
             Variant("OddBox", "cardboard_box", go =>
@@ -605,31 +606,71 @@ namespace LastShift.EditorTools
         // ---------------------------------------------------------------- Habimana's clothes
 
         const string ClothesFolder = "Assets/_LastShift/Prefabs/Clothes";
-        // Asset Store pack, imported by each of us (like the kit), never committed.
-        const string GarmentFolder = "Assets/Genies/AfterDark";
+        const string GarmentFolder = GarmentImport.Folder;
+
+        // The shirt and trousers files come with the mannequin they were made on; only the cloth is kept.
+        static readonly System.Text.RegularExpressions.Regex NotCloth =
+            new System.Text.RegularExpressions.Regex(@"^(body|eye|eyelash|tooth|hair|shoes)", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
 
         // Hides the placeholder box and puts the garment where it was, sized to it. The root keeps
-        // Bruno's collider, grab and hanging scripts, so the piece behaves exactly as before.
-        static void Dress(GameObject go, string garment)
+        // Bruno's collider, grab and hanging scripts, so the piece behaves exactly as before. The look
+        // is plain meshes (the posed cloth baked out of the skinned ones), with no bones or animator.
+        static void Dress(GameObject go, string garment, Color colour, string baseMap = null, string normalMap = null)
         {
-            var model = AssetDatabase.LoadAssetAtPath<GameObject>($"{GarmentFolder}/{garment}-afterDark/{garment}-afterDark_model.prefab");
+            var model = AssetDatabase.LoadAssetAtPath<GameObject>($"{GarmentFolder}/{garment}.fbx");
             if (model == null)
             {
-                Debug.LogWarning($"[PropVariantBuilder] {garment} not found: import the After Dark clothing pack first.");
+                Debug.LogWarning($"[PropVariantBuilder] {garment}.fbx not found in {GarmentFolder}.");
                 return;
             }
             var box = go.transform.Find("Model");
-            var look = go.transform.Find("Look");
-            if (look == null)
-            {
-                look = ((GameObject)PrefabUtility.InstantiatePrefab(model, go.transform)).transform;
-                look.name = "Look";
-            }
-            // the garment's own colliders would catch the look and the hooks instead of Bruno's box
-            foreach (var c in look.GetComponentsInChildren<Collider>(true))
-                UnityEngine.Object.DestroyImmediate(c);
             if (box == null)
                 return;
+
+            var old = go.transform.Find("Look");
+            if (old != null)
+                UnityEngine.Object.DestroyImmediate(old.gameObject);
+            var look = new GameObject("Look").transform;
+            look.SetParent(go.transform, false);
+
+            var material = GarmentMaterial(garment, colour, baseMap, normalMap);
+            var source = UnityEngine.Object.Instantiate(model);
+            try
+            {
+                int n = 0;
+                foreach (var r in source.GetComponentsInChildren<Renderer>(true))
+                {
+                    if (NotCloth.IsMatch(r.name))
+                        continue;
+                    Mesh mesh;
+                    if (r is SkinnedMeshRenderer skinned)
+                    {
+                        mesh = new Mesh { name = $"{garment}_{n}", indexFormat = UnityEngine.Rendering.IndexFormat.UInt32 };
+                        skinned.BakeMesh(mesh, true);
+                        mesh.RecalculateBounds();
+                        mesh = SaveMesh(mesh, $"{GarmentFolder}/Baked/{garment}_{n}.asset");
+                    }
+                    else
+                    {
+                        var filter = r.GetComponent<MeshFilter>();
+                        if (filter == null || filter.sharedMesh == null)
+                            continue;
+                        mesh = filter.sharedMesh;
+                    }
+                    n++;
+                    var part = new GameObject(r.name, typeof(MeshFilter), typeof(MeshRenderer));
+                    part.transform.SetParent(look, false);
+                    part.transform.localPosition = source.transform.InverseTransformPoint(r.transform.position);
+                    part.transform.localRotation = Quaternion.Inverse(source.transform.rotation) * r.transform.rotation;
+                    part.transform.localScale = r is SkinnedMeshRenderer ? Vector3.one : r.transform.lossyScale;
+                    part.GetComponent<MeshFilter>().sharedMesh = mesh;
+                    part.GetComponent<MeshRenderer>().sharedMaterials = Enumerable.Repeat(material, mesh.subMeshCount).ToArray();
+                }
+            }
+            finally
+            {
+                UnityEngine.Object.DestroyImmediate(source);
+            }
 
             var placeholder = box.GetComponent<Renderer>();
             var target = placeholder.bounds;
@@ -639,15 +680,54 @@ namespace LastShift.EditorTools
                 fallback = go.AddComponent<LookFallback>();
             fallback.look = look;
             fallback.placeholder = placeholder;
+            if (look.childCount == 0)
+                return;
 
-            look.localPosition = Vector3.zero;
-            look.localRotation = Quaternion.identity;
-            look.localScale = Vector3.one;
             var size = RendererBounds(look.gameObject).size;
             // as tall as the placeholder, but sleeves held out no wider than a hanger and a half
-            float scale = Mathf.Min(target.size.y / size.y, target.size.x * 1.5f / size.x);
-            look.localScale = Vector3.one * scale;
+            float scale = Mathf.Min(target.size.y / size.y, Mathf.Max(target.size.x * 1.5f, 0.45f) / size.x);
+            look.localScale = Vector3.one * scale / Mathf.Max(0.001f, go.transform.lossyScale.y);
             look.position += target.center - RendererBounds(look.gameObject).center;
+        }
+
+        // Cloth from these files is one sided, so it's drawn from both sides or the sleeves look hollow.
+        static Material GarmentMaterial(string garment, Color colour, string baseMap, string normalMap)
+        {
+            var path = $"{GarmentFolder}/Materials/{garment}.mat";
+            var material = AssetDatabase.LoadAssetAtPath<Material>(path);
+            if (material == null)
+            {
+                System.IO.Directory.CreateDirectory($"{GarmentFolder}/Materials");
+                material = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+                AssetDatabase.CreateAsset(material, path);
+            }
+            material.SetColor("_BaseColor", colour);
+            material.SetFloat("_Smoothness", 0.15f);
+            material.SetFloat("_Cull", 0f);
+            material.doubleSidedGI = true;
+            if (baseMap != null)
+                material.SetTexture("_BaseMap", AssetDatabase.LoadAssetAtPath<Texture2D>($"{GarmentFolder}/{baseMap}.png"));
+            if (normalMap != null)
+            {
+                material.SetTexture("_BumpMap", AssetDatabase.LoadAssetAtPath<Texture2D>($"{GarmentFolder}/{normalMap}.png"));
+                material.EnableKeyword("_NORMALMAP");
+            }
+            EditorUtility.SetDirty(material);
+            return material;
+        }
+
+        static Mesh SaveMesh(Mesh mesh, string path)
+        {
+            System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(path));
+            var existing = AssetDatabase.LoadAssetAtPath<Mesh>(path);
+            if (existing == null)
+            {
+                AssetDatabase.CreateAsset(mesh, path);
+                return mesh;
+            }
+            EditorUtility.CopySerialized(mesh, existing);
+            UnityEngine.Object.DestroyImmediate(mesh);
+            return existing;
         }
 
         static Bounds RendererBounds(GameObject go)
