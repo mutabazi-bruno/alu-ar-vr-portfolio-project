@@ -10,8 +10,9 @@ It runs in the browser on a desktop, and in a VR headset through WebXR.
 
 - Play in the browser (Unity Play): https://play.unity.com/en/games/35f7f4fc-1243-4238-ab2d-726d13f93eb3/the-last-shift
 - Code walkthrough video: https://drive.google.com/file/d/1u9mSk9Juq3QTEd3FGefharAuhzUArSFC/view?usp=sharing
-- VR demo video: https://youtu.be/aDxJH-bOJoQ
-- DevLog: coming soon
+- Gameplay in a VR headset: https://youtu.be/aDxJH-bOJoQ
+- Gameplay in the browser: https://youtu.be/ovYiqaCMZus
+- DevLog: https://docs.google.com/document/d/1GI_zj5g7sMNep82Gk4t9jAgpbX-zGPlQsGtxbJupAW0/edit?usp=sharing
 
 On a headset, open the Unity Play link in the Quest browser and press Enter VR at the bottom right of the game.
 
