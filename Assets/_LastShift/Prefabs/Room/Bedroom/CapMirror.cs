@@ -33,6 +33,7 @@ namespace LastShift.Bedroom
         Camera viewer;
         float nextViewerCheck;
         bool figureOn;
+        Quaternion headRest = Quaternion.identity;
 
         static readonly int BaseMap = Shader.PropertyToID("_BaseMap");
         static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
@@ -67,6 +68,8 @@ namespace LastShift.Bedroom
             data.requiresColorTexture = false;
             data.requiresDepthTexture = false;
 
+            if (head != null)
+                headRest = head.localRotation;
             if (figure != null)
                 figureRenderers = figure.GetComponentsInChildren<Renderer>(true);
             foreach (var r in figureRenderers)
@@ -142,7 +145,13 @@ namespace LastShift.Bedroom
                 var look = viewer.transform.eulerAngles;
                 figure.SetPositionAndRotation(eye, Quaternion.Euler(0f, look.y, 0f));
                 if (head != null)
-                    head.localRotation = Quaternion.Euler(Mathf.Clamp(Mathf.DeltaAngle(0f, look.x), -35f, 35f), 0f, 0f);
+                {
+                    // nod on top of the head's own resting angle (a character's head bone isn't level),
+                    // around the figure's left-right axis
+                    head.localRotation = headRest;
+                    float pitch = Mathf.Clamp(Mathf.DeltaAngle(0f, look.x), -35f, 35f);
+                    head.rotation = Quaternion.AngleAxis(pitch, figure.right) * head.rotation;
+                }
             }
             if (cap != null)
             {
