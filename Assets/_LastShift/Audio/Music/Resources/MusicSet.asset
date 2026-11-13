@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aa454d32954915418f79df1f23ce929, type: 3}
+  m_Name: MusicSet
+  m_EditorClassIdentifier: Assembly-CSharp::LastShift.Music.MusicSet
+  menu: {fileID: 8300000, guid: 5efe7e4b98853f649b7cc30000b3e836, type: 3}
+  drone: {fileID: 8300000, guid: 8376d799333d9ee49b971df57511c9b4, type: 3}
+  record: {fileID: 8300000, guid: 6ebdcc64b4efce64eb63f64008af730e, type: 3}
+  dawn: {fileID: 8300000, guid: 2b2f43bbe78601d40bea01d81228111d, type: 3}
+  menuVolume: 0.6
+  droneVolume: 0.35
+  recordVolume: 0.8
+  dawnVolume: 0.9
+  duckTo: 0.35
+  roomCPitch: 0.9
+  recordPlayerName: Speaker_RecordPlayer
+  recordNear: 1
+  recordFar: 8
+  droneLoopFrom: 3
+  droneCrossfade: 7
+  dawnLoopFrom: 16
+  fade: 2.5
