@@ -14,6 +14,13 @@ public class ClothesCap : Interactable
     [Tooltip("How close to the headset the cap has to come in VR, in metres")]
     public float headReach = 0.3f;
 
+    [Tooltip("Can't be taken until this flag is set, so it can't be reached through the side of the locked wardrobe. Empty: any time. Leave it empty if the rack has needsCap ticked")]
+    public string lockedUntil = "clothes_solved";
+
+    bool Free => lockedUntil == "" || Run.HasFlag(lockedUntil);
+
+    public override bool CanFocus => base.CanFocus && Free;
+
     public override string Verb => "PUT ON";
 
     XRGrabInteractable grab;
@@ -33,6 +40,10 @@ public class ClothesCap : Interactable
 
     void Update()
     {
+        // vr hands too, not just the look
+        if (grab != null)
+            grab.enabled = Free;
+
         if (grab == null || !grab.isSelected || grab.firstInteractorSelecting is XRSocketInteractor)
             return;
 
