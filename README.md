@@ -74,6 +74,8 @@ Both hands work, so you can play left-handed.
 
 The project is set to Gzip compression with decompression fallback, which is what lets the build load on itch.io. If you change it back to Brotli the page stays stuck on a blank screen.
 
+For VR in the browser, two settings have to stay on: WebXR Export ticked on the WebGL tab of XR Plug-in Management, and the WebXRFullView2020 page template (in `Assets/WebGLTemplates/`) picked in Player Settings, because that page has the Enter VR button. Without either one the game still loads, but a headset can't get into VR.
+
 Saves live in the browser, so they survive a page reload but not a new upload to itch.io (each upload gets a new address).
 
 ## Project layout
@@ -133,3 +135,4 @@ The title plays a slow music box tune. Both rooms have a low drone with no tune,
 - "Ambient Horror" by leberch (https://pixabay.com/music/ambient-ambient-horror-518292/), the drone in both rooms.
 - "Birds chirping at dawn" by dbsound (https://pixabay.com/sound-effects/nature-birds-chirping-at-dawn-246036/), the dawn.
 - The three Pixabay tracks are used under the Pixabay Content License.
+- WebXR Export by De-Panther (https://github.com/De-Panther/unity-webxr-export), which runs VR in the browser. The web page with the Enter VR button is its WebXRFullView2020 template, with the AR button hidden.
