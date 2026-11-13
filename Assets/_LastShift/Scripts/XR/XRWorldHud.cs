@@ -42,6 +42,7 @@ namespace LastShift.XR
         public string torchControl = "X / A";
 
         float objectiveLeft, lineLeft, hintLeft;
+        XRMenu menu;
         Text[] texts;
         int[] baseSizes;
         float appliedScale = -1f;
@@ -53,10 +54,38 @@ namespace LastShift.XR
             foreach (var img in GetComponentsInChildren<Image>(true))
                 if (img.color.r < 0.2f && img.color.g < 0.2f && img.color.b < 0.2f)
                     img.color = new Color(LastShift.Menus.Theme.Panel.r, LastShift.Menus.Theme.Panel.g, LastShift.Menus.Theme.Panel.b, img.color.a);
+            // the subtitle screen gets a thin amber line along its top and bottom, like the desktop's
+            if (lineGroup != null)
+            {
+                var screen = lineGroup.GetComponent<Image>();
+                if (screen == null) screen = lineGroup.GetComponentInChildren<Image>(true);
+                if (screen != null) { Edge(screen.rectTransform, true); Edge(screen.rectTransform, false); }
+            }
+            // drawn over the room so walls and furniture never cut through the text
+            foreach (var c in GetComponentsInChildren<Canvas>(true)) UIOnTop.Apply(c, 100);
+            // the prompt beside objects sits on its own canvas, not under this one
+            if (prompt != null) UIOnTop.Apply(prompt.GetComponentInParent<Canvas>(true), 110);
+            menu = GetComponentInParent<XRMenu>();
             texts = new[] { promptText, objectiveText, lineText, hintText };
             baseSizes = new int[texts.Length];
             for (var i = 0; i < texts.Length; i++)
                 baseSizes[i] = texts[i] != null ? texts[i].fontSize : 0;
+        }
+
+        static void Edge(RectTransform panel, bool top)
+        {
+            var go = new GameObject(top ? "Edge Top" : "Edge Bottom", typeof(RectTransform));
+            go.transform.SetParent(panel, false);
+            var rt = (RectTransform)go.transform;
+            rt.anchorMin = new Vector2(0f, top ? 1f : 0f);
+            rt.anchorMax = new Vector2(1f, top ? 1f : 0f);
+            rt.pivot = new Vector2(0.5f, top ? 1f : 0f);
+            rt.anchoredPosition = Vector2.zero;
+            rt.sizeDelta = new Vector2(0f, 3f);
+            var img = go.AddComponent<Image>();
+            var a = LastShift.Menus.Theme.Amber;
+            img.color = new Color(a.r, a.g, a.b, 0.45f);
+            img.raycastTarget = false;
         }
 
         void OnEnable()
@@ -154,6 +183,15 @@ namespace LastShift.XR
             Tick(ref objectiveLeft, objectiveGroup);
             Tick(ref lineLeft, lineGroup);
             Tick(ref hintLeft, hintGroup);
+
+            // while the VR menu is open it has the player's attention: nothing floats over it
+            if (menu != null && menu.IsOpen)
+            {
+                SetAlpha(objectiveGroup, 0f);
+                SetAlpha(lineGroup, 0f);
+                SetAlpha(hintGroup, 0f);
+                if (prompt != null) prompt.gameObject.SetActive(false);
+            }
         }
 
         void UpdatePrompt()

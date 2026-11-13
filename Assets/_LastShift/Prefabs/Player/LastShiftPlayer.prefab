@@ -62,6 +62,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1208a90903ec64a478adf303b3d0a80d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LastShift.Menus.PauseGuard
+  typed: {fileID: 12800000, guid: bff799062ce54cd46b30b158109b172d, type: 3}
+  typedBold: {fileID: 12800000, guid: 2f53e4491fb95034daa2e3a58b7284c0, type: 3}
+  title: {fileID: 12800000, guid: 6d6476148e10a03449f3451f2f5a8ef4, type: 3}
 --- !u!114 &4635932853904770363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,7 +77,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d2e39c172b2d6647bc8e3954528d198, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LastShift.Menus.GameFonts
-  body: {fileID: 12800000, guid: 57b571152329d7645af7aebc0cd66677, type: 3}
+  body: {fileID: 12800000, guid: 2f53e4491fb95034daa2e3a58b7284c0, type: 3}
+  screen: {fileID: 12800000, guid: ae55fff001a5aa9478f6d518b9bbfe1a, type: 3}
 --- !u!1001 &7042463433137150484
 PrefabInstance:
   m_ObjectHideFlags: 0

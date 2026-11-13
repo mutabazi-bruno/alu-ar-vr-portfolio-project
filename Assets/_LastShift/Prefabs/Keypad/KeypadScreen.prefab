@@ -141,12 +141,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 44
-    m_FontStyle: 1
+    m_Font: {fileID: 12800000, guid: ae55fff001a5aa9478f6d518b9bbfe1a, type: 3}
+    m_FontSize: 57
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
-    m_MaxSize: 44
+    m_MaxSize: 57
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -215,6 +215,7 @@ MonoBehaviour:
   lockSeconds: 30
   lockSound: {fileID: 0}
   lockLine: {fileID: 11400000, guid: 5c1b9642256dc9c47a0806fbf3bb76b0, type: 2}
+  lockLinePause: 0.6
   lockText: '[alarm buzz] The keypad locks.'
 --- !u!1 &9180450238260371572
 GameObject:
@@ -325,7 +326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.03, g: 0.04, b: 0.03, a: 1}
+  m_Color: {r: 0.023529412, g: 0.03137255, b: 0.02745098, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
