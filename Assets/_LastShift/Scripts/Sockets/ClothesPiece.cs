@@ -36,12 +36,33 @@ public class ClothesPiece : Interactable
         grab = GetComponent<XRGrabInteractable>();
         renderers = GetComponentsInChildren<Renderer>(true);
         colliders = GetComponentsInChildren<Collider>(true);
+        if (grab != null)
+            grab.selectExited.AddListener(OnLetGo);
     }
 
     void OnDestroy()
     {
         if (Held == this)
             Held = null;
+        if (grab != null)
+            grab.selectExited.RemoveListener(OnLetGo);
+    }
+
+    // VR hands: a piece let go anywhere but a hook goes back where it started, instead of
+    // hanging in the air (it has no gravity, so it can sit neatly on a hook)
+    void OnLetGo(UnityEngine.XR.Interaction.Toolkit.SelectExitEventArgs args)
+    {
+        if (args.interactorObject is UnityEngine.XR.Interaction.Toolkit.Interactors.XRSocketInteractor)
+            return;
+        StartCoroutine(ReturnIfNotHung());
+    }
+
+    System.Collections.IEnumerator ReturnIfNotHung()
+    {
+        // give a hook's socket a moment to take it
+        yield return new WaitForSeconds(0.25f);
+        if (Hook == null && Held != this && (grab == null || !grab.isSelected))
+            PutBack();
     }
 
     protected override void OnInteract(Interactor who, Collider part)
