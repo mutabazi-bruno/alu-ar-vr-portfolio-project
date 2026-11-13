@@ -8,18 +8,24 @@ It runs in the browser on a desktop, and in a VR headset through WebXR.
 
 ## Links
 
-- Play in the browser: coming soon (itch.io)
+- Play in the browser (Unity Play): coming soon
 - DevLog: coming soon
 - Video walkthrough: coming soon
+
+If the game is slow or won't load:
+
+- Use Chrome. It ran smoothest for us.
+- On a laptop with two graphics chips (Intel and NVIDIA), Chrome may pick the weaker one. In Windows Settings > System > Display > Graphics, set Chrome to High performance and restart Chrome.
+- ALU's campus Wi-Fi blocks game sites, Unity Play and itch.io included. Use mobile data or another network.
 
 ## Team
 
 | Member | Role |
 |---|---|
-| Mutabazi Ishimwe Bruno | Repo setup, WebGL build and itch.io page, README, end card scene, clothes puzzle, music |
-| Leslie (group leader) | Room layout, lighting, labels and textures, screenshots, video walkthrough |
-| Gama | Items, locks, notes and objectives, battery and settings scripts, DevLog |
-| Brian | XR rig and rig switcher, gaze interaction, world-space HUD, subtitles and accessibility |
+| Amanda Leslie Inema (group leader) | Room design and art for Room B and Room C, lighting, the cap mirror, code walkthrough video |
+| Brian Gatanazi | VR setup and controls, Habimana's voice lines, title screen, Quest build, UI and the end card's look |
+| Allan Gama Ntare | Items, notes and locks, story and puzzle wiring, settings and autosave |
+| Mutabazi Ishimwe Bruno | Project setup and repo, web build and the Unity Play page, end card, clothes puzzle, music, README |
 
 ## How to play
 
@@ -68,17 +74,22 @@ Both hands work, so you can play left-handed.
 
 ## Web build
 
-1. File > Build Profiles, pick Web and click Build. Choose an empty folder outside the repo.
-2. Zip what's inside that folder (`index.html` has to be at the top of the zip, not inside another folder).
-3. On itch.io, upload the zip and tick "This file will be played in the browser". Set the embed size to 960 x 600 and turn on the fullscreen button.
+We publish on Unity Play.
 
-The project is set to Gzip compression with decompression fallback, which is what lets the build load on itch.io. If you change it back to Brotli the page stays stuck on a blank screen.
+1. File > Build Profiles, pick Web, set Code Optimization to Runtime Speed and click Build. Choose an empty folder outside the repo.
+2. Sign in to Unity (Unity Hub has to be open), then click Publish to Play. If it says no build was found, use Locate Build and pick the folder from step 1.
+3. Pick Update existing game for a new version, so the link stays the same. New game makes a new page.
+4. On the Unity Play page that opens, set the title and description, set it to Public and save.
+
+To try a build on your own computer first, it has to come from a web server: opening `index.html` straight from the folder only gives "Script error". In the build folder run `python -m http.server 8000` and open http://localhost:8000.
+
+The project is set to Gzip compression with decompression fallback, so the build loads on any host without special server settings. If you change it back to Brotli the page stays stuck on a blank screen.
 
 For VR in the browser, two settings have to stay on: WebXR Export ticked on the WebGL tab of XR Plug-in Management, and the WebXRFullView2020 page template (in `Assets/WebGLTemplates/`) picked in Player Settings, because that page has the Enter VR button. Without either one the game still loads, but a headset can't get into VR.
 
 For the build you publish, set Code Optimization to Runtime Speed in Build Profiles > Web. "Shorter Build Time" builds faster but the game runs noticeably slower in the browser. The music loads each track only when it's needed and is mono, because a browser decodes every clip in full, and the first voice line has to wait for that.
 
-Saves live in the browser, so they survive a page reload but not a new upload to itch.io (each upload gets a new address).
+Saves live in the browser, so they survive a page reload.
 
 ## Project layout
 
@@ -110,7 +121,7 @@ The player re-hangs the caretaker's clothes on the rack in the right order and p
 - Desktop, or the VR pointer: use a piece to pick it up, then use a hook to hang it. Using a hook that already has something on it swaps the two. Use the cap to put it on.
 - VR hands: grab a piece with grip and let go with the top of the hanger at a hook, and it snaps on. Lift the cap to your head to wear it.
 
-The prefabs are in `Prefabs/Clothes/`: `ClothesRack` (four hooks and the puzzle), `Coat`, `Shirt`, `Scarf` and `Cap`. The clothes are placeholder shapes for now. To set it up in a scene:
+The prefabs are in `Prefabs/Clothes/`: `ClothesRack` (four hooks and the puzzle), `Coat`, `Shirt`, `Scarf` and `Cap`. These prefabs use simple placeholder shapes. In Room C the coat, shirt and trousers are Gama's variants of them, dressed in proper garment models. To set it up in a scene:
 
 1. Drop in `ClothesRack`, the clothes and the cap. Keep the clothes away from the hooks at the start.
 2. On each hook, set `answer` to the piece that belongs there. Leave it empty for a hook that should stay empty.
@@ -128,7 +139,7 @@ The title plays a slow music box tune. Both rooms have a low drone with no tune,
 
 **From Escape Puzzle Kit Free:** the interaction, inventory, doors and locks systems, story beats and saves, the HUD, the prop and set piece models, and the sounds.
 
-**Built by us:** the room layout, the story, notes and codes, the items and their textures, the labels and signs, the battery toggle and settings menu, the end card, the clothes puzzle, the music, the rig switcher, VR interaction and the world-space HUD.
+**Built by us:** the room layout, the story, notes and codes, the items and their textures, the labels and signs, the battery toggle and settings menu, the end card, the clothes puzzle, the music, the character in the cap mirror, the rig switcher, VR interaction, the world-space HUD and the web page with the Enter VR button.
 
 ## Credits
 
