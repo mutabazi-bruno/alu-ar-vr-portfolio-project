@@ -111,6 +111,9 @@ namespace LastShift.Music
         {
             readonly AudioSource[] sources = new AudioSource[2];
             readonly float[] weights = new float[2];
+            // a browser warns every time a source holding a sound that isn't loaded yet is asked
+            // anything, so the sources get the clip only when they start, and idle ones are left alone
+            readonly bool[] started = new bool[2];
             readonly AudioClip clip;
             int active;
             float startedAt = -10f;
@@ -131,7 +134,6 @@ namespace LastShift.Music
                     var s = host.AddComponent<AudioSource>();
                     s.playOnAwake = false;
                     s.loop = false;
-                    s.clip = clip;
                     s.volume = 0f;
                     s.dopplerLevel = 0f;
                     if (far > 0f)
@@ -156,15 +158,19 @@ namespace LastShift.Music
                     for (int i = 0; i < 2; i++)
                     {
                         weights[i] = 0f;
-                        if (sources[i].isPlaying)
+                        if (started[i])
+                        {
                             sources[i].Stop();
+                            started[i] = false;
+                        }
                     }
                     return;
                 }
 
                 if (clip.loadState != AudioDataLoadState.Loaded)
                 {
-                    clip.LoadAudioData();
+                    if (clip.loadState == AudioDataLoadState.Unloaded)
+                        clip.LoadAudioData();
                     return;
                 }
 
@@ -187,15 +193,20 @@ namespace LastShift.Music
                     weights[i] = Mathf.MoveTowards(weights[i], i == active ? 1f : 0f, dt / crossfade);
                     sources[i].volume = weights[i] * level * volume * duck;
                     sources[i].pitch = pitch;
-                    if (i != active && weights[i] <= 0f && sources[i].isPlaying)
+                    if (i != active && weights[i] <= 0f && started[i])
+                    {
                         sources[i].Stop();
+                        started[i] = false;
+                    }
                 }
             }
 
             void Play(AudioSource s)
             {
+                s.clip = clip;
                 s.time = Mathf.Min(loopFrom, clip.length - 1f);
                 s.Play();
+                started[System.Array.IndexOf(sources, s)] = true;
                 startedAt = Time.realtimeSinceStartup;
             }
         }
