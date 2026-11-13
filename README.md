@@ -16,7 +16,7 @@ It runs in the browser on a desktop, and in a VR headset through WebXR.
 
 | Member | Role |
 |---|---|
-| Mutabazi Ishimwe Bruno | Repo setup, WebGL build and itch.io page, README, end card scene |
+| Mutabazi Ishimwe Bruno | Repo setup, WebGL build and itch.io page, README, end card scene, clothes puzzle, music |
 | Leslie (group leader) | Room layout, lighting, labels and textures, screenshots, video walkthrough |
 | Gama | Items, locks, notes and objectives, battery and settings scripts, DevLog |
 | Brian | XR rig and rig switcher, gaze interaction, world-space HUD, subtitles and accessibility |
@@ -33,16 +33,29 @@ On desktop:
 | Tab | Inventory (you can turn items over to examine them) |
 | Esc | Pause menu |
 
-VR controls will be added here once the XR rig is in.
+In VR (Quest browser):
+
+| Control | Action |
+|---|---|
+| Left stick | Walk |
+| Right stick | Snap turn |
+| Trigger (either hand) | Use what the ray points at: open, take, unlock, press keypad keys |
+| Grip | Grab clothes and hang them on the hooks |
+| X or A | Torch on and off |
+| Y or B, or the left menu button | Menu with your items, notes and settings |
+
+Both hands work, so you can play left-handed.
 
 ## Accessibility
 
+- Every voice line has a subtitle with the speaker's name. Subtitles can be turned off in the settings.
+- There's a text size setting. It changes the subtitles and the HUD, on desktop and in VR.
+- No timer. The torch battery drain can be turned off, so the torch never runs out.
+- After three wrong codes a keypad locks you out. That can be turned off too.
 - Puzzle clues never rely on colour alone. Labels carry a shape and a year, and keys and hooks carry numbers.
-- Every important sound has a subtitle.
-- No timer. The flashlight battery can be switched off in the pause menu.
 - The objective line always tells you what to try next, so it doubles as a hint.
-- Notes are short and shown in large, high-contrast text.
-- In VR everything can be reached seated, with teleport and snap turn.
+- Notes are short and shown in large, high-contrast text. In VR, text always draws on top of the room, so walls never cut through it.
+- For comfort in VR, the edges of the view darken while you move or turn, turning is snap turn instead of smooth, and the walking speed is kept slow.
 
 ## Running the project
 
@@ -111,7 +124,7 @@ The title plays a slow music box tune. Both rooms have a low drone with no tune,
 
 **From Escape Puzzle Kit Free:** the interaction, inventory, doors and locks systems, story beats and saves, the HUD, the prop and set piece models, and the sounds.
 
-**Built by us:** the room layout, the story, notes and codes, the items and their textures, the labels and signs, the battery toggle and settings menu, the end card, the clothes puzzle, the rig switcher, VR interaction and the world-space HUD.
+**Built by us:** the room layout, the story, notes and codes, the items and their textures, the labels and signs, the battery toggle and settings menu, the end card, the clothes puzzle, the music, the rig switcher, VR interaction and the world-space HUD.
 
 ## Credits
 
