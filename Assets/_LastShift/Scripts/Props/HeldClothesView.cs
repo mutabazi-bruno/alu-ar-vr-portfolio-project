@@ -76,25 +76,86 @@ namespace LastShift.Props
             var mirror = FindAnyObjectByType<CapMirror>();
             if (mirror == null || mirror.figure == null)
                 return;
-            var chest = PartBounds(mirror.figure, "Chest");
-            var neck = PartBounds(mirror.figure, "Neck");
-            if (chest == null)
-                return;
 
             worn = MakeCopy(piece, out var size);
+            if (!FitOnBones(mirror.figure, piece.pieceId, size, out var centre, out var scale)
+                && !FitOnParts(mirror.figure, piece.pieceId, size, out centre, out scale))
+            {
+                Destroy(worn);
+                return;
+            }
             worn.transform.SetParent(mirror.figure, false);
             worn.transform.localRotation = Quaternion.identity;  // facing the way the figure faces
+            worn.transform.localScale = Vector3.one * scale / Mathf.Max(0.001f, mirror.figure.lossyScale.y);
+            worn.transform.position = centre;
+            wornRenderers = worn.GetComponentsInChildren<Renderer>();
+            foreach (var r in wornRenderers)
+                r.enabled = false;
+        }
+
+        // The mirror's character: placed by its skeleton (pelvis, neck, upper arms, feet).
+        static bool FitOnBones(Transform figure, string pieceId, Vector3 size, out Vector3 centre, out float scale)
+        {
+            centre = Vector3.zero;
+            scale = 1f;
+            var pelvis = Bone(figure, "pelvis", "hips");
+            var neck = Bone(figure, "neck_01", "neck");
+            if (pelvis == null || neck == null)
+                return false;
+            var hip = pelvis.position;
+            var top = neck.position;
+            float torso = Mathf.Max(0.05f, top.y - hip.y);
+            var armL = Bone(figure, "upperarm_l");
+            var armR = Bone(figure, "upperarm_r");
+            float shoulders = armL != null && armR != null ? Vector3.Distance(armL.position, armR.position) : torso * 0.7f;
+            var footL = Bone(figure, "foot_l");
+            var footR = Bone(figure, "foot_r");
+            float legs = footL != null && footR != null ? hip.y - (footL.position.y + footR.position.y) * 0.5f : torso * 1.6f;
+
+            switch (pieceId)
+            {
+                case "trousers":  // waist to ankles
+                    scale = legs * 1.08f / size.y;
+                    centre = hip + Vector3.down * (size.y * scale * 0.5f - torso * 0.12f);
+                    break;
+                case "scarf":  // round the neck, hanging down the chest
+                    scale = shoulders * 0.95f / Mathf.Max(size.x, size.z);
+                    centre = top + Vector3.down * size.y * scale * 0.35f;
+                    break;
+                default:  // coat and shirt: collar at the neck, hem below the waist
+                    scale = torso * 1.3f / size.y;
+                    centre = top + Vector3.down * size.y * scale * 0.42f;
+                    break;
+            }
+            return true;
+        }
+
+        static Transform Bone(Transform figure, params string[] names)
+        {
+            foreach (var t in figure.GetComponentsInChildren<Transform>(true))
+                foreach (var n in names)
+                    if (string.Equals(t.name, n, System.StringComparison.OrdinalIgnoreCase))
+                        return t;
+            return null;
+        }
+
+        // The mirror's first figure, built from simple parts named Chest and Neck.
+        static bool FitOnParts(Transform figure, string pieceId, Vector3 size, out Vector3 centre, out float scale)
+        {
+            centre = Vector3.zero;
+            scale = 1f;
+            var chest = PartBounds(figure, "Chest");
+            if (chest == null)
+                return false;
             var c = chest.Value;
-            Vector3 centre;
-            float scale;
-            switch (piece.pieceId)
+            switch (pieceId)
             {
                 case "trousers":  // below the chest, from the waist down
                     scale = c.size.y * 2.2f / size.y;
                     centre = c.center + Vector3.down * (c.extents.y + size.y * scale * 0.5f);
                     break;
                 case "scarf":  // round the neck
-                    var n = neck ?? c;
+                    var n = PartBounds(figure, "Neck") ?? c;
                     scale = Mathf.Max(n.size.x, n.size.z) * 1.6f / Mathf.Max(size.x, size.z);
                     centre = n.center + Vector3.down * n.extents.y;
                     break;
@@ -103,11 +164,7 @@ namespace LastShift.Props
                     centre = c.center + Vector3.up * c.extents.y * 0.2f;
                     break;
             }
-            worn.transform.localScale = Vector3.one * scale / Mathf.Max(0.001f, mirror.figure.lossyScale.y);
-            worn.transform.position = centre;
-            wornRenderers = worn.GetComponentsInChildren<Renderer>();
-            foreach (var r in wornRenderers)
-                r.enabled = false;
+            return true;
         }
 
         // A part of the figure in world space; its renderer is off between mirror draws, so its mesh is used.
