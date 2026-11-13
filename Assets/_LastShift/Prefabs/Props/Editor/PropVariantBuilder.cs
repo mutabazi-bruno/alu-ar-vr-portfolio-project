@@ -114,20 +114,24 @@ namespace LastShift.EditorTools
             {
                 // The brass key and Note 1 lie in the top drawer, to be taken one at a time.
                 var top = TopDrawer(go);
-                FrontOnlyCollider(top);
+                foreach (var drawer in go.GetComponentsInChildren<Stash>(true))
+                    FrontOnlyCollider(drawer);  // so a look inside one drawer can't reach the one below
+                // The kit finds a drawer's clip on the first Animation inside it, and the models lying in it
+                // bring their own, so the top drawer slides by itself instead of playing the clip.
+                SlideOut(top);
                 LyingPickup(top, "BrassKey", "key_brass", "brass_key", -0.08f);
                 LyingPickup(top, "Note1", "note", "note_1", 0.08f);
                 Fill(top, DrawerSearched, new string[0], Beat(go, "Find where the air comes in."));
             });
             Variant("ExitDoor", "door_steel", ExitDoor);
 
-            // Room B: the one archive box without a proper label, with his hint for the safe.
             // Habimana's clothes: Bruno's coat, shirt and trousers (his scripts untouched) wearing the
             // After Dark garments instead of their placeholder boxes. The scarf and cap have no match there.
             Variant("HabimanaCoat", $"{ClothesFolder}/Coat.prefab", go => Dress(go, "shirt-0002"));
             Variant("HabimanaShirt", $"{ClothesFolder}/Shirt.prefab", go => Dress(go, "shirt-0003"));
             Variant("HabimanaTrousers", $"{ClothesFolder}/Trousers.prefab", go => Dress(go, "pants-0002"));
 
+            // Room B: the one archive box without a proper label, with his hint for the safe.
             Variant("OddBox", "cardboard_box", go =>
             {
                 var look = go.GetComponent<Inspectable>();
@@ -146,6 +150,15 @@ namespace LastShift.EditorTools
                 stash.label = "Wardrobe";
                 stash.item = null;
                 ShutUntil(stash, ClothesSolvedFlag, "Wardrobe", "Locked. Not until his clothes are where they belong.");
+                // The kit locker's body is one solid box, so the look lands on it and never on the cap
+                // inside. Kept to the back panel; the door has a collider of its own.
+                foreach (var body in go.GetComponentsInChildren<BoxCollider>(true).Where(b => b.size.z > 0.3f))
+                {
+                    const float back = 0.06f;
+                    var min = body.center.z - body.size.z / 2f;
+                    body.size = new Vector3(body.size.x, body.size.y, back);
+                    body.center = new Vector3(body.center.x, body.center.y, min + back / 2f);
+                }
             });
 
             // Room C's dressing: the same props as Room B, kept shut so the wardrobe and the rack stand out.
@@ -156,13 +169,14 @@ namespace LastShift.EditorTools
             Variant("RoomCSafe", "safe_wall", go => ShutForGood(go, "Wall safe"));
             Variant("Flashlight", "flashlight", go =>
             {
-                // Picking up the torch: H02, the next objective, and the hint for its key.
-                // The VR HUD shows the hint's key as X or A.
-                var beat = Beat(go, "Search the room.");
-                Voice(beat, H02, "F", "TORCH");
+                // Taking the torch switches it off, beat and all, so its beat lives in the opening beat
+                // instead (see StoryBeats) and waits for the torch to be carried.
                 var pickup = go.GetComponentInChildren<Pickup>(true);
-                pickup.beat = beat;
+                pickup.beat = null;
                 pickup.examine = true;  // held up as it's taken, like everything else the player finds
+                var old = go.transform.Find("StoryBeat");
+                if (old != null)
+                    UnityEngine.Object.DestroyImmediate(old.gameObject);
             });
 
             StoryBeats();
@@ -313,7 +327,7 @@ namespace LastShift.EditorTools
             keypad.wrongText = "Wrong code. The years on the boxes, maybe?";
             // The shift card shows his last sign-in, 22:07: the door code, so the card is the way out.
             Fill(stash, SafeSearched, new[] { "shift_card", "small_steel_key" },
-                Beat(go, "His card is your way out. Study it well.", H04),
+                Beat(go, "The card is your way out. Study it well.", H04),
                 "Inside: Habimana's shift card and a small steel key. The card is your way out. Study it well.");
         }
 
@@ -496,6 +510,9 @@ namespace LastShift.EditorTools
 
             // Records Room B starts: Habimana's opening line, then the first objective.
             RoomBeat("OpeningBeat", StoryBeat.When.OnStart, "Find a light.", H01);
+            // Once the torch is carried: H02, the next objective and the torch's key. It sits in the opening
+            // beat, which is already in Room B, because a beat on the torch is switched off with it.
+            TorchBeat();
 
             // Room C. The two OnEnter beats are trigger boxes: place and size them where the player walks.
             RoomBeat("RoomCEntranceBeat", StoryBeat.When.OnEnter, "Learn how he keeps his room.", H07, RoomCEnteredFlag);
@@ -506,6 +523,38 @@ namespace LastShift.EditorTools
             RoomBeat("ClothesSolvedBeat", StoryBeat.When.Fired, "Put on his cap.", H11, gate: new[] { ClothesSolvedFlag });
             RoomBeat("ExitUnlockBeat", StoryBeat.When.Fired, "Go home.", H12, ExitUnlockedFlag,
                 gate: new[] { ClothesSolvedFlag, CapWornFlag });
+        }
+
+        static void TorchBeat()
+        {
+            string path = $"{StoryFolder}/OpeningBeat.prefab";
+            var root = PrefabUtility.LoadPrefabContents(path);
+            try
+            {
+                var child = root.transform.Find("TorchBeat");
+                if (child == null)
+                {
+                    child = new GameObject("TorchBeat").transform;
+                    child.SetParent(root.transform, false);
+                }
+                var beat = child.GetComponent<StoryBeat>();
+                if (beat == null)
+                    beat = child.gameObject.AddComponent<StoryBeat>();
+                beat.when = StoryBeat.When.Fired;
+                beat.once = true;
+                beat.objective = "Search the room.";
+                Voice(beat, H02, "F", "TORCH");  // the VR HUD shows the key as X or A
+                var gate = beat.GetComponent<FlagGate>();
+                if (gate == null)
+                    gate = beat.gameObject.AddComponent<FlagGate>();
+                gate.items = new[] { "flashlight" };
+                gate.beat = beat;
+                PrefabUtility.SaveAsPrefabAsset(root, path);
+            }
+            finally
+            {
+                PrefabUtility.UnloadPrefabContents(root);
+            }
         }
 
         static void RoomBeat(string name, StoryBeat.When when, string objective, string line, string setsFlag = "",
@@ -611,6 +660,16 @@ namespace LastShift.EditorTools
 
         // A kit drawer's box fills the whole drawer, so the look would land on the drawer and never on
         // what lies inside. Kept to the front panel, the drawer still opens and closes from the front.
+        // Out along its front (local +Z) by most of its depth, and back.
+        static void SlideOut(Stash drawer)
+        {
+            const float depth = 0.63f;  // the kit drawer's depth, from its original box
+            drawer.motion.mode = HeyHeyThere.EscapePuzzleKitFree.Motion.Mode.Slide;
+            drawer.motion.part = drawer.transform;
+            drawer.motion.offset = new Vector3(0f, 0f, depth * 0.7f);
+            drawer.motion.seconds = 0.45f;
+        }
+
         static void FrontOnlyCollider(Stash drawer)
         {
             var box = drawer.GetComponent<BoxCollider>();

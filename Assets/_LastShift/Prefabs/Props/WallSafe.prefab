@@ -51,7 +51,7 @@ MonoBehaviour:
   setsFlag: 
   subtitle: 
   speaker: 
-  objective: His card is your way out. Study it well.
+  objective: The card is your way out. Study it well.
   sound: {fileID: 0}
   lightsOff: []
   wakes: []
