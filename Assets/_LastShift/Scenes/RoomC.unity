@@ -9156,7 +9156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65cb44806ef87e80910e5ef909f9e9d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: HeyHeyThere.EscapePuzzleKitFree::HeyHeyThere.EscapePuzzleKitFree.Room
-  title: Records Room C
+  title: Caretaker's room
 --- !u!65 &2086210309
 BoxCollider:
   m_ObjectHideFlags: 0
