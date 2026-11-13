@@ -99,7 +99,7 @@ The prefabs are in `Prefabs/Clothes/`: `ClothesRack` (four hooks and the puzzle)
 2. On each hook, set `answer` to the piece that belongs there. Leave it empty for a hook that should stay empty.
 3. Every piece needs its own `pieceId`, because saves use it.
 
-When every piece is on the right hook, the puzzle sets the flag `clothes_solved` and locks the rack. Wearing the cap is a separate step that sets `cap_worn`, and the exit in Room C waits for both. If you want the rack itself to wait for the cap, tick `needsCap` on the rack. `Scenes/Sandbox/Bruno.unity` has a working setup to try it in.
+When every piece is on the right hook, the puzzle sets the flag `clothes_solved` and locks the rack. Wearing the cap is a separate step that sets `cap_worn`, and the exit in Room C waits for both. The cap can't be taken until `clothes_solved` is set (its `lockedUntil` field), so nobody can grab it through the side of the locked wardrobe. If you want the rack itself to wait for the cap, tick `needsCap` on the rack and clear `lockedUntil` on the cap. `Scenes/Sandbox/Bruno.unity` has a working setup to try it in.
 
 ## What came from the kit and what we built
 
