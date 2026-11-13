@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: HeyHeyThere.EscapePuzzleKitFree::HeyHeyThere.EscapePuzzleKitFree.Item
   id: brass_key
   title: "Brass key"
-  description: "A small brass key with a paper tag on its ring, in his handwriting: \"The safe remembers my years. Read the years on the archive boxes and take the last digit of each.\""
+  description: "A small brass key with a paper tag on its ring, in Habimana's handwriting: \"The safe remembers my years. Four of them: take the last digit of each.\""
   icon: {fileID: 21300000, guid: c94d7fc2fe62ee7aae9f86eca779e5dd, type: 3}
   kind: 0
   amount: 0

@@ -82,7 +82,7 @@ MonoBehaviour:
   onInteracted:
     m_PersistentCalls:
       m_Calls: []
-  text: 'No label on this one, only his handwriting: "The safe remembers my years.
-    Read the years on the boxes and take the last digit of each."'
+  text: 'No label on this one, only Habimana''s handwriting: "The safe remembers my years.
+    Four of them: take the last digit of each."'
   beat: {fileID: 0}
   hold: 0

@@ -54,6 +54,13 @@ namespace LastShift.XR
             foreach (var img in GetComponentsInChildren<Image>(true))
                 if (img.color.r < 0.2f && img.color.g < 0.2f && img.color.b < 0.2f)
                     img.color = new Color(LastShift.Menus.Theme.Panel.r, LastShift.Menus.Theme.Panel.g, LastShift.Menus.Theme.Panel.b, img.color.a);
+            // Three stacked slots that never overlap: the objective high (clear of the prompts that
+            // sit on whatever the ray rests on), the spoken line below the middle, the control hint
+            // under the line. A line too long for its box shrinks rather than spilling out.
+            Slot(objectiveGroup, 300f);
+            Slot(lineGroup, -110f);
+            Slot(hintGroup, -250f);
+            if (lineText != null) lineText.resizeTextForBestFit = true;  // sizes set with the text size setting
             // the subtitle screen gets a thin amber line along its top and bottom, like the desktop's
             if (lineGroup != null)
             {
@@ -70,6 +77,13 @@ namespace LastShift.XR
             baseSizes = new int[texts.Length];
             for (var i = 0; i < texts.Length; i++)
                 baseSizes[i] = texts[i] != null ? texts[i].fontSize : 0;
+        }
+
+        static void Slot(CanvasGroup group, float y)
+        {
+            if (group == null) return;
+            var rt = (RectTransform)group.transform;
+            rt.anchoredPosition = new Vector2(rt.anchoredPosition.x, y);
         }
 
         static void Edge(RectTransform panel, bool top)
@@ -233,7 +247,12 @@ namespace LastShift.XR
             appliedScale = textScale;
             for (var i = 0; i < texts.Length; i++)
                 if (texts[i] != null)
+                {
                     texts[i].fontSize = Mathf.RoundToInt(baseSizes[i] * textScale);
+                    // a best-fit text (the spoken line) never grows past its size, only shrinks
+                    texts[i].resizeTextMaxSize = texts[i].fontSize;
+                    texts[i].resizeTextMinSize = Mathf.Max(8, Mathf.RoundToInt(texts[i].fontSize * 0.55f));
+                }
         }
 
         static void Tick(ref float left, CanvasGroup group)

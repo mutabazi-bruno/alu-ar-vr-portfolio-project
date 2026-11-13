@@ -43,11 +43,17 @@ namespace LastShift.XR
                  "the handle, index finger on top, knuckles just ahead of the grip. Worked out from the " +
                  "model's own finger joints, so it doesn't matter which way the model was made")]
         public bool holdController = true;
-        [Tooltip("Where the middle knuckle sits, in the controller's space (metres)")]
-        public Vector3 knuckles = new Vector3(0f, -0.01f, 0.03f);
+        [Tooltip("Where the middle knuckle sits, in the pointing pose's space (metres)")]
+        public Vector3 knuckles = new Vector3(0f, -0.025f, -0.03f);
 
         void Start()
         {
+            // A real Quest controller's grip pose runs down the handle, tilted against the way you
+            // point, while the simulator's points straight ahead, so a hand on the grip looks right
+            // in the editor and twisted in the headset. The pointing (aim) pose is the same in both:
+            // the hand rides on the ray's object, which follows it.
+            var aim = transform.parent != null ? transform.parent.GetComponentInChildren<XRAimPose>(true) : null;
+            if (aim != null) transform.SetParent(aim.transform, false);
             if (holdController) Hold();
         }
 

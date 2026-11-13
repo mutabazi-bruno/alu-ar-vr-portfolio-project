@@ -136,10 +136,6 @@ PrefabInstance:
       propertyPath: motion.seconds
       value: 0.45
       objectReference: {fileID: 0}
-    - target: {fileID: 6804932665384793089, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}
-      propertyPath: motion.offset.z
-      value: 0.44099998
-      objectReference: {fileID: 0}
     - target: {fileID: 6952029857316369958, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}
       propertyPath: m_Name
       value: Drawers
@@ -165,6 +161,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 5165912285906332920}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6952029857316369958, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4487481328820774758}
     - targetCorrespondingSourceObject: {fileID: 4357257108043408616, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7486457724981169601}
@@ -196,6 +195,27 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 305381663228383333, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}
   m_PrefabInstance: {fileID: 4393872256255211972}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6665531802780258274 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6952029857316369958, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}
+  m_PrefabInstance: {fileID: 4393872256255211972}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4487481328820774758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6665531802780258274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35a802e0166adac4d8f0085753c9e27d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LastShift.Props.DrawerHold
+  openable: {fileID: 7103814597164879301}
+  drawer: {fileID: 4091173403047520673}
+  shut: {x: 0.000000026226846, y: 0.8299999, z: 0.30000016}
+  pulled: {x: 0, y: 0, z: 0.4}
 --- !u!114 &7103814597164879301 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6804932665384793089, guid: b2ff4e9dc79463cd1bfafc91b8824f4b, type: 3}

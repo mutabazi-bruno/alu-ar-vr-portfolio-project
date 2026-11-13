@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: HeyHeyThere.EscapePuzzleKitFree::HeyHeyThere.EscapePuzzleKitFree.Item
   id: shift_card
   title: "Habimana's shift card"
-  description: "His second card, from the safe. Study it well: it's your way out."
+  description: "Habimana's shift card, from the wall safe. The times on it matter."
   icon: {fileID: 21300000, guid: 869beef486944da6a108694d9f5aa641, type: 3}
   kind: 3
   amount: 0
