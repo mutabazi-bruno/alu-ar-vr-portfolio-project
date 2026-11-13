@@ -13,14 +13,13 @@ namespace LastShift.EditorTools
     {
         const string ScenePath = "Assets/_LastShift/Scenes/RoomC.unity";
         const string Props = "Assets/_LastShift/Prefabs/Props";
-        const string Clothes = "Assets/_LastShift/Prefabs/Clothes";
 
         // Along the rail, mixed up so the rail doesn't give the rack's order away.
         static readonly (string name, string prefab)[] OnTheRail =
         {
             ("Shirt", $"{Props}/HabimanaShirt.prefab"),
             ("Coat", $"{Props}/HabimanaCoat.prefab"),
-            ("Scarf", $"{Clothes}/Scarf.prefab"),
+            ("Scarf", $"{Props}/HabimanaScarf.prefab"),
             ("Trousers", $"{Props}/HabimanaTrousers.prefab"),
         };
 
@@ -49,7 +48,7 @@ namespace LastShift.EditorTools
             for (int i = 0; i < OnTheRail.Length; i++)
             {
                 var (name, prefab) = OnTheRail[i];
-                var go = all.FirstOrDefault(g => g.name == name && PrefabUtility.IsOutermostPrefabInstanceRoot(g));
+                var go = UseOurs(all.FirstOrDefault(g => g.name == name && PrefabUtility.IsOutermostPrefabInstanceRoot(g)), prefab, report);
                 if (go == null)
                 {
                     go = (GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(prefab), scene);
@@ -85,6 +84,9 @@ namespace LastShift.EditorTools
             var scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
             var report = new StringBuilder();
             var all = scene.GetRootGameObjects().SelectMany(r => r.GetComponentsInChildren<Transform>(true)).Select(t => t.gameObject).ToList();
+            foreach (var (name, prefab) in OnTheRail)
+                UseOurs(all.FirstOrDefault(g => g.name == name && PrefabUtility.IsOutermostPrefabInstanceRoot(g)), prefab, report);
+            all = scene.GetRootGameObjects().SelectMany(r => r.GetComponentsInChildren<Transform>(true)).Select(t => t.gameObject).ToList();
             var pieces = all.Select(g => g.GetComponent<ClothesPiece>()).Where(p => p != null).ToList();
             SetAnswers(all, name => pieces.FirstOrDefault(p => p.name == name), report);
             EditorSceneManager.MarkSceneDirty(scene);
@@ -116,6 +118,25 @@ namespace LastShift.EditorTools
                 report.AppendLine($"{i + 1} from the left ({hook.name}) answer = {(hook.answer != null ? hook.answer.name : "none")}");
             }
             report.AppendLine($"needsCap = {puzzle.needsCap}");
+        }
+
+        // A piece still made from Bruno's plain prefab becomes our dressed one, where it already hangs.
+        static GameObject UseOurs(GameObject go, string prefab, StringBuilder report)
+        {
+            if (go == null || PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(go) == prefab)
+                return go;
+            var ours = AssetDatabase.LoadAssetAtPath<GameObject>(prefab);
+            if (ours == null)
+                return go;
+            string name = go.name;
+            go.transform.GetPositionAndRotation(out var position, out var rotation);
+            PrefabUtility.ReplacePrefabAssetOfPrefabInstance(go, ours, InteractionMode.AutomatedAction);
+            go.name = name;  // replacing renames it after the prefab
+            go.transform.SetPositionAndRotation(position, rotation);
+            PrefabUtility.RecordPrefabInstancePropertyModifications(go);
+            PrefabUtility.RecordPrefabInstancePropertyModifications(go.transform);
+            report.AppendLine($"{name} now uses {System.IO.Path.GetFileNameWithoutExtension(prefab)}");
+            return go;
         }
 
         static Bounds Bounds(GameObject go)
