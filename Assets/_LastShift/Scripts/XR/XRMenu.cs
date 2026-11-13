@@ -62,6 +62,14 @@ namespace LastShift.XR
             // over the room and over the HUD, so walls never cut through the menu
             UIOnTop.Apply(canvas, 200);
             if (itemTemplate != null) itemTemplate.gameObject.SetActive(false);
+            // a long note shrinks a little to fit the page instead of losing its last lines
+            if (detailBody != null)
+            {
+                detailBody.resizeTextMaxSize = Mathf.Max(detailBody.resizeTextMaxSize, detailBody.fontSize);
+                detailBody.resizeTextMinSize = Mathf.Max(10, Mathf.RoundToInt(detailBody.fontSize * 0.6f));
+                detailBody.resizeTextForBestFit = true;
+                detailBody.verticalOverflow = VerticalWrapMode.Truncate;
+            }
             foreach (var kv in Run.Items) known.Add(kv.Key);
         }
 
