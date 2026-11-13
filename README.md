@@ -136,3 +136,4 @@ The title plays a slow music box tune. Both rooms have a low drone with no tune,
 - "Birds chirping at dawn" by dbsound (https://pixabay.com/sound-effects/nature-birds-chirping-at-dawn-246036/), the dawn.
 - The three Pixabay tracks are used under the Pixabay Content License.
 - WebXR Export by De-Panther (https://github.com/De-Panther/unity-webxr-export), which runs VR in the browser. The web page with the Enter VR button is its WebXRFullView2020 template, with the AR button hidden.
+- The character in Habimana's mirror is from Universal Base Characters by Quaternius (https://quaternius.com/packs/universalbasecharacters.html), CC0. We painted his shirt and trousers onto the skin texture and gave him the buzzed hair from the same pack.
