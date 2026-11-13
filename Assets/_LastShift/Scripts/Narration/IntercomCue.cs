@@ -32,6 +32,23 @@ namespace LastShift.Narration
         bool Ready => (when == When.OnFlag && Run.HasFlag(flag)) ||
                       (when == When.OnItem && item != null && Run.Has(item.Id));
 
+        Pickup takenFrom;
+
+        // A cue placed on a prop the player picks up, set to play when called (by a story beat on
+        // the same prop): the kit switches the prop off as it's taken, and a switched-off story
+        // beat never fires. The prop's own "taken" event still goes out, so the cue listens to it.
+        void Awake()
+        {
+            if (when != When.WhenCalled) return;
+            takenFrom = GetComponentInParent<Pickup>(true);
+            if (takenFrom != null) takenFrom.onTaken.AddListener(Play);
+        }
+
+        void OnDestroy()
+        {
+            if (takenFrom != null) takenFrom.onTaken.RemoveListener(Play);
+        }
+
         void OnEnable()
         {
             Run.FlagSet += OnFlagSet;
@@ -79,10 +96,39 @@ namespace LastShift.Narration
 
         public void Play()
         {
-            if (line == null || (once && Run.HasFlag(PlayedFlag)) || !isActiveAndEnabled) return;
+            if (line == null || (once && Run.HasFlag(PlayedFlag))) return;
             if (once) Run.SetFlag(PlayedFlag);
+            // a cue on a prop that's picked up: the prop is switched off as it's taken, so a
+            // helper that stays in the scene says the line and shows the hint instead
+            if (!isActiveAndEnabled) { Stand.In(line, delay, hintKey, hint); return; }
             if (delay > 0f) StartCoroutine(Later());
             else Say();
+        }
+
+        class Stand : MonoBehaviour
+        {
+            public static void In(VoiceLine line, float delay, string hintKey, string hint)
+            {
+                var go = new GameObject("Intercom Cue (taken prop)") { hideFlags = HideFlags.HideInHierarchy };
+                go.AddComponent<Stand>().StartCoroutine(go.GetComponent<Stand>().Run(line, delay, hintKey, hint));
+            }
+
+            IEnumerator Run(VoiceLine line, float delay, string hintKey, string hint)
+            {
+                if (delay > 0f) yield return new WaitForSecondsRealtime(delay);
+                var finished = false;
+                System.Action<VoiceLine> done = l => { if (l == line) finished = true; };
+                Intercom.Finished += done;
+                Intercom.Play(line);
+                if (Intercom.Current != null)
+                {
+                    var giveUp = Time.realtimeSinceStartup + 60f;
+                    while (!finished && Time.realtimeSinceStartup < giveUp) yield return null;
+                }
+                Intercom.Finished -= done;
+                if (hint != "") HeyHeyThere.EscapePuzzleKitFree.Run.Hint(hintKey, hint);
+                Destroy(gameObject);
+            }
         }
 
         IEnumerator Later()
