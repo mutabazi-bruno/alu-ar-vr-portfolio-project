@@ -8,9 +8,12 @@ It runs in the browser on a desktop, and in a VR headset through WebXR.
 
 ## Links
 
-- Play in the browser (Unity Play): coming soon
+- Play in the browser (Unity Play): https://play.unity.com/en/games/35f7f4fc-1243-4238-ab2d-726d13f93eb3/the-last-shift
+- Code walkthrough video: https://drive.google.com/file/d/1u9mSk9Juq3QTEd3FGefharAuhzUArSFC/view?usp=sharing
+- VR demo video: https://youtu.be/aDxJH-bOJoQ
 - DevLog: coming soon
-- Video walkthrough: coming soon
+
+On a headset, open the Unity Play link in the Quest browser and press Enter VR at the bottom right of the game.
 
 If the game is slow or won't load:
 
@@ -18,12 +21,30 @@ If the game is slow or won't load:
 - On a laptop with two graphics chips (Intel and NVIDIA), Chrome may pick the weaker one. In Windows Settings > System > Display > Graphics, set Chrome to High performance and restart Chrome.
 - ALU's campus Wi-Fi blocks game sites, Unity Play and itch.io included. Use mobile data or another network.
 
+## Screenshots
+
+![The title screen in Records Room B](Media/title.jpg)
+
+The title screen, on a desk in Records Room B.
+
+![Habimana's clothes back on the rack in Room C](Media/room-c-rack.jpg)
+
+Room C, Habimana's room. The clothes go back on the rack in the right order, by torchlight.
+
+![The cap mirror showing the player wearing the cap](Media/cap-mirror.jpg)
+
+The cap mirror once you've put on his cap.
+
+![The tea table with the record player](Media/record-player.jpg)
+
+The record player on the tea table plays the title tune, muffled like an old record.
+
 ## Team
 
 | Member | Role |
 |---|---|
 | Amanda Leslie Inema (group leader) | Room design and art for Room B and Room C, lighting, the cap mirror, code walkthrough video |
-| Brian Gatanazi | VR setup and controls, Habimana's voice lines, title screen, Quest build, UI and the end card's look |
+| Brian Gatanazi | XR rig and rig switcher, VR interaction (both hands, padlocks, Force Grab), world-space HUD, VR menu, subtitles and intercom, Habimana's voice lines, keypad screens and lockout, title screen, game look (paper and amber themes), desktop pause menu, Quest build and headset testing |
 | Allan Gama Ntare | Items, notes and locks, story and puzzle wiring, settings and autosave |
 | Mutabazi Ishimwe Bruno | Project setup and repo, web build and the Unity Play page, end card, clothes puzzle, music, README |
 
@@ -99,6 +120,8 @@ Assets/
     Scenes/  Prefabs/  Scripts/  Items/  Art/  Audio/
   EscapePuzzleKitFree/   the kit, imported locally, not tracked by git
   Settings/              URP settings
+  WebGLTemplates/        the web page with the Enter VR button
+Media/                   screenshots for this README
 ```
 
 ## Working on the project
@@ -139,7 +162,17 @@ The title plays a slow music box tune. Both rooms have a low drone with no tune,
 
 **From Escape Puzzle Kit Free:** the interaction, inventory, doors and locks systems, story beats and saves, the HUD, the prop and set piece models, and the sounds.
 
-**Built by us:** the room layout, the story, notes and codes, the items and their textures, the labels and signs, the battery toggle and settings menu, the end card, the clothes puzzle, the music, the character in the cap mirror, the rig switcher, VR interaction, the world-space HUD and the web page with the Enter VR button.
+**Built by us:**
+
+- Both rooms: the layout, lighting, labels and signs, textures, and Room C as Habimana's bedroom with the cap mirror
+- The story, notes and codes, the items and what's in each container, and the story beats that tie them together
+- The clothes puzzle, the end card and the music
+- The intercom with Habimana's voice lines and subtitles, the keypad screens and the three-try lockout
+- The title screen, the desktop pause menu, the VR menu and the settings menu, including the battery and lockout toggles
+- Autosave, and the Continue button on the title screen
+- The rig switcher, VR interaction with both hands, the world-space HUD and the VR comfort settings (vignette, snap turn, slow walk)
+- The character in the cap mirror
+- The web page with the Enter VR button, and the Quest build
 
 ## Credits
 
